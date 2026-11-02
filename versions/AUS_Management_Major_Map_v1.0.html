@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AUS Management Major Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Raleway:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Design tokens taken from aus.edu (Department of Management, Strategy and Entrepreneurship page) */
+:root{
+  --red:#a03021; --red-dk:#7c2418; --red-lt:#f6e7e4;
+  --maroon:#a03021; --maroon-dk:#7c2418; --maroon-lt:#f6e7e4;
+  --ink:#252525; --ink-2:#5d5d5d; --ink-3:#777777; --line:#e2e2e2;
+  --grey:#f2f2f2; --grey-2:#ebebeb; --paper:#ffffff;
+  --c-major:#a03021; --c-core:#3d3d3d; --c-mje:#c9822b; --c-gen:#7d7d7d; --c-fre:#a08a72; --c-intern:#6e1f15;
+  --p-study:#3d3d3d; --p-learn:#a03021; --p-lead:#a03021; --p-explore:#a03021; --p-launch:#a03021;
+}
+*,*:before,*:after{box-sizing:border-box}
+body,body *{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:12.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1480px;margin:0 auto;padding:0 24px 36px}
+h1,h2,h3,.raleway{font-family:Raleway,Montserrat,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+
+/* Top utility strip like aus.edu */
+.util{display:flex;justify-content:space-between;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);padding:10px 0 8px}
+/* Header */
+.hero{display:grid;grid-template-columns:auto 1fr auto;gap:30px;align-items:center;padding:18px 0 20px;border-bottom:4px solid var(--red)}
+.brand{font-family:Raleway,sans-serif;line-height:1.25;border-right:1px solid var(--line);padding-right:28px}
+.brand-link{text-decoration:none;color:inherit;display:block}
+.brand .aus{font-family:Georgia,"Times New Roman",serif;color:var(--red);font-size:34px;letter-spacing:.02em;line-height:1}
+.brand small{display:block;font-size:12px;color:var(--ink-2);margin-top:4px}
+.hero .eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+.hero h1{font-size:40px;line-height:1.05;margin:4px 0 2px;color:#3d3d3d;letter-spacing:.1em}
+.hero .sub{font-size:13.5px;color:var(--ink-2)}
+.hero .inst{text-align:right;font-size:12px;line-height:1.6;color:var(--ink-2)}
+.hero .inst b{font-size:12.5px;display:block;color:var(--ink)}
+.edition{display:inline-block;margin-top:6px;background:var(--red);color:#fff;padding:3px 12px;font-size:11px;font-weight:600;letter-spacing:.06em}
+.about{background:var(--grey);padding:16px 22px;margin-top:18px;font-size:13px;color:#3d3d3d;text-align:center}
+.about b{color:var(--red)}
+
+/* Stat circles like the site's ranking badges */
+.glance{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin:24px 0 8px}
+.ring{width:112px;height:112px;border-radius:50%;border:5px solid var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px}
+.ring b{font-family:Montserrat,sans-serif;font-weight:800;font-size:28px;color:var(--red);line-height:1}
+.ring span{font-size:10px;font-weight:700;line-height:1.2;margin-top:4px;color:#3d3d3d}
+
+/* Section band headings like aus.edu */
+.band{background:var(--grey);text-align:center;padding:9px 12px;margin:26px 0 14px}
+.band h2{font-size:18px;color:#000;letter-spacing:.14em}
+.band p{font-size:12px;color:var(--ink-2);margin-top:2px;text-transform:none;letter-spacing:0}
+
+/* Legend */
+.bar-top{display:flex;justify-content:center;margin:0 0 12px}
+.legend{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.lg{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;border:1px solid var(--line);background:#fff;padding:5px 10px;cursor:pointer;user-select:none;transition:.15s}
+.lg i{width:10px;height:10px;display:block}
+.lg:hover{border-color:var(--ink-3)}
+.lg.on{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* ===== THE TABLE ===== */
+.tscroll{overflow-x:auto;border:1px solid var(--line);background:#fff}
+table.map{width:100%;min-width:1000px;border-collapse:collapse;table-layout:fixed}
+.map col.c-row{width:132px}
+.map th,.map td{border:1px solid var(--line);vertical-align:top;text-align:left}
+.map thead th{background:#3d3d3d;color:#fff;padding:11px 12px;font-weight:600;font-size:13px;border-color:#555;font-family:Raleway,sans-serif;text-transform:uppercase;letter-spacing:.08em}
+.map thead th.y3,.map thead th.y4{background:var(--red);border-color:#8a2a1d}
+.map thead th:first-child{background:#252525}
+.yh{display:flex;align-items:center;gap:9px}
+.yh .n{width:30px;height:30px;flex:none;border-radius:50%;border:2px solid rgba(255,255,255,.6);display:grid;place-items:center;font-family:Montserrat,sans-serif;font-weight:800;font-size:14px}
+.yh small{display:block;font-family:Montserrat,sans-serif;font-weight:500;opacity:.85;font-size:10.5px;text-transform:none;letter-spacing:0}
+.yh em{margin-left:auto;font-style:normal;font-family:Montserrat,sans-serif;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#fff;color:var(--red);padding:2px 7px;white-space:nowrap}
+
+/* row headers */
+.map tbody th{padding:12px 10px 12px 14px;position:relative;background:var(--grey)}
+.map tbody th:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--pc)}
+.rh .ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--pc);border:2px solid var(--pc);margin-bottom:8px}
+.rh b{display:block;font-family:Raleway,sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;color:#000;line-height:1.2}
+.rh span{display:block;font-size:10.5px;color:var(--ink-3);margin-top:3px;font-weight:500}
+.rh .term{display:inline-block;margin-top:6px;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:#fff;color:#3d3d3d;padding:2px 7px;border:1px solid var(--line)}
+
+.map td{padding:10px 11px}
+.map tr.course td{background:#fff}
+.map tr.course td.y3,.map tr.course td.y4{background:#fcf7f6}
+.map tr.course.first td,.map tr.course.first th{border-bottom:1px dashed #d6d6d6}
+.map tr.course.second td,.map tr.course.second th{border-top:none}
+.map tr.miles td,.map tr.miles th{border-bottom:3px solid var(--red)}
+
+/* course chips */
+.chips{display:flex;flex-direction:column;gap:4px}
+.chip{display:grid;grid-template-columns:56px 1fr;gap:6px;align-items:center;padding:4px 7px;font-size:11px;background:var(--grey);border-left:4px solid var(--k);transition:opacity .2s}
+.chip code{font-family:Montserrat,sans-serif;font-weight:700;font-size:10px;color:var(--k)}
+.chip.major{background:var(--red);color:#fff}
+.chip.major code{color:#fff}
+.chip.dim{opacity:.15}
+.tcr{display:flex;justify-content:space-between;font-size:9.5px;font-weight:700;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase;margin-bottom:6px}
+
+/* milestones */
+.ms{font-size:11px;color:var(--ink-2);padding:8px 10px;margin-bottom:7px;background:var(--grey);border-left:3px solid #3d3d3d}
+.ms b{display:block;color:#000;font-size:11px;margin-bottom:1px}
+.ms.intern{background:var(--red-lt);border:1.5px dashed var(--red);border-left:3px solid var(--red)}
+.ms.intern b{color:var(--red)}
+.cum{font-size:10.5px;color:var(--ink-3);margin-top:4px}
+.bar{height:5px;background:var(--grey-2);margin-top:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--red)}
+
+/* experience lists */
+.map ul.ex{list-style:none;display:flex;flex-direction:column;gap:6px}
+.map ul.ex li{font-size:11.5px;color:#3d3d3d;padding-left:13px;position:relative}
+.map ul.ex li:before{content:"";position:absolute;left:0;top:6px;width:6px;height:6px;background:var(--red)}
+.map ul.ex li strong{color:#000;font-weight:700}
+.tag.el{background:#fbf0e1;color:#95570f}
+.tag.rec{background:#fff;color:#3d3d3d;border:1px solid #cfcfcf}
+.tag{display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.06em;padding:1px 5px;background:var(--red-lt);color:var(--red);margin-left:2px;vertical-align:1px}
+
+/* Clickable courses */
+button.chip{font:inherit;font-size:11px;color:inherit;text-align:left;border:0;border-left:4px solid var(--k);width:100%;cursor:pointer}
+button.chip:hover{background:#e6e6e6}
+button.chip.major:hover{background:var(--red-dk)}
+button.chip:focus-visible,.cbtn:focus-visible,.trk:focus-visible,.pc-close:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.cbtn{font:inherit;font-size:9.5px;font-weight:700;background:var(--grey);color:var(--red);padding:2px 6px;border:0;cursor:pointer;white-space:nowrap}
+.cbtn:hover{background:var(--red);color:#fff}
+.skill small{display:block;font-size:10.5px;color:var(--ink-3);font-weight:400}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start}
+.tcard{background:#fff;border:1px solid var(--line);border-top:4px solid var(--c-mje);padding:14px;display:flex;flex-direction:column;gap:6px}
+.tcard .note{margin-bottom:4px}
+.trk{font:inherit;display:grid;grid-template-columns:54px 1fr;gap:6px;align-items:center;text-align:left;background:var(--grey);border:0;border-left:3px solid var(--c-mje);padding:7px 9px;cursor:pointer;color:inherit}
+.trk:hover{background:#e8e8e8}
+.trk code{font-family:Montserrat,sans-serif;font-weight:700;font-size:10px;color:var(--c-mje);padding-top:1px}
+.trk span{font-size:10.5px;color:var(--ink-2);line-height:1.4}
+.trk b{display:block;font-size:11.5px;color:#000;font-weight:600}
+.cpop[hidden]{display:none}
+.cpop{position:fixed;inset:0;background:rgba(37,37,37,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
+.pc-panel{background:#fff;max-width:520px;width:100%;border-top:5px solid var(--red);padding:22px 24px 18px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.pc-close{position:absolute;top:8px;right:10px;border:0;background:none;font-size:26px;line-height:1;color:var(--ink-2);cursor:pointer;padding:4px 8px}
+.pc-code{font-weight:800;color:var(--red);font-size:13px;letter-spacing:.06em}
+.pc-title{font-size:17px;margin:4px 0 10px;color:#000;text-wrap:balance}
+.pc-desc{font-size:13px;color:#3d3d3d;line-height:1.6}
+.pc-pre{font-size:11.5px;color:var(--ink-2);background:var(--grey);padding:8px 10px;margin-top:12px}
+.pc-src{font-size:10px;color:var(--ink-3);margin-top:10px}
+@media (max-width:1100px){.tgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.tgrid{grid-template-columns:1fr}}
+
+.map tr.mje-row td,.map tr.mje-row th{border-top:3px solid var(--c-mje);background:#fdf8f1}
+.mje-note{font-size:11.5px;color:var(--ink-2);margin:2px 0 12px;max-width:110ch}
+
+/* External links */
+a.ext{color:inherit;text-decoration:underline;text-decoration-color:rgba(160,48,33,.45);text-underline-offset:2px}
+a.ext:hover{color:var(--red);text-decoration-color:var(--red)}
+a.ext:after{content:"\2197";font-size:.8em;margin-left:2px;color:var(--red);text-decoration:none;display:inline-block}
+a.ext:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+footer a.ext:after,footer a.ext:hover{color:#fff}
+footer a.ext{text-decoration-color:rgba(255,255,255,.5)}
+
+/* Where it leads */
+.lgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.skills-card{grid-column:1/-1}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sk{background:var(--grey);padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.sk-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.sk-top b{font-size:12px;color:#000}
+.sk small{font-size:10.5px;color:var(--ink-2)}
+.srcs{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end;flex:none;max-width:50%}
+.srcs a.src:hover{border-color:var(--red);color:var(--red)}
+.srcs a.src{text-decoration:none;font-style:normal;font-size:8.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#3d3d3d;border:1px solid #cfcfcf;background:#fff;padding:1px 5px;white-space:nowrap}
+.sk .cs{display:flex;gap:4px;flex-wrap:wrap;margin-top:2px}
+.cbtn.opt{color:var(--c-mje);background:#fff;border:1px solid #ecd2ad}
+.ekey{color:var(--c-mje);font-weight:700}
+@media (max-width:1100px){.sgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.sgrid{grid-template-columns:1fr}}
+.note{font-size:11px;color:var(--ink-3);margin:-2px 0 8px}
+.grow{display:flex;flex-direction:column;gap:8px}
+.grow div{background:var(--grey);border-left:3px solid var(--red);padding:9px 11px}
+.grow b{display:block;font-size:12px;color:#000}
+.grow span{font-size:11px;color:var(--ink-2)}
+.map tr.checks td{background:#fafafa}
+.map tr.checks td,.map tr.checks th{border-top:3px solid var(--red)}
+.ck-h{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin:6px 0 2px 4px}
+.ck-h:first-child{margin-top:0}
+.lcard{background:#fff;border:1px solid var(--line);border-top:4px solid var(--red);padding:16px}
+.oh{font-family:Raleway,sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#000;margin:16px 0 8px}
+.oh:first-child{margin-top:0}
+.skill{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:11.5px}
+.skill b{font-weight:600}
+.skill .cs{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end;flex:none;max-width:45%}
+.skill code{font-family:Montserrat,sans-serif;font-size:9.5px;font-weight:700;background:var(--grey);color:var(--red);padding:2px 6px;white-space:nowrap}
+.careers{display:flex;flex-wrap:wrap;gap:4px}
+.careers span{font-size:10.5px;background:var(--grey);color:#3d3d3d;padding:4px 9px;font-weight:500}
+.careers.emp span{background:var(--red);color:#fff;font-weight:600}
+.next{list-style:none}
+.next li{font-size:11.5px;color:var(--ink-2);padding:3px 0 3px 12px;position:relative}
+.next li:before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;background:var(--red)}
+.data{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.data div{border:3px solid #e3c9c4;border-radius:50%;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px}
+.data b{display:block;font-weight:800;font-size:16px;color:#c9a39c}
+.data span{font-size:9px;color:var(--ink-3);line-height:1.2;display:block}
+.check{display:flex;flex-direction:column;gap:1px}
+.check label{display:flex;gap:7px;align-items:flex-start;font-size:11.5px;color:#3d3d3d;padding:3px 4px;cursor:pointer}
+.check label:hover{background:var(--grey)}
+.check input{accent-color:var(--red);margin-top:3px;width:13px;height:13px;flex:none}
+.check input:checked + span{text-decoration:line-through;color:var(--ink-3)}
+.prog{font-size:10.5px;color:var(--ink-3);margin-top:4px}
+
+footer{margin-top:26px;background:#252525;color:#cfcfcf;padding:16px 22px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:11.5px;border-top:4px solid var(--red)}
+footer b{color:#fff}
+.tbc{background:#fff3c4;color:#6b5200;padding:0 4px;font-weight:600;text-transform:none;letter-spacing:0}
+.hint{display:none;font-size:11px;color:var(--ink-3);margin-bottom:6px;text-align:center}
+
+@media (max-width:900px){.lgrid{grid-template-columns:1fr}}
+@media (max-width:1000px){
+  .hero{grid-template-columns:1fr}
+  .brand{border-right:none;padding-right:0}
+  .hero .inst{text-align:left}
+  .hint{display:block}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px 24px}
+  .util{display:none}
+  .hero h1{font-size:30px}
+  .lgrid{grid-template-columns:1fr}
+  .glance{gap:14px}
+  .ring{width:96px;height:96px}
+  .ring b{font-size:22px}
+}
+@media print{
+  @page{size:A3 landscape;margin:8mm}
+  .wrap{max-width:none;padding:0}
+  .tscroll{overflow:visible}
+  .util{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="util"><span>School of Business Administration</span><span>Experiential Major Map &nbsp;|&nbsp; 2026-2027 &nbsp;|&nbsp; Version 1.0</span></div>
+  <header class="hero">
+    <div class="brand"><a href="https://www.aus.edu" target="_blank" rel="noopener" class="brand-link"><div class="aus">AUS</div><small>American University of Sharjah</small></a></div>
+    <div>
+      <div class="eyebrow">Experiential Major Map</div>
+      <h1>Management</h1>
+      <div class="sub">Bachelor of Science in Business Administration (BSBA)</div>
+    </div>
+    <div class="inst">
+      <b><a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship" target="_blank" rel="noopener">Department of Management, Strategy<br>and Entrepreneurship</a></b>
+      <a class="ext" href="https://www.aus.edu/sba" target="_blank" rel="noopener">School of Business Administration</a>
+      <div><span class="edition">2026-2027</span></div>
+    </div>
+  </header>
+
+  <div class="about">Our department prepares <b>the next generation of leaders</b> who will assume positions of responsibility and make viable decisions, with a strong focus on ethical decision-making and stakeholder management. Read down a column to see everything for one year, or across a row to follow one part of your growth over four years.</div>
+
+  <div class="glance">
+    <div class="ring"><b>120</b><span>credit hours</span></div>
+    <div class="ring"><b>5</b><span>required MGT courses</span></div>
+    <div class="ring"><b>12</b><span>credits of major electives</span></div>
+    <div class="ring"><b>200</b><span>internship hours (min.)</span></div>
+    <div class="ring"><b>2.00</b><span>minimum major CGPA</span></div>
+  </div>
+
+  <div class="band"><h2>Your Four-Year Journey</h2><p>Courses, milestones, experiences and checklists for each year. Click a course to read its catalog description, or a category to highlight it. Tags mark items tied to a required <span class="tag">COURSE</span> or an optional <span class="tag el">ELECTIVE</span>, and outlined tags show how often recurring events run.</p></div>
+  <div class="bar-top"><div class="legend" id="legend"></div></div>
+  <div class="hint">Scroll the table sideways to see all four years.</div>
+
+  <div class="tscroll">
+    <table class="map" id="map">
+      <colgroup><col class="c-row"><col><col><col><col></colgroup>
+      <thead id="thead"></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <section class="leads">
+    <div class="band"><h2>Where It Leads</h2><p>The skills you graduate with, the careers and employers they open, and where you can go next.</p></div>
+    <div class="lgrid" id="leads"></div>
+  </section>
+
+  <div class="cpop" id="cpop" hidden>
+    <div class="pc-panel" role="dialog" aria-modal="true" aria-labelledby="pc-title">
+      <button type="button" class="pc-close" aria-label="Close">&times;</button>
+      <div class="pc-code"></div>
+      <h3 class="pc-title" id="pc-title"></h3>
+      <p class="pc-desc"></p>
+      <p class="pc-pre"></p>
+      <p class="pc-src">Source: <a class="ext" href="https://www.aus.edu/resources/undergraduate-catalog-2026-2027" target="_blank" rel="noopener">AUS Undergraduate Catalog 2026-2027</a></p>
+    </div>
+  </div>
+
+  <footer>
+    <div><b><a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship" target="_blank" rel="noopener">Department of Management, Strategy and Entrepreneurship</a></b> &nbsp;|&nbsp; School of Business Administration, American University of Sharjah</div>
+    <div>Head of Department: Dr. Virginia Bodolica &nbsp;|&nbsp; Department office: a.morata@aus.edu &nbsp;|&nbsp; +971 6 515 2302</div>
+    <div>Always confirm requirements in the current <a class="ext" href="https://www.aus.edu/resources/undergraduate-catalog-2026-2027" target="_blank" rel="noopener">AUS Undergraduate Catalog</a>.</div>
+  </footer>
+</div>
+
+<script>
+/* ---------- Categories ---------- */
+const CATS = {
+  major:{label:"Management major requirement", color:"var(--c-major)"},
+  core:{label:"Business core", color:"var(--c-core)"},
+  mje:{label:"Major elective", color:"var(--c-mje)"},
+  gen:{label:"General education & communication", color:"var(--c-gen)"},
+  fre:{label:"Free elective", color:"var(--c-fre)"},
+  intern:{label:"Internship", color:"var(--c-intern)"}
+};
+
+/* ---------- Years and courses (AUS catalog sequence) ---------- */
+const YEARS = [
+  {n:1, name:"First Year", theme:"Foundations", cr:30, cum:30,
+   fall:[["ACC 201","Financial Accounting","core"],["BUS 100","Introduction to Business","core"],["WRI 101","Academic Writing I","gen"],["GER","History & Culture of the Arab World","gen"],["GER","General Education Core","gen"]],
+   spring:[["ISA 201","Info Systems & Business Analytics","core"],["MGT 201","Fundamentals of Management","core"],["MTH 102","Calculus for Business","gen"],["WRI 102","Academic Writing II","gen"],["GER-SCI","Natural Sciences","gen"]],
+   miles:[["First step into the field","MGT 201 in Spring is your first Management course."]]},
+  {n:2, name:"Second Year", theme:"Business core", cr:30, cum:60,
+   fall:[["ECO 201","Principles of Microeconomics","core"],["ENG 204","Advanced Academic Writing","gen"],["MKT 201","Fundamentals of Marketing","core"],["QBA 201","Quantitative Business Analysis","core"],["GER-SCI","Natural Sciences","gen"]],
+   spring:[["ACC 202","Managerial Accounting","core"],["ECO 202","Principles of Macroeconomics","core"],["FIN 201","Financial Management","core"],["IEN 301","Innovation & Entrepreneurship Mindset","core"],["SCM 202","Operations Management","core"]],
+   miles:[["Checkpoint before the major","Meet your advisor to confirm Management and plan Year 3, the heaviest load of the degree (18 cr in Fall)."]]},
+  {n:3, name:"Third Year", theme:"Management core", cr:33, cum:93, major:true, badge:"Major starts",
+   fall:[["ENG 208","Public Speaking","gen"],["MGT 301","Organizational Behavior","major"],["MGT 302","Managing Human Resources","major"],["MGT 360","Business Ethics & Social Responsibility","core"],["GER","Arts and Literature","gen"],["FRE","Free Elective","fre"]],
+   spring:[["BLW 301","Business Law","core"],["MGT 305","International Business","major"],["MGT 380","Project Management","major"],["ENG 225","Writing for Business","gen"],["GER","Human Interaction and Behavior","gen"]],
+   miles:[["Internship eligible","<a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement/internships' target='_blank' rel='noopener'>BUS 397</a> needs junior II standing and the internship manager's permission. Apply one semester ahead."],
+          ["Summer: BUS 397 Business Internship","At least 5 weeks / 200 hours with an approved organization, plus a formal report. Pass/Fail, 0 cr. BUS 497 Practicum (12 weeks / 480 hours, 3 cr) is an alternative. <a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement/internships' target='_blank' rel='noopener'>Internship rules</a>","intern"]]},
+  {n:4, name:"Fourth Year", theme:"Specialize & integrate", cr:27, cum:120, major:true, badge:"Capstone",
+   fall:[["MGT 403","Entrepreneurship","major"],["MJE","Major Elective","mje"],["MJE","Major Elective","mje"],["GER","Culture in a Critical Perspective","gen"],["FRE","Free Elective","fre"]],
+   spring:[["MGT 406","Business Policy & Strategy (capstone)","core"],["MJE","Major Elective","mje"],["MJE","Major Elective","mje"],["FRE","Free Elective","fre"]],
+   miles:[["Shape your focus","Choose 4 major electives: any 300+ level MGT course not already required, or an approved special topic (<a class='ext' href='https://www.aus.edu/resources/undergraduate-catalog-2026-2027' target='_blank' rel='noopener'>catalog</a>). See the full list at the bottom of the table."],
+          ["Graduate","Complete MGT 406 and reach 120 credit hours."]]}
+];
+
+/* ---------- Experience rows ---------- */
+const C = t => ` <span class="tag ${t==="ELECTIVE"?"el":""}">${t}</span>`;
+const R = t => ` <span class="tag rec">${t}</span>`;
+const PILLARS = [
+  {k:"learn", name:"Learn", sub:"Academic success", years:[
+    ["Meet your <strong>SBA academic advisor</strong> to map your four-year plan",
+     "Attend the <a class='ext' href='https://www.aus.edu/academics/asc' target='_blank' rel='noopener'><strong>ASC workshop series</strong></a> on time management, note-taking, test-taking and using GenAI well"+R("WEEKLY"),
+     "Book tutoring or drop-in reviews at the SBA <strong><a class='ext' href='https://www.aus.edu/sites/default/files/aus_resources_spring_2026_0.pdf' target='_blank' rel='noopener'>Business Learning Center (BLC)</a></strong> (SBA 1164) for ACC 201"+R("WEEKLY"),
+     "Take the <a class='ext' href='https://www.aus.edu/academics/asc' target='_blank' rel='noopener'><strong>Strong Interest Inventory</strong></a> at ASC to test your fit with Management"],
+    ["Use <strong><a class='ext' href='https://www.aus.edu/sites/default/files/aus_resources_spring_2026_0.pdf' target='_blank' rel='noopener'>BLC</a></strong> tutoring for your business core: ECO, QBA 201, FIN 201, ACC 202 and SCM 202"+R("WEEKLY"),
+     "Use <a class='ext' href='https://www.aus.edu/academics/asc' target='_blank' rel='noopener'><strong>ASC academic coaching</strong></a> to lift your GPA before the major",
+     "Review your degree audit with your advisor each semester"],
+    ["Protect your major CGPA; the minimum is 2.00",
+     "Talk to faculty about the elective focus that fits your goals",
+     "Consider the <a class='ext' href='https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship' target='_blank' rel='noopener'><strong>Minor in Entrepreneurship and Innovation</strong></a>: MGT 313, MGT 403 and MGT 450 plus one minor elective"],
+    ["Solve strategic-level business cases in the <strong>MGT 406</strong> capstone, drawing on all your core courses"+C("COURSE"),
+     "Do a final degree audit and apply to graduate"]]},
+  {k:"lead", name:"Lead & Connect", sub:"Community and leadership", years:[
+    ["Start at <strong><a class='ext' href='https://www.aus.edu/sba' target='_blank' rel='noopener'>Meet SBA</a></strong>, the welcome fair for SBA majors and clubs, co-hosted by AIMS"+R("EVERY FALL"),
+     "Join <a class='ext' href='https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship' target='_blank' rel='noopener'><strong>AIMS</strong></a>, the Association for Innovation, Management and Strategy, the department's student organization"],
+    ["Compete in <a class='ext' href='https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship' target='_blank' rel='noopener'>AIMS</a> events such as <strong>Battle of the Brains</strong> and <strong>Murder in the Boardroom</strong>"+R("EVERY SEMESTER"),
+     "Take an active role on an AIMS committee or event team",
+     "Attend events by the <a class='ext' href='https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship' target='_blank' rel='noopener'><strong>Said T. Khoury Chair of Leadership Studies</strong></a>",
+     "Connect with an <a class='ext' href='https://www.aus.edu/academics/asc' target='_blank' rel='noopener'><strong>ASC peer mentor</strong></a>"],
+    ["Run for a <strong>leadership position</strong> in AIMS or another SBA club",
+     "Join the AIMS <strong>Future Leaders Bootcamp</strong>",
+     "Use what <strong>MGT 301</strong> teaches on motivation, power, conflict and negotiation in the teams you lead"+C("COURSE"),
+     "Build your presence in <strong>ENG 208</strong> and present at events"+C("COURSE")],
+    ["Become a <strong>peer mentor</strong> for first-year students",
+     "Lead your <strong>MGT 403</strong> venture team"+C("COURSE"),
+     "Grow as a leader in <strong>MGT 303</strong> Leadership Development or <strong>MGT 321</strong> Women in Leadership"+C("ELECTIVE"),
+     "Hand over your club role and document what you learned"]]},
+  {k:"explore", name:"Explore", sub:"Global and entrepreneurial", years:[
+    ["Attend the <a class='ext' href='https://www.aus.edu/sba/research/ceisd' target='_blank' rel='noopener'><strong>CEI Founder Talk</strong></a> series with UAE startup founders"+R("EVERY SEMESTER"),
+     "Watch the <strong><a class='ext' href='https://www.aus.edu/sba/research/ceisd' target='_blank' rel='noopener'>Dragon's Den</a></strong> final pitches to see what IEN 301 teams build"+R("EVERY SEMESTER"),
+     "Visit <a class='ext' href='https://www.aus.edu/academics/international-study-and-exchange' target='_blank' rel='noopener'><strong>International Study and Exchange</strong></a> to learn about exchange options"],
+    ["Take an idea from design thinking to prototype in <strong>IEN 301</strong>, then pitch at <strong><a class='ext' href='https://www.aus.edu/sba/research/ceisd' target='_blank' rel='noopener'>Dragon's Den</a></strong>. Winners receive AED 2,500 in seed funding and fast-track entry to <a class='ext' href='https://sheraa.ae' target='_blank' rel='noopener'>Sheraa's DOJO program</a>"+C("COURSE"),
+     "Join <a class='ext' href='https://www.aus.edu/sba/about/students/student-organizations/startup-sba' target='_blank' rel='noopener'><strong>Startup SBA</strong></a>, the AUS chapter of the Collegiate Entrepreneurs' Organization",
+     "Plan an exchange semester so credits transfer smoothly"],
+    ["Study abroad or join an exchange program",
+     "Link <strong>MGT 305</strong> to a real cross-border company or case"+C("COURSE"),
+     "Join CEI's <a class='ext' href='https://www.aus.edu/sba/research/ceisd' target='_blank' rel='noopener'><strong>Spark, Shape, Scale</strong></a> pathway if you have a venture idea",
+     "From a family business? Connect with the <a class='ext' href='https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship' target='_blank' rel='noopener'><strong>Chair in Family Business</strong></a> and consider <strong>MGT 310</strong>"+C("ELECTIVE")],
+    ["Write a viable business plan in <strong>MGT 403</strong>"+C("COURSE"),
+     "Take your venture further in <strong>MGT 450</strong> Business Venture with <a class='ext' href='https://sheraa.ae' target='_blank' rel='noopener'>Sheraa</a>"+C("ELECTIVE"),
+     "Seek pre-incubation through <a class='ext' href='https://www.aus.edu/sba/research/ceisd' target='_blank' rel='noopener'>CEI</a> partners such as <a class='ext' href='https://sheraa.ae' target='_blank' rel='noopener'>Sheraa</a>"]]},
+  {k:"launch", name:"Launch", sub:"Career readiness", years:[
+    ["Join the Office of Student Experience <strong>Skills Development Workshops</strong>: CV writing, interview skills and personal branding"+R("EVERY FALL"),
+     "Visit the <a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement' target='_blank' rel='noopener'><strong>SBA Career Design Lab (CDL)</strong></a> to start exploring careers",
+     "Create your LinkedIn profile"],
+    ["Attend <strong><a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement' target='_blank' rel='noopener'>CDL employer sessions</a></strong>: guest lectures, campus visits and info sessions with firms such as L'Oréal, PwC and Mashreq"+R("EVERY SEMESTER"),
+     "Go to CDL's <strong><a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement' target='_blank' rel='noopener'>Prepare for the Career Fair</a></strong> session, then the <a class='ext' href='https://www.aus.edu/media/news/aus-career-fair-2025-connects-students-and-alumni-to-over-914-internship-and-employment-opportunities' target='_blank' rel='noopener'><strong>AUS Career Fair</strong></a> to meet employers early"+R("ANNUAL, FEB"),
+     "Build your first resume with the CDL"],
+    ["Attend a CDL <a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement/internships' target='_blank' rel='noopener'><strong>Internship Info Session</strong></a> and apply for <strong>BUS 397</strong> one semester ahead"+C("COURSE"),
+     "Use <a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement' target='_blank' rel='noopener'><strong>CDL Office Hours</strong></a> (SBA 1109 or online) for internship questions and letters"+R("MON TO THU"),
+     "Bring your <strong>MGT 380</strong> scheduling and budgeting skills to internship projects"+C("COURSE"),
+     "Map your strengths, interests and values in <strong>MGT 316</strong> Career Management"+C("ELECTIVE")],
+    ["Return to the <a class='ext' href='https://www.aus.edu/media/news/aus-career-fair-2025-connects-students-and-alumni-to-over-914-internship-and-employment-opportunities' target='_blank' rel='noopener'><strong>AUS Career Fair</strong></a> and use the CDL's <a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement' target='_blank' rel='noopener'><strong>placement support</strong></a> for full-time roles"+R("ANNUAL, FEB"),
+     "Attend the <strong><a class='ext' href='https://www.aus.edu/sba/programs/graduate-programs' target='_blank' rel='noopener'>SBA Graduate Open Day</a></strong> if you are considering graduate study"+R("EVERY SPRING"),
+     "Aiming for consulting? <strong>MGT 345</strong> offers real client assignments and industry networking"+C("ELECTIVE"),
+     "Secure faculty and employer references"]]}
+];
+
+const ICONS = {
+  study:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9L12 4 2 9l10 5 10-5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/></svg>',
+  check:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l3 3 5-6"/></svg>',
+  miles:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4"/><path d="M4 4h12l-2 4 2 4H4"/></svg>',
+  learn:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg>',
+  lead:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.5"/><path d="M2 21v-1.5A5.5 5.5 0 0 1 7.5 14h3a5.5 5.5 0 0 1 5.5 5.5V21"/><circle cx="17.5" cy="8.5" r="2.5"/><path d="M18 14.2a4.5 4.5 0 0 1 4 4.4V21"/></svg>',
+  explore:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20a15 15 0 0 1 0-20"/></svg>',
+  launch:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg>'
+};
+
+/* ---------- Outcomes column ---------- */
+/* Skills mapped to industry frameworks:
+   WEF = World Economic Forum Future of Jobs Report 2025 (top core skills and fastest-growing skills to 2030)
+   NACE = National Association of Colleges and Employers career readiness competencies */
+const REQ = new Set(["MGT 201","MGT 301","MGT 302","MGT 305","MGT 360","MGT 380","MGT 403","MGT 406","IEN 301","ISA 201","QBA 201","MKT 201","ENG 208","ENG 225","BLW 301","BUS 397"]);
+const SKILLS = [
+  ["Analytical and strategic thinking","Statistics, business data, and strategy formulation and implementation",["QBA 201","ISA 201","MGT 406"],["WEF #1 core skill","NACE"]],
+  ["Leadership and social influence","Motivation, power and politics, conflict and negotiation",["MGT 301","ENG 208","MGT 303"],["WEF core","NACE"]],
+  ["Creative thinking","Design thinking, ideation, prototyping and experimentation",["IEN 301","MGT 403"],["WEF core","WEF rising"]],
+  ["Resilience, flexibility and agility","Leading innovation and change, and learning on the job",["MGT 313","BUS 397"],["WEF core","WEF rising"]],
+  ["Motivation and self-awareness","Your strengths, interests, values and leadership potential",["MGT 316","MGT 303"],["WEF core","NACE"]],
+  ["Talent management","Recruitment, appraisal, compensation, training and performance",["MGT 302","MGT 304"],["WEF core","WEF rising"]],
+  ["Empathy and active listening","Understanding users and stakeholders before solving",["IEN 301","MGT 360"],["WEF core"]],
+  ["Technological literacy","Information systems, databases, ERP and emerging tech such as AI",["ISA 201","MGT 315"],["WEF rising","NACE"]],
+  ["AI and data analytics","Business analytics, data visualization, AI basics and people analytics",["ISA 201","MGT 330"],["WEF #1 rising"]],
+  ["Environmental stewardship","CSR, sustainability risks and opportunities",["MGT 360","MGT 317"],["WEF rising"]],
+  ["Customer and service orientation","Consumer needs, segmentation and integrated communication",["MKT 201"],["WEF core"]],
+  ["Global and cross-cultural competence","International business and working across cultures",["MGT 305","MGT 306"],["NACE"]],
+  ["Teamwork and project delivery","Team dynamics, scheduling, budgeting and closure",["MGT 380","MGT 301"],["NACE"]],
+  ["Communication","CVs, reports, proposals and public speaking",["ENG 225","ENG 208"],["NACE"]],
+  ["Ethics, law and professionalism","Ethical decisions, business law and real workplace conduct",["MGT 360","BLW 301","BUS 397"],["NACE"]]
+];
+const CAREERS = ["General management","Management trainee programs","Business consulting","Human resources","Recruiter","Project manager","Sales","Technology","Government administration","Entrepreneurship"];
+const GRAD_EMP = ["ENOC","Emaar Properties","KPMG","Mastercard","Etihad Airways","Deloitte","Dubai Police"];
+const FAIR_EMP = ["Emirates NBD","Samsung","HSBC","Dubai Airports","Procter & Gamble","Arada","L'Or\u00e9al","Nestl\u00e9","Henkel","TotalEnergies","Gulftainer","BEEAH Group","Crescent Enterprises","Veolia"];
+document.getElementById("leads").innerHTML = `
+ <div class="lcard skills-card">
+  <div class="oh">Skills you will build</div>
+  <p class="note">Mapped to what employers ask for: the World Economic Forum <a class="ext" href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/in-full/3-skills-outlook/" target="_blank" rel="noopener"><i>Future of Jobs Report 2025</i></a> (WEF core skills today and fastest-rising skills to 2030) and the <a class="ext" href="https://www.naceweb.org/career-readiness/competencies/career-readiness-defined" target="_blank" rel="noopener">NACE career readiness competencies</a>. Solid course codes are required courses; <span class="ekey">amber</span> codes are Management major electives you can choose to go further.</p>
+  <div class="sgrid">${SKILLS.map(([s,d,cs,src])=>`<div class="sk">
+    <div class="sk-top"><b>${s}</b><span class="srcs">${src.map(x=>`<a class="src" href="${x.startsWith("NACE")?"https://www.naceweb.org/career-readiness/competencies/career-readiness-defined":"https://www.weforum.org/publications/the-future-of-jobs-report-2025/in-full/3-skills-outlook/"}" target="_blank" rel="noopener">${x}</a>`).join("")}</span></div>
+    <small>${d}</small>
+    <div class="cs">${cs.map(c=>`<button type="button" class="cbtn ${REQ.has(c)?"":"opt"}" data-code="${c}">${c}</button>`).join("")}</div>
+  </div>`).join("")}</div>
+ </div>
+ <div class="lcard">
+  <div class="oh">Careers you can pursue</div>
+  <p class="note">Career fields where Management graduates work, as listed on the <a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-and-entrepreneurship/bachelor-of-science-in-business-administration-major-in-management" target="_blank" rel="noopener">Management major page</a>.</p>
+  <div class="careers">${CAREERS.map(c=>`<span>${c}</span>`).join("")}</div>
+  <div class="oh">Keep growing</div>
+  <div class="grow">
+    <div><b><a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-and-entrepreneurship/master-of-business-administration" target="_blank" rel="noopener">Master of Business Administration (MBA)</a></b><span>A blended program of 8 core and 3 elective courses that prepares you for management and leadership roles in the private and public sectors.</span></div>
+    <div><b><a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-and-entrepreneurship/phd-in-management" target="_blank" rel="noopener">PhD in Management</a></b><span>For careers in academia or research, with focus areas in strategic management and corporate leadership, entrepreneurship and family business, and organizational behavior and HR.</span></div>
+  </div>
+ </div>
+ <div class="lcard">
+  <div class="oh">Where our graduates work</div>
+  <p class="note">As listed on the <a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship" target="_blank" rel="noopener">department website</a>.</p>
+  <div class="careers emp">${GRAD_EMP.map(c=>`<span>${c}</span>`).join("")}</div>
+  <div class="oh">Employers recruiting at AUS</div>
+  <p class="note">A selection of the 79 employers at the <a class="ext" href="https://www.aus.edu/media/news/aus-career-fair-2025-connects-students-and-alumni-to-over-914-internship-and-employment-opportunities" target="_blank" rel="noopener">AUS Career Fair 2025</a>, which offered 914+ internship and job opportunities.</p>
+  <div class="careers">${FAIR_EMP.map(c=>`<span>${c}</span>`).join("")}</div>
+ </div>`;
+
+/* ---------- Year-end checklist (inside the table) ---------- */
+const CHECKS = [
+  {a:["Built my four-year plan with my advisor","Attended ASC workshops or BLC tutoring"],
+   c:["Attended Meet SBA and joined AIMS or another club","Joined an OSE Skills Development Workshop","Visited the SBA Career Design Lab"]},
+  {a:["Reviewed my degree audit each semester","Confirmed Management as my major"],
+   c:["Built my first resume","Attended a CDL employer session","Attended the AUS Career Fair"]},
+  {a:["Kept my major CGPA at 2.00 or higher","Chose my elective focus"],
+   c:["Held a student leadership role","Applied for BUS 397 a semester ahead","Completed my BUS 397 internship"]},
+  {a:["Completed my 4 major electives","Did my final degree audit and applied to graduate"],
+   c:["Secured faculty and employer references","Set my job or graduate study plan"]}
+];
+
+
+/* ---------- Course descriptions (AUS Undergraduate Catalog 2026-2027) ---------- */
+const INFO = {
+ "MGT 201":["Fundamentals of Management","Surveys the basic concepts of organizational behavior and the functions and activities of the manager from a global perspective: plans, goals, decision making, change, motivation, human resources, ethics and social responsibility, groups and teams, organization design, leadership and control.","Prerequisite/concurrent: WRI 102"],
+ "IEN 301":["Innovation and Entrepreneurship Mindset","Covers the design thinking process and entrepreneurship practices: empathetic understanding of users, problem reframing, idea generation, prototyping, experimentation, lean-startup methods, go-to-market strategies, and pitching. Builds an innovation mindset grounded in sustainability and leadership.","Prerequisite: sophomore II standing"],
+ "MGT 301":["Organizational Behavior","Examines the factors that influence individual and group performance using current management theory and research: perception, personality, attitudes, values, motivation, decision making, leadership, power and politics, conflict and negotiation, groups and culture.","Prerequisite: MGT 201; prerequisite/concurrent: ENG 203 or ENG 204"],
+ "MGT 302":["Managing Human Resources","Examines the foundations, functions and activities of managing human resources, balancing theory and practice: personnel planning, recruitment and selection, policy and procedures, performance appraisal, compensation and benefits, training, safety and industrial relations.","Prerequisites: MGT 201 and ENG 204"],
+ "MGT 305":["International Business","Examines international trade and investment, international institutions, the international monetary system and exchange markets, and the major issues in the functional areas of international business and management.","Prerequisites: MGT 201, and ENG 203 or ENG 204"],
+ "MGT 360":["Business Ethics and Social Responsibility","Introduces the ethical dimensions of business as they relate to stakeholders inside and outside the organization: business ethical theory, ethical decision making, typical dilemmas and corporate social responsibility.","Prerequisite: MGT 201; prerequisite/concurrent: ENG 203 or ENG 204"],
+ "MGT 380":["Project Management","Examines the concepts and techniques of managing projects in service and manufacturing settings: project selection and evaluation, team dynamics, motivation and evaluation, scheduling, budgeting and closure.","Prerequisites: ACC 202, ENG 204, FIN 201, ISA 201 and MGT 201"],
+ "MGT 403":["Entrepreneurship","Focuses on creating new ventures: the people, the process and the dynamics. Covers identifying and evaluating opportunities, success and failure factors, entrepreneurial characteristics, stand-alone and corporate ventures, and local and global issues. Requires a viable business plan.","Prerequisites: ENG 204, and IEN 301 or all of FIN 201, MGT 201 and MKT 201"],
+ "MGT 406":["Business Policy and Strategy","The capstone. Applies knowledge from previous coursework to strategic-level business problems, using business cases extensively: missions and objectives, environmental analysis, formulating, implementing and assessing strategies and policies, and international, social and ethical issues.","Prerequisites: business senior standing; FIN 201, ISA 201, MGT 201, MKT 201 and ENG 204"],
+ "BLW 301":["Business Law","Examines business legal issues including legal concepts and court systems. Surveys contracts, sales, agents, legal forms of business and the regulation of businesses, with international and global perspectives.","Prerequisites: ACC 201 and ECO 202; prerequisite/concurrent: ENG 204 or ENG 208"],
+ "ENG 208":["Public Speaking","Introduces the art of public speaking, debate and argument.",""],
+ "ENG 225":["Writing for Business","Develops skills in writing business documents such as CVs, correspondence, memoranda, short and long reports, and proposals.","Prerequisites: ENG 203 or ENG 204, and sophomore standing"],
+ "BUS 397":["Business Internship","At least five weeks (200 hours) of on-the-job experience with an approved organization, documented in a formal report. 0 credits, graded Pass/Fail. Registration fee applies.","Prerequisites: junior II standing and permission of the internship manager"],
+ "BUS 497":["Business Practicum","Applies theory to real business problems while building research, writing, technical, presentation and soft skills. At least 12 weeks (480 hours) with an approved organization. 3 credits, Pass/Fail, repeatable up to 6 credits.","Prerequisites: junior II standing and permission of the internship manager"],
+ "QBA 201":["Quantitative Business Analysis","Covers descriptive and inferential statistics with an emphasis on business applications and software: probability, sampling distributions, measures and tests of association, estimation, hypothesis testing and linear models.",""],
+ "ISA 201":["Fundamentals of Information Systems and Business Analytics","Data and information as key organizational resources: database, transaction, decision support and enterprise systems, system design, data-driven decision making with business analytics and visualization, and emerging technologies such as virtual reality and artificial intelligence.","Prerequisite/concurrent: WRI 102"],
+ "MKT 201":["Fundamentals of Marketing","Uses the societal marketing concept to develop marketing strategies in a global context: consumer needs, market segmentation, new product development, pricing, distribution and integrated communication.","Prerequisite: WRI 102"],
+ "MGT 300":["Management of Public Organizations","The challenges of managing public organizations: leadership, motivation and communication in an environment of competing interests, politics, power relations and policy processes.","Prerequisite: MGT 201; prerequisite/concurrent: ENG 203 or ENG 204"],
+ "MGT 303":["Management and Leadership Development","Focuses on the skills of successful leaders and managers, with assessment and development of your own managerial and leadership skills throughout the course.","Prerequisites: MGT 201 and ENG 204"],
+ "MGT 304":["Performance Management","Treats performance management as an ongoing process that matches employee contributions with organizational goals, at the organizational, group and individual level, in private and public organizations.","Prerequisite: MGT 201"],
+ "MGT 306":["Cross-Cultural Management","Examines culture as a variable in international management and its impact on strategy, negotiations, human capital, leadership, team building and ethics.","Prerequisite: MGT 301"],
+ "MGT 310":["Fundamentals of Family Business","The unique challenges of family businesses in the UAE: family dynamics, generational gaps, leadership, non-family members, governance and succession planning.","Prerequisite: MGT 201; prerequisite/concurrent: ENG 204"],
+ "MGT 313":["Managing Innovation and Change","The importance of innovation to business success, strategies for enabling innovation and overcoming obstacles to change, and the learning organization in the context of transformational leadership.","Prerequisite: MGT 201"],
+ "MGT 315":["Enterprise Resource Planning","How ERP software links operations, marketing, finance, accounting, HR and IT into one framework. Registration fee applies.","Prerequisites: MGT 201, ACC 201 and ISA 201 (or listed engineering equivalents)"],
+ "MGT 316":["Career Management","A structured approach to career choices and personal development, identifying your strengths, professional interests and values as a basis for career planning.","Prerequisites: MGT 201, and ENG 203 or ENG 204"],
+ "MGT 317":["Management for Sustainability","Managing a company's financial, social and environmental risks, obligations and opportunities.","Prerequisites: MGT 201, and ENG 203 or ENG 204"],
+ "MGT 320":["Knowledge Dynamics in Organizations","Managing learning, unlearning and knowledge loss, and the socio-cultural side of knowledge in organizations.","Prerequisites: MGT 201 and WRI 102"],
+ "MGT 321":["Women in Leadership","Skills and development for women leaders in a multicultural, global environment, with assessment of your own leadership potential.","Prerequisites: MGT 201, and ENG 203 or ENG 204"],
+ "MGT 330":["People Analytics","Uses data and analytical tools to inform decisions about managing employees and to address strategic HR challenges.","Prerequisites: MGT 201; and QBA 201 or STA 201 or STA 202 or NGN 211"],
+ "MGT 345":["Management Consulting","Consulting tools and techniques, collecting and analyzing data to make client recommendations, real consulting assignments and networking with industry professionals.","Prerequisites: MGT 201 and junior standing"],
+ "MGT 404":["Social Entrepreneurship","Building a social venture's business plan, co-creating solutions with communities, analyzing social impact and choosing a business model.","Prerequisite: MGT 360"],
+ "MGT 450":["Business Venture with Sheraa","Hands-on activities, design sprints and mentorship that take you from idea generation to a viable venture or a launched business.","Prerequisite/concurrent: MGT 403"]
+};
+const TRACKS = [
+  {t:"People and leadership", d:"For HR, talent and people-leadership roles.", c:["MGT 303","MGT 304","MGT 306","MGT 321","MGT 330"]},
+  {t:"Entrepreneurship and innovation", d:"For founders, family business successors and innovation roles.", c:["MGT 313","MGT 404","MGT 450","MGT 310"]},
+  {t:"Strategy, consulting and operations", d:"For consulting, operations and transformation roles.", c:["MGT 345","MGT 315","MGT 317","MGT 320"]},
+  {t:"Public sector and career design", d:"For government and semi-government paths, and planning your career.", c:["MGT 300","MGT 316"]}
+];
+const TRACKS_HTML = TRACKS.map(tr=>`
+  <div class="tcard"><div class="oh">${tr.t}</div><p class="note">${tr.d}</p>
+  ${tr.c.map(c=>`<button type="button" class="trk" data-code="${c}"><code>${c}</code><span><b>${INFO[c][0]}</b></span></button>`).join("")}
+  </div>`).join("");
+
+/* ---------- Build the table ---------- */
+const yc = y => y.major ? `y${y.n}` : "";
+const chip = ([code,title,k]) => INFO[code]
+  ? `<button type="button" class="chip info ${k==='major'?'major':''}" data-k="${k}" data-code="${code}" style="--k:${CATS[k].color}"><code>${code}</code><span>${title}</span></button>`
+  : `<div class="chip ${k==='major'?'major':''}" data-k="${k}" style="--k:${CATS[k].color}"><code>${code}</code><span>${title}</span></div>`;
+const rowHead = (k,name,sub,color,term) =>
+  `<th class="rh" style="--pc:${color}"><div class="ic">${ICONS[k]}</div><b>${name}</b><span>${sub}</span>${term?`<div class="term">${term}</div>`:""}</th>`;
+
+document.getElementById("thead").innerHTML = `<tr><th></th>${
+  YEARS.map(y=>`<th class="${yc(y)}"><div class="yh"><div class="n">${y.n}</div><div>${y.name}<small>${y.theme} &middot; ${y.cr} cr</small></div>${y.badge?`<em>${y.badge}</em>`:""}</div></th>`).join("")
+}</tr>`;
+
+const rows = [];
+const totalRows = 3 + PILLARS.length;
+// Fall courses
+rows.push(`<tr class="course first">${rowHead("study","Courses","What you study","var(--p-study)","Fall")}${
+  YEARS.map(y=>`<td class="${yc(y)}"><div class="tcr"><span>Fall</span><span>${y.fall.length*3} cr</span></div><div class="chips">${y.fall.map(chip).join("")}</div></td>`).join("")
+}</tr>`);
+// Spring courses
+rows.push(`<tr class="course second"><th class="rh" style="--pc:var(--p-study)"><div class="term">Spring</div></th>${
+  YEARS.map(y=>`<td class="${yc(y)}"><div class="tcr"><span>Spring</span><span>${y.spring.length*3} cr</span></div><div class="chips">${y.spring.map(chip).join("")}</div></td>`).join("")
+}</tr>`);
+// Milestones
+rows.push(`<tr class="miles">${rowHead("miles","Milestones","Checkpoints and credits","#3d3d3d")}${
+  YEARS.map(y=>`<td>${y.miles.map(([t,d,cls])=>`<div class="ms ${cls||""}"><b>${t}</b>${d}</div>`).join("")}
+    <div class="cum">Cumulative: <b>${y.cum}</b> of 120 cr<div class="bar"><i style="width:${y.cum/120*100}%"></i></div></div></td>`).join("")
+}</tr>`);
+// Pillars
+const PC = {learn:"var(--p-learn)",lead:"var(--p-lead)",explore:"var(--p-explore)",launch:"var(--p-launch)"};
+PILLARS.forEach(p=>{
+  rows.push(`<tr>${rowHead(p.k,p.name,p.sub,PC[p.k])}${
+    p.years.map(items=>`<td style="--pc:${PC[p.k]}"><ul class="ex">${items.map(t=>`<li>${t}</li>`).join("")}</ul></td>`).join("")
+  }</tr>`);
+});
+// Checklist
+rows.push(`<tr class="checks">${rowHead("check","Checklist","Tick off before year end","#3d3d3d")}${
+  CHECKS.map((c,i)=>`<td><div class="check">
+    <div class="ck-h">Academic</div>${c.a.map(t=>`<label><input type="checkbox"><span>${t}</span></label>`).join("")}
+    <div class="ck-h">Career</div>${c.c.map(t=>`<label><input type="checkbox"><span>${t}</span></label>`).join("")}
+  </div><div class="prog" data-col="${i}"></div></td>`).join("")
+}</tr>`);
+// Major electives
+rows.push(`<tr class="mje-row">${rowHead("study","Major electives","Choose any 4 (12 cr)","var(--c-mje)")}<td colspan="4">
+  <p class="mje-note">Any 300-level or above MGT course not listed as a major or core requirement counts, as do approved special topic courses at the 300 level or above (see the <a class="ext" href="https://www.aus.edu/resources/undergraduate-catalog-2026-2027" target="_blank" rel="noopener">AUS Undergraduate Catalog 2026-2027</a>). The groupings below are suggestions to help you build a focus, not formal concentrations. Check prerequisites and the class schedule each semester. Click a course for its description.</p>
+  <div class="tgrid">${TRACKS_HTML}</div></td></tr>`);
+document.getElementById("tbody").innerHTML = rows.join("");
+
+/* ---------- Course detail panel ---------- */
+const pop = document.getElementById("cpop");
+let lastBtn = null;
+function openCourse(code, btn){
+  const [t,d,pr] = INFO[code];
+  pop.querySelector(".pc-code").textContent = code;
+  pop.querySelector(".pc-title").textContent = t;
+  pop.querySelector(".pc-desc").textContent = d;
+  const pe = pop.querySelector(".pc-pre"); pe.textContent = pr; pe.hidden = !pr;
+  pop.hidden = false; lastBtn = btn; pop.querySelector(".pc-close").focus();
+}
+function closeCourse(){ pop.hidden = true; if(lastBtn) lastBtn.focus(); }
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-code]");
+  if(b && INFO[b.dataset.code]){ openCourse(b.dataset.code, b); return; }
+  if(!pop.hidden && (e.target===pop || e.target.closest(".pc-close"))) closeCourse();
+});
+document.addEventListener("keydown", e=>{ if(e.key==="Escape" && !pop.hidden) closeCourse(); });
+
+/* ---------- Legend filter ---------- */
+const legend = document.getElementById("legend");
+let active = null;
+Object.entries(CATS).forEach(([k,v])=>{
+  const b = document.createElement("div");
+  b.className="lg"; b.innerHTML=`<i style="background:${v.color}"></i>${v.label}`;
+  b.onclick=()=>{
+    active = active===k?null:k;
+    document.querySelectorAll(".lg").forEach(x=>x.classList.remove("on"));
+    if(active) b.classList.add("on");
+    document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("dim", !!active && c.dataset.k!==active));
+    document.querySelectorAll(".ms").forEach(m=>m.style.opacity = (!active || (active==="intern" && m.classList.contains("intern"))) ? 1 : .25);
+  };
+  legend.appendChild(b);
+});
+
+/* ---------- Checklist progress ---------- */
+const upd = ()=>document.querySelectorAll("tr.checks td").forEach(td=>{
+  const bx=[...td.querySelectorAll("input")];
+  td.querySelector(".prog").textContent = `${bx.filter(b=>b.checked).length} of ${bx.length} done`;
+});
+document.querySelectorAll("tr.checks input").forEach((b,i)=>{ b.id="chk"+i; b.addEventListener("change",upd); });
+upd();
+</script>
+</body>
+</html>

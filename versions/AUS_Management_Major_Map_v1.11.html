@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AUS Management Major Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Raleway:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Design tokens taken from aus.edu (Department of Management, Strategy and Entrepreneurship page) */
+:root{
+  --red:#a03021; --red-dk:#7c2418; --red-lt:#f6e7e4;
+  --maroon:#a03021; --maroon-dk:#7c2418; --maroon-lt:#f6e7e4;
+  --ink:#252525; --ink-2:#5d5d5d; --ink-3:#777777; --line:#e2e2e2;
+  --grey:#f2f2f2; --grey-2:#ebebeb; --paper:#ffffff;
+  --c-major:#a03021; --c-core:#3d3d3d; --c-mje:#d0695a; --c-gen:#7d7d7d; --c-fre:#a08a72; --c-intern:#6e1f15;
+  --p-study:#3d3d3d; --p-learn:#a03021; --p-lead:#a03021; --p-explore:#a03021; --p-launch:#a03021;
+}
+*,*:before,*:after{box-sizing:border-box}
+body,body *{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:12.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1480px;margin:0 auto;padding:0 24px 36px}
+h1,h2,h3,.raleway{font-family:Raleway,Montserrat,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+
+/* Top utility strip like aus.edu */
+.util{display:flex;justify-content:space-between;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);padding:10px 0 8px}
+/* Header */
+.hero{display:grid;grid-template-columns:auto 1fr auto;gap:30px;align-items:center;padding:18px 0 20px;border-bottom:4px solid var(--red)}
+.brand{font-family:Raleway,sans-serif;line-height:1.25;border-right:1px solid var(--line);padding-right:28px}
+.brand-link{text-decoration:none;color:inherit;display:block}
+.brand .logo{display:block;width:260px;max-width:100%;height:auto}
+.brand .aus{font-family:Georgia,"Times New Roman",serif;color:var(--red);font-size:34px;letter-spacing:.02em;line-height:1}
+.brand small{display:block;font-size:12px;color:var(--ink-2);margin-top:4px}
+.hero .eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+.hero h1{font-size:40px;line-height:1.05;margin:4px 0 2px;color:#3d3d3d;letter-spacing:.1em}
+.hero .sub{font-size:13.5px;color:var(--ink-2)}
+.hero .inst{text-align:right;font-size:12px;line-height:1.6;color:var(--ink-2)}
+.hero .inst b{font-size:12.5px;display:block;color:var(--ink)}
+.edition{display:inline-block;margin-top:6px;background:var(--red);color:#fff;padding:3px 12px;font-size:11px;font-weight:600;letter-spacing:.06em}
+.about{background:var(--grey);padding:16px 22px;margin-top:18px;font-size:13px;color:#3d3d3d;text-align:center}
+.about b{color:var(--red)}
+
+/* Stat circles like the site's ranking badges */
+.glance{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin:24px 0 8px}
+.ring{width:112px;height:112px;border-radius:50%;border:5px solid var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px}
+.ring b{font-family:Montserrat,sans-serif;font-weight:800;font-size:28px;color:var(--red);line-height:1}
+.ring span{font-size:10px;font-weight:700;line-height:1.2;margin-top:4px;color:#3d3d3d}
+
+/* Section band headings like aus.edu */
+.band{background:var(--grey);text-align:center;padding:9px 12px;margin:26px 0 14px}
+.band h2{font-size:18px;color:#000;letter-spacing:.14em}
+.band p{font-size:12px;color:var(--ink-2);margin-top:2px;text-transform:none;letter-spacing:0}
+
+/* Legend */
+.band.journey{padding-bottom:12px;margin-bottom:12px}
+.band.journey .legend{margin-top:10px}
+.legend{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.lg{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;border:1px solid var(--line);background:#fff;padding:5px 10px;cursor:pointer;user-select:none;transition:.15s}
+.lg i{width:10px;height:10px;display:block}
+.lg:hover{border-color:var(--ink-3)}
+.lg.on{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* ===== THE TABLE ===== */
+.tscroll{overflow-x:auto;border:1px solid var(--line);background:#fff}
+table.map{width:100%;min-width:1000px;border-collapse:collapse;table-layout:fixed}
+.map col.c-row{width:132px}
+.map th,.map td{border:1px solid var(--line);vertical-align:top;text-align:left}
+.map thead th{background:#4a4a4a;color:#fff;padding:11px 12px;font-weight:600;font-size:13px;border-color:#555;font-family:Raleway,sans-serif;text-transform:uppercase;letter-spacing:.08em}
+.map thead th.y3,.map thead th.y4{background:var(--red);border-color:#8a2a1d}
+.map thead th:first-child{background:#252525}
+.yh{display:flex;align-items:center;gap:9px}
+.yh .n{width:30px;height:30px;flex:none;border-radius:50%;border:2px solid rgba(255,255,255,.6);display:grid;place-items:center;font-family:Montserrat,sans-serif;font-weight:800;font-size:14px}
+.yh small{display:block;font-family:Montserrat,sans-serif;font-weight:500;opacity:.85;font-size:10.5px;text-transform:none;letter-spacing:0}
+.yh em{margin-left:auto;font-style:normal;font-family:Montserrat,sans-serif;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#fff;color:var(--red);padding:2px 7px;white-space:nowrap}
+
+/* row headers */
+.map tbody th{padding:12px 10px 12px 14px;position:relative;background:var(--grey)}
+.map tbody th:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--pc)}
+.rh .ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--pc);border:2px solid var(--pc);margin-bottom:8px}
+.rh b{display:block;font-family:Raleway,sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;color:#000;line-height:1.2}
+.rh span{display:block;font-size:10.5px;color:var(--ink-3);margin-top:3px;font-weight:500}
+.rh .term{display:inline-block;margin-top:6px;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:#fff;color:#3d3d3d;padding:2px 7px;border:1px solid var(--line)}
+
+.map td{padding:10px 11px}
+.map tr.course td{background:#fff}
+.map tr.course td.y3,.map tr.course td.y4{background:#fcf7f6}
+.map tr.course.first td,.map tr.course.first th{border-bottom:1px dashed #d6d6d6}
+.map tr.course.second td,.map tr.course.second th{border-top:none}
+.map tr.miles td,.map tr.miles th{border-bottom:3px solid var(--red)}
+
+/* course chips */
+.chips{display:flex;flex-direction:column;gap:4px}
+.chip{display:grid;grid-template-columns:56px 1fr;gap:6px;align-items:center;padding:4px 7px;font-size:11px;background:var(--grey);border-left:4px solid var(--k);transition:opacity .2s}
+.chip code{font-family:Montserrat,sans-serif;font-weight:700;font-size:10px;color:var(--k)}
+.chip.major{background:var(--red);color:#fff}
+.chip.major code{color:#fff}
+.chip.dim{opacity:.15}
+.tcr{display:flex;justify-content:space-between;font-size:9.5px;font-weight:700;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase;margin-bottom:6px}
+
+/* milestones */
+.ms{font-size:11px;color:var(--ink-2);padding:8px 10px;margin-bottom:7px;background:var(--grey);border-left:3px solid #3d3d3d}
+.ms b{display:block;color:#000;font-size:11px;margin-bottom:1px}
+.ms.intern{background:var(--red-lt);border:1.5px dashed var(--red);border-left:3px solid var(--red)}
+.ms.intern b{color:var(--red)}
+.cum{font-size:10.5px;color:var(--ink-3);margin-top:4px}
+.bar{height:5px;background:var(--grey-2);margin-top:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--red)}
+
+/* experience lists */
+.map ul.ex{list-style:none;display:flex;flex-direction:column;gap:6px}
+.map ul.ex li{font-size:11.5px;color:#3d3d3d;padding-left:13px;position:relative}
+.map ul.ex li:before{content:"";position:absolute;left:0;top:6px;width:6px;height:6px;background:var(--red)}
+.map ul.ex li strong{color:#000;font-weight:700}
+.tag.el{background:#fdeeeb;color:#b9503f;box-shadow:inset 0 0 0 1px #efbdb4}
+.tag.rec{background:#fff;color:#3d3d3d;border:1px solid #cfcfcf}
+.tag{display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.06em;padding:1px 5px;background:var(--red-lt);color:var(--red);margin-left:2px;vertical-align:1px}
+
+/* Clickable courses */
+button.chip{font:inherit;font-size:11px;color:inherit;text-align:left;border:0;border-left:4px solid var(--k);width:100%;cursor:pointer}
+button.chip:hover{background:#e6e6e6}
+button.chip.major:hover{background:var(--red-dk)}
+button.chip:focus-visible,.cbtn:focus-visible,.trk:focus-visible,.pc-close:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.cbtn{font:inherit;font-size:9.5px;font-weight:700;background:var(--grey);color:var(--red);padding:2px 6px;border:0;cursor:pointer;white-space:nowrap}
+.cbtn:hover{background:var(--red);color:#fff}
+.skill small{display:block;font-size:10.5px;color:var(--ink-3);font-weight:400}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start}
+.tcard .oh{min-height:3em;margin-bottom:0}
+@media (max-width:640px){.tcard .oh{min-height:0}}
+.tcard{background:#fff;border:1px solid var(--line);border-top:4px solid var(--c-mje);padding:14px;display:flex;flex-direction:column;gap:6px}
+.tcard .note{margin-bottom:4px}
+.trk{font:inherit;display:grid;grid-template-columns:54px 1fr;gap:6px;align-items:center;text-align:left;background:var(--grey);border:0;border-left:3px solid var(--c-mje);padding:7px 9px;cursor:pointer;color:inherit}
+.trk:hover{background:#e8e8e8}
+.trk.req{border-left-color:var(--c-major)}
+.trk.req code{color:var(--c-major)}
+.tl{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:6px 0 1px}
+.alts{display:flex;flex-wrap:wrap;gap:4px}
+.alt{font:inherit;font-size:10px;font-weight:700;color:var(--c-mje);background:#fff;border:1px solid #efbdb4;padding:3px 7px;cursor:pointer}
+.alt:hover{background:var(--c-mje);color:#fff}
+.trk code{font-family:Montserrat,sans-serif;font-weight:700;font-size:10px;color:var(--c-mje);padding-top:1px}
+.trk span{font-size:10.5px;color:var(--ink-2);line-height:1.4}
+.trk b{display:block;font-size:11.5px;color:#000;font-weight:600}
+.cpop[hidden]{display:none}
+.cpop{position:fixed;inset:0;background:rgba(37,37,37,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
+.pc-panel{background:#fff;max-width:520px;width:100%;border-top:5px solid var(--red);padding:22px 24px 18px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.pc-close{position:absolute;top:8px;right:10px;border:0;background:none;font-size:26px;line-height:1;color:var(--ink-2);cursor:pointer;padding:4px 8px}
+.pc-code{font-weight:800;color:var(--red);font-size:13px;letter-spacing:.06em}
+.pc-title{font-size:17px;margin:4px 0 10px;color:#000;text-wrap:balance}
+.pc-desc{font-size:13px;color:#3d3d3d;line-height:1.6}
+.pc-pre{font-size:11.5px;color:var(--ink-2);background:var(--grey);padding:8px 10px;margin-top:12px}
+.pc-src{font-size:10px;color:var(--ink-3);margin-top:10px}
+.pc-cx{margin-top:12px}
+.pc-cx[hidden]{display:none}
+.pc-cx-h{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#2a5db0;margin-bottom:6px}
+.pc-cx-list{display:flex;flex-direction:column;gap:4px}
+.pc-cx-a{display:flex;align-items:center;gap:9px;text-decoration:none;color:#000;font-size:12px;line-height:1.35;padding:5px 8px;border:1px solid #dbe5f5;background:#f6f9fe}
+.pc-cx-a:hover{background:#eaf1fc;border-color:#2a5db0}
+.pc-cx-a:hover span:last-child{color:#2a5db0;text-decoration:underline}
+.pc-cx-a:focus-visible{outline:2px solid #2a5db0;outline-offset:2px}
+.pc-cx-i{flex:none;width:22px;height:22px;border-radius:50%;background:#2a5db0;color:#fff;display:grid;place-items:center}
+.pc-panel{max-height:calc(100vh - 32px);overflow:auto}
+@media (max-width:1100px){.tgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.tgrid{grid-template-columns:1fr}}
+
+.map tr.mje-row td,.map tr.mje-row th{border-top:3px solid var(--c-mje);background:#fdf6f5}
+.mje-note{font-size:11.5px;color:var(--ink-2);margin:2px 0 12px;max-width:none}
+
+/* External links */
+a.ext{color:inherit;text-decoration:underline;text-decoration-color:rgba(160,48,33,.45);text-underline-offset:2px}
+a.ext:hover{color:var(--red);text-decoration-color:var(--red)}
+a.ext:after{content:"\2197";font-size:.8em;margin-left:2px;color:var(--red);text-decoration:none;display:inline-block}
+a.ext:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+footer a.ext:after,footer a.ext:hover{color:#fff}
+footer a.ext{text-decoration-color:rgba(255,255,255,.5)}
+
+/* Where it leads */
+.lgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.skills-card,.lcard.full{grid-column:1/-1}
+.lgrid{align-items:stretch}
+.lcard.full .grow{flex-direction:row}
+.lcard.full .grow div{flex:1}
+.careers span.top{background:var(--red);color:#fff;font-weight:600}
+.keyr,.keyg{display:inline-block;width:10px;height:10px;margin:0 5px -1px 0}
+.keyr{background:var(--red)}
+.keyg{background:#e2e2e2;margin-left:6px}
+@media (max-width:640px){.lcard.full .grow{flex-direction:column}}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sk{background:var(--grey);padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.sk-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.sk-top b{font-size:12px;color:#000}
+.sk small{font-size:10.5px;color:var(--ink-2)}
+.srcs{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end;flex:none;max-width:50%}
+.srcs a.src:hover{border-color:var(--red);color:var(--red)}
+.srcs a.src{text-decoration:none;font-style:normal;font-size:8.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#3d3d3d;border:1px solid #cfcfcf;background:#fff;padding:1px 5px;white-space:nowrap}
+.sk .cs{display:flex;gap:4px;flex-wrap:wrap;margin-top:2px}
+.skrow{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;margin-top:2px}
+.skrow .cs{margin-top:0}
+.cx{display:flex;gap:4px;flex:none}
+.cx-i{position:relative;width:22px;height:22px;display:grid;place-items:center;background:#2a5db0;color:#fff;border-radius:50%;text-decoration:none}
+.cx-i:hover,.cx-i:focus-visible{background:#1c437f}
+.cx-i:focus-visible{outline:2px solid #2a5db0;outline-offset:2px}
+.cx-i .tip{display:none;position:absolute;right:-4px;bottom:calc(100% + 8px);width:240px;background:#252525;color:#fff;padding:9px 11px;text-align:left;z-index:5;box-shadow:0 8px 22px rgba(0,0,0,.25);border-top:3px solid #2a5db0}
+.cx-i .tip:after{content:"";position:absolute;right:10px;top:100%;border:6px solid transparent;border-top-color:#252525}
+.cx-i:hover .tip,.cx-i:focus-visible .tip{display:block}
+.tip b{display:block;font-size:11.5px;font-weight:600;line-height:1.35}
+.tip .tp{display:block;font-size:10.5px;color:#cfcfcf;margin-top:2px}
+.tip .tr{display:block;font-size:10.5px;margin-top:5px}
+.tip .tr i{font-style:normal;color:#f5b301}
+.tip .tr em{font-style:normal;color:#cfcfcf}
+.tip .tc{display:block;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#9db9e6;margin-top:6px}
+.cbtn.opt{color:var(--c-mje);background:#fff;border:1px solid #efbdb4}
+.cxkey{color:#2a5db0;font-weight:700}
+.ekey{color:var(--c-mje);font-weight:700}
+@media (max-width:1100px){.sgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.sgrid{grid-template-columns:1fr}}
+.note{font-size:11px;color:var(--ink-3);margin:-2px 0 8px}
+.grow{display:flex;flex-direction:column;gap:8px}
+.grow div{background:var(--grey);border-left:3px solid var(--red);padding:9px 11px}
+.grow b{display:block;font-size:12px;color:#000}
+.grow span{font-size:11px;color:var(--ink-2)}
+.map tr.checks td{background:#fafafa}
+.map tr.checks td,.map tr.checks th{border-top:3px solid var(--red)}
+.ck-h{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin:6px 0 2px 4px}
+.ck-h:first-child{margin-top:0}
+.lcard{background:#fff;border:1px solid var(--line);border-top:4px solid var(--red);padding:16px}
+.oh{font-family:Raleway,sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#000;margin:16px 0 8px}
+.oh:first-child{margin-top:0}
+.skill{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:11.5px}
+.skill b{font-weight:600}
+.skill .cs{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end;flex:none;max-width:45%}
+.skill code{font-family:Montserrat,sans-serif;font-size:9.5px;font-weight:700;background:var(--grey);color:var(--red);padding:2px 6px;white-space:nowrap}
+.careers{display:flex;flex-wrap:wrap;gap:4px}
+.careers span{font-size:10.5px;background:var(--grey);color:#3d3d3d;padding:4px 9px;font-weight:500}
+.careers.emp span{background:var(--red);color:#fff;font-weight:600}
+.next{list-style:none}
+.next li{font-size:11.5px;color:var(--ink-2);padding:3px 0 3px 12px;position:relative}
+.next li:before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;background:var(--red)}
+.data{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.data div{border:3px solid #e3c9c4;border-radius:50%;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px}
+.data b{display:block;font-weight:800;font-size:16px;color:#c9a39c}
+.data span{font-size:9px;color:var(--ink-3);line-height:1.2;display:block}
+.check{display:flex;flex-direction:column;gap:1px}
+.check label{display:flex;gap:7px;align-items:flex-start;font-size:11.5px;color:#3d3d3d;padding:3px 4px;cursor:pointer}
+.check label:hover{background:var(--grey)}
+.check input{accent-color:var(--red);margin-top:3px;width:13px;height:13px;flex:none}
+.check input:checked + span{text-decoration:line-through;color:var(--ink-3)}
+.prog{font-size:10.5px;color:var(--ink-3);margin-top:4px}
+
+footer{margin-top:26px;background:#4a4a4a;color:#cfcfcf;padding:16px 22px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:11.5px;border-top:4px solid var(--red)}
+footer b{color:#fff}
+.tbc{background:#fff3c4;color:#6b5200;padding:0 4px;font-weight:600;text-transform:none;letter-spacing:0}
+.hint{display:none;font-size:11px;color:var(--ink-3);margin-bottom:6px;text-align:center}
+
+@media (max-width:900px){.lgrid{grid-template-columns:1fr}}
+@media (max-width:1000px){
+  .hero{grid-template-columns:1fr}
+  .brand{border-right:none;padding-right:0}
+  .hero .inst{text-align:left}
+  .hint{display:block}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px 24px}
+  .util{display:none}
+  .hero h1{font-size:30px}
+  .lgrid{grid-template-columns:1fr}
+  .glance{gap:14px}
+  .ring{width:96px;height:96px}
+  .ring b{font-size:22px}
+}
+@media print{
+  @page{size:A3 landscape;margin:8mm}
+  .wrap{max-width:none;padding:0}
+  .tscroll{overflow:visible}
+  .util{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="util"><span>School of Business Administration</span><span>Experiential Major Map &nbsp;|&nbsp; 2026-2027 &nbsp;|&nbsp; Version 1.11</span></div>
+  <header class="hero">
+    <div class="brand"><a href="https://www.aus.edu" target="_blank" rel="noopener" class="brand-link"><img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAtAAAABXCAYAAAAtfXLVAACRy0lEQVR42uz9Z5BlWXbfi/3+e59zXXpTvqq72rtxPQYzAwyAAeFJUCAgNh+JB5BQPAl6IfNNoQiFFKFQKMQX0jd94IsnvaAeCAwMX4MACfCBwICwA8xgBujBzPS076qu6vIms9Jde87eSx/2uZlZ2VkuK7Oquvuu6IzqvJl57z7brP1f7r9kZoxkJCMZyUhGMpKRjGQkI7k9caMpGMlIRjKSkYxkJCMZyUhGAHokIxnJSEYykpGMZCQj2RPJRlMwkpGMZCQjGclIHiTR9PQ0IWSsrR3JyCYc7uqAwSVgYGbt0QyN5H7LyAM9kpGMZCQjGclIHiyJ0RNjDowZNmVYC8hHuGUkD4qMPNAjGclIRjKSkYzkgRBJLTPruNXVn3Rkj0SyawEyiA5YAgxYHc3USO63jCy5kYxkJCMZyUhG8oCBEzcubBqoA7Xg8UAczcxIRgB6JCMZyUhGAoCkxi1+3pQ0PpqpkXwIpClpDpiLsF/YjLApgs1AdgAY2+EZG52fD69+bd5Kx26VaU3PSJq42e+MUjhGMpKRjOQ+i5n1bqb8AVVfIxnJB13qgCuxgw4edqj0SBF1IrYCdHfypvv2jSb2Q6xf72jPSGo8zuPZMsvxgQTQv3pQY9bmIRxjHh5BhPVBiasYvud5818s2Ll7NabfPqj9nYKaj3wyGlncEi6ygPkbTXg9XW7Dh/Bl+jeCDJyDRQuUzvPdn1uya3czzi/N6ajLqKlkn5U8EiP9mBEpN8bh+tjNxkmZxuYjIRqZIqeZ4nS+il5YtSu7Pbe/Is3lY2SqM+uNrCgZd6DgqJuRy1HDqCGCE6UFShw9RCDSlaGixkq5StnMaHdF3DdBu+exF85Y917u3bomnhnQrzvCM0Au1AYUCF83szMjdXVbCuohoDCzC6O50JyH5wUrZcrxxMzeTD9rPAYYZEegPCBptMdGwrQ0beBWmDJYjma2/AF6vAyoO3RRaDxifwOuL+J5CCepzsgNDM1HIBcUl4Cema1VP3vEwael/BxoGYqrZnZptJPuSm/NAxOw74rZ5bUHeJwt8D8ADJrU3uzSFXDlRk6LwzrcAp44zelPgl+Q9FWgNLOlBwZAW4dGlvOIRfbL+KKJgnRTmBmvO8hrgSXgngHogZirt5goV/lRM+oSJZvcPlHYEFG7Lf/GmH5t+Lub/nVy5BY4KU+/1eAMcO3udgSHGNCyyNPR+AETq84oJUQ1jqgEoN+zwHHDi+XSMEsTdeV8jTVW+sIBuw6grUnDMuoqOVY6GhgHI3jvmAyRMSJjOCadGGB0ZPTNWFSkMFjEECVnXI2+DbictSh7nrV7DZ6TkTR4wuGnHPx0xJoRu1xthTPV10huYd1nZPuFugellRziGbv36/gAyaThPmVwLsOdql57s9ptB0i2/NOgp8DeHO2xkQTIA+QwcDBrwAcJQNdz8nHDOkJLBfFtMlvCh0X6nL1JtKaGrz0CiECnem0t3YPZwUD4fojfAp0FBsAIQN/VKtUn6YcD0F0bzvODqV1puBV9xuHaJeWlnNwXB4rFG9xNE5NM5jX8IwXxBwTvGnwb6N/I0rsv4gI1PPMSUxbJ1v2lwkxMBKNmbme5TjsVDyoLhMgFNUtgEosgh9imgGH4gqwCpkJmbHRIdziLZHJkMspebxfmrkCW4xTxEjWgZoZHSKTPpwLQ6wO2DUA//B8D4XAyaoB3dURvd8LEL05p1jfJQoeZAiKOoxZpRMcRpRDdNOAs0kI0LFKXkRtIBlHkOCBSWloLEfBelKHONAPKaMz82qyiIu3oGfTF8n911fa8OjsQgsOCYYPqDBUVgLY9Bp7DUP4kwDjj5VrSWx5aDmaXzM50d+mzJqpnc9W/BjDGGEJxjbVtLfJbAWegBjQNOwCslvDu6CbCVevaNNxBCHFe8xMLLJQJPBOAHFwLwoykgwc4sHrRLr4vuHAnNLHPMLVpGyAzu3w3xlc1X+PVvhxMMGGrrKr6fm3odfwgGZxAE8jq1McqAL0/nfuwBIvFB+w89AoK5bjLAQQqKHGUKD3zDeeoRSjnq/0xnV5Wx8w6JZiSnm6CHQIWAQ4e1NjFizfnlF7PnZ2cbLEyGAM/AAVYcy3wnRRJu/qhcYAcPtziwgUymnMl5SEoz+r48QYhyM6ceeAcIeMr467DwEViLvwhKDMucRHYdt0NU8CryifIquhfG7j4wABo5RwA/llMYOoZi9XxMCjhsmAC4+JvSyd6U/TuNu3hdiSuMY9nLkb+PjABDBDOhBExBwMTAdtASuu4P65/nwOKRg6ggBPUyHjJxFqI/OFdAzhxmJJpRT5tjn+McU0Ow7AYKExprGyH+AN1JcPAEclM9GQ0TXR8jVfIyYDX72Z8L31aLXK+MCiYDfAjzlPkjo8GY1wxXQQIhxCGzHBSMjrMkhGCMIwYjYitRwKEgYMVc4QSTmAYjjM+sNoQX/69w/rb0KH2j5buDNzdGdpxs2Czhj0BjHvcpIHL0p7Zq0t0BvKjgHfYTwCuQ+eiw7kIUzBowKV/L+nEzfJpb9+YrH8abM6wVsQOuHT5xC79CGqDXwJ+507ec4qpg23aDxs2btgvAqcX4NVqm36YGyNMGfooEIxyDuiusHKqRq0dCJNCnYA+Be7HIK4JfXSJpf8EnHgfgL8pR/7TgBwuA3JJv21mZ3fyfrUaxweDfAzs+4XmM9zpNr2uwzWBeYf7CvCXkpr2AYlqNGFugP+04eYH6HsgFMI9mXRR+dsxRTTf/qAcBjM7I6k5sFClMe0fh34NZjpmp3rbOxknj7RpPxSx/wXgjey3QOeh9udAB2wG/HFhR8GOG+7fSrpaGfRv3mJIDwFyK2sfM/Q9oryQ9J8bH8Ckg/Oa1b9DmC3YygddWdUuLByNNCdF/IcZ7nsN+3+E02tLUHp2mJ++h/pnvE59wogfA5xRfhSs6fH/akxjr80yu3TmeqdTfbXuxl0/HhV8BHQA7FgVtfj2AwGgX5TGNcO4BWoIDwwEwSzhUQnJkEQrzDCfZ7ufUnAD1LBWzcnriPWKXUUaiCwaNUGm7TyNyftrBj2MAKxVOR0Rw8s4gbEW491vsAjLTgTEORIAacvwlrxYdRmSkZtDiteP1aCNEYFgIgg6cmQmzlOyZnHne+LF/TpY9JjI60yWxmMGE4gxi5QmTFAieoo4cxRKExkF14/S1ufTV1A6M2GyKiIAJRDNqJO87dOWwPl4r0dehD3f17H6CkCIWACsv7cUSy55Ic1v8gx7wFXAJPPgit0rNPOGZRCy9HnOqucVkFWfeUeyzDIe76ojXrJRMvCgev0cMFXN98oe5pkWJBDkgdlqbxUDNMhQO+XY2yrEFYOOoNen/8DO3fVGE2417dmh99BzF+xPg0HNJT7g6EFZKktRls4G+SYP5fuWYUqanoGiXqOcMawR8VOG2w/WgrAKMQidqM7POeCDCNpM0tQUCFqPeMJU4MIFSRdIHt/r7tEBg0KoIEUFXQWMx8GG+6AHdpWNiGE/vVa/PWSwEYnLHGSRmAGZYTko5xpi5kNl9LtIjIaV2uPI611K6XAFlEuVnhAQhUqHKz1+69hLsrJLX22wthHboI6hbXHbPQfQX5Im61M8aiWPmPEQ0DOXQOVwIeSYNpgg8rDEJ8vAN9jGfb7rO8I4FXMaWeT/h2iGwAwiyHgyRmYQjzmxz6CwIZhQ8oyaUWUesGjQlefPlC7ClSgKC7zTjLRX1+4+76o2yRsh4lybFQWukNEgMmNGZsZHDWo4jglsmFuO8ESc4LSHfjAuR3E+N5acWJZ4i4J3s2v4Ox3Pv57XxPwChAl+VPDjgz4O8X1GgreWUK8q8Burhb7gkqGxgljBbXxuBZbriswCzSiOyohVWoolpwxmxjMV4HYY+w1eD11edjVqwB6G1EIFoFWSwHxpREf1qHsjjRYUh9M25Zl0XBLIc9g+wZjBTHVx3LWRZhQHgCOGTQkeNqxbPWsAWxPaiVFbD4RpoC58dTweVBBdP0KeNV3R/qLw88CfSfou0N2DNsJrhn0X7JBDzwKxQAPw3Rz3ziSTy1e4cgY4Z2gppnzD8v1wyw6gaYTjaZ9m9Uis58zcRaTGTUOY9NiTETtsuAysC35ChCOR+GZFV9bgfRbVkNT81KeQZ+zTgfBQIH6vYU+DOmDeiAugtwDVqf+uw62t2upXPojozMx6Uu3xZWxMFP8iEj/i0B/GvPX7FHGBLalfPXp9YOBwAawEOw52xOj8SaWzF4V7KWIPCfeMw3WChYvS1OytxpKRzRuWCT0c4RnDJoywAMwY7DNiC2hy7f1xJu/+TA/qwIRQXfg80DfoxwfRaE37SGsO96YRx0DPAC0grLHWXrXV3pbfXwLIlJ2PcB60CHS4QY73PQfQPcgyY7/EVEwA1L33oYlAiTFWGodkNO/F2PorlPWDFKHLFRw1M9aqW96ZaMmYsZR/WhrkLgFBq2CdB4LESRNtg1OIaKJLJDhYsoxeexcuvqxOUa4iM5YxzlkgQywYZC55bMeBfZusZmG0k1XPm2YsClYxFnC0cXQcrJAR+juwJptwpD3OARNHVaUxmOhVSMzjEJFVS/NzSVAg3rXEtrHmxJpdf/gMRz1GpiRagquCaOIgKTWmCbhhkWfl9+0BoRTm9EBbxDtd9R6Ul6GUyF6ORBz+QiTI4KJBw+MWK+/KXUsknne4gVAreUc1SJZDDA7fF9qJN7YEOh5fZUSt788HsDmC1bHYBDeePFkM87cHe/BhEeg7fAExpHlSHzp9aDYvcUkOZw5nEGNMRsf7Yo/n0OujNyJRgZA5XM3TvYs6hd4i5P1AeEXokrDTEXoQWoLLDnchEss9Wqe9ltnvfIdpY7AvQ/sNWxC8CtaN0BOsROyMAw0YLAr1jut449QN0hre/6LKmxwHoK7QBEXvmQx3StK1GWbcoi0O9VA/h0HAxRTMjqsO37UNAz0kr7OKdL5C9fpKvLXSKhdycg+cNOIk2CWh5UiccLgZw85X98+HpclLObxvKz2UVbrxQY36GLhCxIGlKEVRJv1ws/UKLkUpBnHdcfQAAOjmNBMh8IMm9iHqSrmu5XsAdKSD49HoeSSUvAJ8c6/H9vO2nr/0x5tff1Fq/jOz7pem9S9JId0oOGgQMKJthIx6Dn5NnsWfW7Bv7NU4X3hrnWbuMvCtzT/7HWlurcVRPI8DDSJHJTKlPK9uiPy3/3zF3tyNcbwozdYhj5P8KI5/bAloHBEMzFIVtBwRkHO8bsaqjN/JxVWavEOLwQsnbhwWf/ExTfmSVv8aDyFCNP5LwXw0Pga0qlQOlJIWCoxIE0LYa3DhGeaZrOeb4HB7+LFmq1eo2FEkfQewYKG3d59nf7oHb9up9uw0uBwsh1B/ML3QOkgZpg33UeCQg7dz8nMFRckuh8xbtAZ9+uctFREOgC70r5rZmqSsmp+BUC/9TJ33y2W9bLYI/PIu7sthfcZLklrRYufGvpr3m/hPFIX7nCceEHo8Yv8+Ev84I+uO03ylRm1w1a5+iFpYD1aBjsNnhpxhHxP8cCD8YU7eX2U1A74+9Bw2pWsB+qTo1tlIXKRiT6hTb5dwNsOmk0EShlG64jb23KvV/74s6T9Fsw97G/FOQqXqQyw9vpWRzaQUGhYeTMCvK+DGwFZS5Nit3JR7H60ZdkFoNflBt49m3XOLIQizBHZu6omVKtYLY6D7fFkUUzT+lTQuI1PCazfMM5Wj7uLtJVbthfQbtPA0No+zqs1zBs48DYAXj+muvfpFFSsTFBIdxKCyTsttbEAnyMzRCKI16NHqr9D65WlNA/zycTWGXwAv7td4f4XWoEsruvSFkWGj7pkkD3xz46xo/FYdk3YEIaVWxfyx9fWd7h3x/mkIYhVILYFSqUx4Lw0zx/UsmHrvgAzehw1VdOxYU8eONXd5b06RQrGbX3u/d5orUykFRfXlgZphtYKi1aPX5MMlW/d6CXSFBgVF2Gp42/W/6xzeb3kvdzc6qNJ7LUljw+8lTX0IOxxunT8DTHuawrhrY77d9b+t/XLPPND/YV4TLEA+waEIn8OTk9I0sKrwQxsHIpJyd6djpInjqd8a15kuXPyFtZ1TIO0Y9DcY/G+XrP1rk+qa0ZFwWMp/3jTbMmF9uFYWXLtfu+TgAa5cvEYtRNaqfGMvkZnRRqyQJ0tqN/iTNcXzXcePEnjCjGdkdE2sVTnhTcGCxF84qFmNf52LcyuRtl+g+MUt1t8vnrr++xcu2zq35C9L5wAaU7xbZtSt4P8lcQRjrHq2oPt0Iof/3ksLz5JXb1jolkHtCOAlnd7N/Fwz60itw1L+6coOq5O8oK9I8jugC+tDfVmEWhq3y+pkdaVQ7YOhZaX9QM2RfcLQlOA14LWATQM/m5H9maRAomPblTz7Dp0AvucgVBSPNYPJ6nM6Ztb18h2DdsTlEKfhzmsV7pucPTsJNCQ94fEKhKUK/LxuZp0d7s3lLet2EDhWnYHLvI9kyBjisEOGfQx0LWILIr42AX8TCX7NyvfVM+2S/jlfzc9vemgZ9gzYF4R/0uH+L4au1lVfERr0rHeqD32RorMO5yongyrFE0EDl7IOGuDz6mP8HYyny/X1JTPAfuqs8QFiQbm196ZZdOl2HK6wlC7lcqxebrTJeNAkirhgWAFy1XjzW/1NIA5cqnNq3Agr3zMAbWUFko2aPONmFb/Cjd0/JvBm5IKGOcay8v6whnSr2HzlybWbeaJioLTi/oWkv3jKer82o5JIlBFxlfUkokHpBneP9f7suBpfPGU9E2MYBxCTMupmDKq85KHlFpy45kTDNbj4whnbUSHoEGy/KF0qHyfXZfrrEYyb7qIPvFQ5xDY84HsAqmINbKLa842UdrHjc2hAKFMK1J14A+6lZEDuUopQy1KDigKYNGzaNpTpLo95nQizCh6tM1ZUusRbTBfU8GfvJy90DWh4/NRQL1Rfd63PJTWqUGzN48cDIX8fnmNtAnO1od8GKFrQ6yV2kQ+zLAbCisMdJqXm1EAHDIsGY2xE0o3rop+29Yxs7oOmu9t3/6RZrVWT/vsy3/6u4FyDhg0oN2Mh2Xvn+0GSrXnMtzPWGBOngdMwUfR+Aei1wOFsikMRHovGUYOujD7Qd3CtCr/Ma6NpgwE5oubE04Wo+TF+Fzh/zy2uqnufdyjaRpxCm5F01UbDebLa2P3j1/6zL6rhc7I4QLYJXLqUwuGd7v7ivbLE0781o0jkecT3mdEFVkg8FDWg6xynEW+pzr9xJXUq4vq7kRcqD8CvT+tCxR09YamY8D6B6PtncEtqefyPGTZmxOeBsYz8v2MbrsodoUhlPwJMO+xh4T6RbvQwLlzHkz0vdBX47+/8nftVWpGqM1570BRtA2gYmgGbIuX0mWFNYDJAvdkk7+4u22mZo5WQIi4dJS/XkJqt2LTZoktslTE+ePO23R5tAvs8/n8DLo/EGYfwZC2DhnBfytW84sjP923lrZ19iv98pqwJ7pEI3+vxv8o97F67K2ik8sI73MuR2Ab3fUb8iPD/5DL8lGFvSfpVUtTjA88zvM38vFrtp4vAnxv6TCT+ENA17H8P8fK0pv+fNcZnCrrDjnG9KloWAVr4Xkl5uUwgahZCc6cYqK76sx7/pKgfM+LTQm8Dr0rHG7YHBZ2SDqdx1urpKh+UderqpzqJpfu1Lhu3n2cAcUD/QXVlDYvVncN1wCgo+je3aNUj3XEl8DA3yJW/d0CvlvB/THRmuRmFRCQ11ahXCUx6z96pHt5GVviDIwVkdawwMhJ9WmEbrjPZcC1FnKizfC3Q+PldbLltiVvbPsxLYGadTNlQMUwB43brsNQdnVjD6oZNCz1kWBSaAFs1OMXdU4RV7XL6FWZ9YCRP2sqmDWYMG1fiD50EmwWaZrvr6Z9kki7d6MHChvPgPZ751DR0PTf7/bBHu0rFLHOgutBBISKxDq5hWJ0NNpYdS+VWqnvcrBHr7+NjHVM6kzVJczYFljp3mq2ud8T7sMoB2lyiF4kDKipTsHlwgyVbutbQ9DTX19+4TcrGhMKm1+/GkVRFgtQAmyQxFQHH9+rJK4PaGeCaNMtKR/QYye3ooXamrCuUs5HbfCv8YA4Xk/Ok9FXqx/0D0K7kWOn4NJboxp0oEEsyrkr8rSCPkZ9ATFq1QavGJP1o7ANaZZ+/fFFq9mfJf/4+dPyJkff0+7jumwcB0p1io2u7sSeB3iLj6UFkDONI9f6JlkK4mEqgC4xXCZzqRHoTtrv8mIJFEzWDZ0w43Sc4Ydvtg3vj2XsOsgkPnxeqJW+uhXJXn83tg3Dc0GUj/OsIYw7XSmttTxomSfuA0uz6LqGV53G7HGkBysgoCQOMok+9hN6DxMJxqXrG/1HQiOiSURYZjQmjmAyE18fGWOzt4tW1worl5LZJi1jlYdKwUjwSQsrhVD0ZTPbA50BLegKymRJbFtY14n8UWTD4FMR5of3C9g/oBuCNO/QCPmlYy6HPGTYNagRC3yVjZ3Nqx/tG6tTPtGlfc+S5w50M2FHgIeEekrKfgewy8FcfNIBTFeFldeqzffpuCq5OQ+/UlvWzi9ZORkR4FXwXqDv0jyKUNdV+DhiHOAHOgzpKLByhAtCxYomIxg3i8bcc59jBGuVsSfl8JHzK4zwpdaGWuiVG3S2orQoUjwPR458MWB3cLJBllI1Y8fCBq4N/Wak+qLOJKWQX1qK+L6WU9XpANLMrW9F8eszMhLNACIFQPiiGvdQ6CvFJKJ3HtyDkhn3EMHn81UBcvdVYU5GqG6SIn3fcID3l3uVAwxzGMyYyDAmijI7gci5eMqM5ED9qRobSprcEykoTM4ociGKqxwFnxaUHzxv9IfKHWuSh6Dggx35St0C/3m5baf1kvOvEhRfO7H47XRmrcrRCxKT3FyPBbojHP2RozrDPVi+9CXJk+V3PxWEdbtWoxeSB1UM4dyIeL36Pk7VDnqzl0HRB/weqyFBqd8/1RbNm1tVhtW4AEhQIJG+QotGKFQn/g+KtWKr+98v3QYPYTUzxSGoLWYuQ5e+LIsLsYOqeR8+wy2bhfwTwqo0bcWCpVfwc2Kk7fedAOAzMgj4pOAJ2yTDbiFTuy95v53rN1i4Bl6SGHO4dCP8C4mOk27sr9OoHEUAf5WhYZTXr0JnKyDIor566gfFTGUVvAm+mgl//Mx5NVCkdSpgm5qkjodaGQGkNxQSIknNuZwqnMxbwhw17GvGFaOFM6nJHA67s1n5rgD8OlBF+UGgS7DBQi6lhizMUITYFY+byV4nFVVJH4l3SQ3GSjZzhm/hlYkXuta6zHhA9Xs6DfQ8oj4R5cA7CUYdrR+zPk9PpllSkm5/9/rFwvChNFeBsgoPAISVwLEu5zyeBU1ng9UGgieeccwRLXfW8UvFesEgNYww46icvPRccfe4H36BDFfiXfYgTCExMOMcMRp3UpjvFyKoGOBIDpfXZkyiBIguRinY54GU4G6aP3LdZiexlXZekecgehVLgPgmxLtzXU0vjqsivLGqa14Rd3TlP6QUuuLTVszFgzMVwIJ7kuQznCoolsNLDWpVfOJuTd4Gz1481+0mHOyDp2xXAvmpmlzYrIoeKCAPoFzyAPNDHdbwRCDpjZ7qbvTObveqSpg5woLxoF+8qnWWKKevSLQxb72zZxwRjbkP1EIUrS4IcrtavcskfYK9iE3wTGBNuTNiUVH8medbiGtgpoafAxqoi2HU2ipt6aZPnecywjxk253CnwZ2FWIvYATFkp5msvX81bP9aTrMbsT8Hf84INdDzBj2p8Sj062b22pb5blRd16ah1TBrX3zQnzJ5O1vjjt7fB5qGHnGQtcle9/JrNWp/3rXumZu8xQD4t5E4aeiHAO9wNcNqQguBcIbrclfNpQZU7o6KZqT602CZwz0TiR8DJ4w/NxiLxHnwBmN1aO+GHht3qVte37CDYC2DrztcH+IayfX7lBEfAZmL4Sgp1WA37pfnHO6AET8LDDyuF6Ev6T/VqHX61q/qFFLj6CrFobQ0pvb9BtCSJoEp8IcF8xWozx34iPMhGR2fTNE7N8hUX4SwRuLY75YJLy+Sulw2Hf6Wl/qeA+jeGPWG4fqp7eUBi3S8cBLBEsi69DNLduJrOtY8OX12GWOCRA/jSI1KgqBhielh1jsO7BUwG8ktjaHmvh/EnGMyGrMyGuuHJhXyWWWWFsBVjOW9GEe09daa42ZMkfLopwzqWQdR+0ByRY9DfLRK6/tMai5pXwV5UY5V6+AZULvL8LVPNkqYEpoHxj2+IcIyFO9CbRAJHbCBx09aymHdarx/zNCTwDXv6YTAALg0zrgGDIYKqe9gEOgUPIA5vdt1d9uakjLJpI+pc+Bd2uXOgJC88la1icdx/dxGB2UAFxIN4IMeeXFgM0ArQ7VIzGu1gQ0GSHBOZM6wp404kUNTiZf+ll71SDxo2GwFoA9Fwnc8WgqpOU8Axz7msi5d/3496Ga2AFBT7dWIroCeNOwXgWUI+yBrkOgVt3pmq/Mb67djjDwIjwqdpuF/HGzcoeeA3OAvDS0Fwt/dYp6WdFh/wSKH1fc/ZVU6BVCvOqVe3ClN4hZodhBC7uDpiL5o8HKGP1ESjtm686Se7Ubn+Jx8MqKPR+iI8Ai4uoi/K2wxEC8DKw43ltKfmADtF+rvwlq0HHzM0KOC/wLoGKx41BH+O1VTmreuP98EQZmR90umO7Bwv+/dMeCww44bPAUUwjW0rosUUkRMTmCR0M7xlyOxG4nXHE6ReBq4nJHV47oevo8A2sGBUOeoBQ4ixqvOfX3BNQcvVYifz9uZ7juzepPIssGhKkQcbHjQjL4cD4VEunsS+PP74GQ02CA73OhD9+BJ3NBQ6/8ad1etk09Rb38LATWXuGp9la9urqpuqj5IUgo178Wz5ZETA7go+G2U0gicGCfyylqP9tjk3tIKbeZCuneSHYDwKdAy+P9QeV9ex8dJgn+CVKbbYhAmuIs8vCG/ruRPgIJBLvipkrLjyNaM0AQdIVHa1dhU3CuplYBe5i01oXw0BFyG6wJvGSbRiNAhcSxrCUKjReu+eqAnNTnXofOpkFr8vrSZY3gs8QtTkM9F3P46/rW2tS9KmvP4L3boXJrW9CvLLIedMiQ4XHS4QUExMBgYDOqo3yffejEqBV62VmM8kCCwLdW+m2GzJeEzwGwc6J8mDjvXInWWmxVkBeRzZ8kWbtagSmqZWScSnzDsuNBXDRsYnBO6JvhsMjCpr7I6a1hG1blzl71c80DMyJ4E6iXl1/cq17qguNSgsdyjLIT/U7CzjvzJyGB9PtZ1ovSZhJ79MaM8mlP/fXaJm1jSXAbPiXwxJ1/IybtLtrR0V+957FgT/A87rAn6VnIIxD8lNS16BuxAQfiIlM9A+fJW3u91uUBaBsqrgly43MCXlD7pqIRqJ0ihnf51t+Jtr8SzYEcj/jLEf+PgorDToB8RegIsM9bG2Kg+2rHUqV/sMnjRQRFhXMQZkld4LCc/VVBcAzqp7QTvAqtVK/Gdru2+ap6OGnZE2CXg/5awoT5qkEXiZ4Xakl6vUtwcUEZi5qAOxTgsTFdTvHwf1c4ycDoSV8G/6Ss2ZMPVhB0Xbtzg85WGmgPmC8J4SsNxlw15T7YS2N8vuRhv537fcwDtHRNEDjuYDjBWdauLBt16xukY6WxCJpdUMSxIeNsIv6j6m3lBPRptRnLPpQjkznB4ajjqVVdA29bQqBEqlpVdl5pxORTUrMYrsaQpT+mhGcQlQdHvvz9YCu4QkkwreaLOA/8BXNusd1LT09O2vPYLFQmKp787HMEOvwJ20bDHDL4PtFaR5gsYt9T8pGmJRmOzPomW8vZmDB0RNAx7g+omSxQJuYOyAdSaNGnRuq8zGwg1Q884GET4zvU/o9moQ78fDxr2eIAzAM0m9X7XnjYsi8TXuAtEm5HFjKxTUAwq+ywKhVl8eJ9rjAsip0oxqgEfr9R5CWZIK2bJYzgG2S1y8mqSooPDDv9kIPwhidL0wsAGXSnbP+QWTywfe2bf5kCMxIeAceBv9tAIuVKBnCjsRDKM4zGHKyLRbzmvDxvmYjqvT0TiV3ZxKPUSHvXEWknZZzesN+/NoafAe4iLoH4kvkOicfwouIeAhyA2SDnPN5qjjjS3aFpty2JdyTAb3kvhho7v2wOXFeuJHhb6CPAfM7K/yhksrFl52av2bGKSQTBwu6F3V231itT4DiiIom0wIaiBq9epnxvY4IqXXxIWI24poitk7m6MmWbluZ0EHQa7Eol/Aozn5A9F4jjoWUNdGKtLn64KyYkQnSEfiW7jtftqtHckmZldZEtOuKQnM9zBkAC0CX/MiOPAtRRF9OcgZsKdMzvTlW6vnmjPAbSJMUssGrWq02AwaDvoBKNtYcNb6GDZ0pj6lYdtcw5KlJEZ1DEaL+7X+PgU7iffslE6x726DlPy0LaFTmbYMA9ZnjwacyHuLvvGUAZdCj+Lyh6X5GkYlDLqLrIaIPRqH5ySzi3pGGXKfuLpSNlTrdbCbDqBVGpgM2TZQcpylaqL444/F7doxGip50m9KlxvVMDkuJJxuya0OUxcVuDvQjWegtRuuTrDbevT7GepZbGAWkm5v5u4Wy/ch7kda9KcKikPpQskNUypOgAO4AAZHO31fQbMRGKtj8aqi3XMpUtjrEc4Xs330k64YNu0m336BwO0BB2g53DFIovlDW7/94uB6IQKw16t9P81Ul7KjEGt8qAK6HfT3LtbbsuU7lICj3j8bCDsq6u+CPZQus9saoDtz/bARS9pPiN7FAgxFVo1KgDS2aP92TzKUYAJQ7mwXrXPwtY9EAidigxJQD0SZ6Xx/dC2rSwKd/D5k9X6zCcvqLUNuxIIxd2cORhv0iibVYEchhbSM2V9KEvS9+ccLkRidpP3agH7IJ9WoseNgbhUGWt1YFpS/72pLLojGyCRS1nPJTaMZ3v4a1LjXZcAZ9Vgyh+qihZP3a1OgvqQau0SuGDYJDBWUHxKyhcd7A9QiND3aDmUsbvTeyUj22/Y/kCYrc4VNcgG4Ay7oETRN54wWdvDyRyIY4wN2smPKRKN6kFglfvPwe5THQBZ2gP1ei0xmXwkEqdIRZ8y7O1EveuuAH0RL8VUQ/XOprvslk2+7gWAftjED1pkShuVjYsxcP6FpeupV1yN71jBWBT/1NIBcMn6wqoLe55IjlgKPQ5fS13v7jmA1qb/edATEbUjlbG9NAxXT/nsjogzR9UZdfhf1Tbc0Qrimaqpyq7LCxsXwn05rK5ybAwJQFJWkWOPwuqZpCmHmxR+3jBvxJ8UmBVxLeXI2TGHGpHwjMU4S+UlvRsprfflStFOGbUDHp7wuE9EoouEJ0ik9Fc3A+hhSDmX/trwr0Xij4A/YMSJ4a/MznZXFheZdvgJQ3PAxwuKq8Ar934lx8ZKuj9kuP3Jy04J2VcSE2N/BS4h8p+MMB0pV5K+jAdg34mM1XmjeCjCeEn/IXBvAG9A745zb9dYyyH/BM5aFm0JaHfoLF9/8XtKoiWc4PR+wNBVq/OrwH+T9jCfEVlh2E8IDmcwMJQb1rtstlbRH97srioNzRiaF/5HIgSRdwvU97iDRtxn2FMkSqAV4Ku7pkePqZmTH4rEfwL0bZ37t9ncqwYaHIWz4ay4UJOI7VS4q9JTizF1gdsEoIn4UCr4Y4JPGvqmp8xF8xo7TWWpsz/v5w3gYxH9TCT8RUFxJSe/C8dIawK6z9Cjbuj7khFuXw2EJTP766TwsocNXQOaHr8vUL/RPdIA949cKvDrOHIbUF4EnKc27/GTA7pLQHeVVZo0AecM80qtvm8JxpK+11zad/FjER6LuELENcMeStEVHQE+Bzp3txEJM2tTgbhcrd813FSk+38Qmi8In3ZYbug1g8VGFl/vFPaNu4EGkfgZw74gtORwTsROvypQVat1gW5sifL/XBkkk3CtBhRrtnYpVz0LxEaVOrUP4pv3R49fN39rAJrWNMv5Q474XJnSEP+BDa9qqBvxfwKdMfxb0FqKtnAdjqzhOiWWRYIJeUP+ngLo/++splrXMD/BuDnGMPIKb5QY57WF+gpAgS450Ke6rJjAaCCCqUrhFZmMZvQcUn9UTHgvZaXNYN9UYlABehh1S7f5pv1LWTUQnwdWf31C83kke6FtF0czuDMsW3l1F8DeFGoblqXcc7sMZW64idTsQy2MI2CflPIjGWTlljDmHRx4T+IinTbK6QQytc+wIHgH7HJBudKgMXivZs57pBzUYjj+6kexXh+mImpR0IvEh4WmpfzzbAoDZrc5MTtRYiW4jMw8ccpwh5KHR30gpAr4eFj4TgAribWqyK8FrgH2BCwScUcrhdwkVf8fzdX8QY/lufLuZmvqJuMUEJIn1eZddP1IfDvN2/U8P0IxrXlcq7ywt/QCJg/ilIPlYeRg8XbzdaXaR6HwwFhGph16vSPgS6zp8Y2qQCkAY1V1zjnggtCVSnnczJM2SADazgoaEAO4DLgqrJtyaBMmEHZE+Ckp/4Fq3su7OHyWQQ4+D7Df47I0dmtGTJ7Bp+Diaq48lDDIKmBS3uUlW4JVLCbOYTOGTQj1hJ2NlNutxxUcBYGrlvJYZyA8ZcSVXPlwGLdr4SvpDX84EGoOd7ii/Wo53DOBcKil1kSBZYlt7XbfsyzBz4MdTOPRomBg2JMO15bUzcnNsKMG0ymSZWtpONft64czsofB1yAeTADHaoEQwVYFOYTXI/Eam/Rfl64ceQG2Eom9TXv0ZmCWXPXTYGUkFhmuDiwLXTNilmiZrQOJ0jVX/gXDsopz2na27unvHPE5Evd+B2zBsJUqCuPBZvolH8mV1wzLQ1VIeJt7zcA3U0qUm3a4TiRaJOBhX678ey0x49Q8vpbYkggk+o3ecE4jsQNxOaUXuinDIeVLQJ5V81ree89tTF1jfZ1EYXeo2jWXSRRWF1Jtli6AW0qFhcG/V9kM5MiH52xFKbpw756jAVPZOGNRPGTGYxJrGA7Rw/hb597rJXthwc4BfGla5xRpIx42mFOiSgkSrWiMSxxw4lNmvAP83T10Pb6nKm+9iHA3XLy7IcfTcXOD5LYfXsORuy8i/MWKI/dLU1ozsepiAg9UjeLNMMSAQO4cnzGYruU8Sfq9DwyAjlXfGFctuu3h4g8BT1PNE4Hwn4EY0U8ITNhyijqpLdxA6O/L4qOGfRFiCCDhtUVz3gbmSWSg1bauUgbMQsp1WwX7PYgLZnZiu3eYZPIkwDLLXzQs2sbHDs6ft46kVYOLlkKD/xQohL1QXQ7iNmdT62O9s13tkTOCHLKQ0kyiiFUfWv3XlcchOhQNW4hYCW4yATd9EpQbsQ92hVTxPw5GpHihUhRxuyjQ9U2Y4vA45sKtidAx9HVo/rdQtsyub9USCFFADosRW55h/jYKlvKHoVPz+KOG1SPxL0l5w7cC3vPC/9fgxwXHY8qvLyoHTq0ydERKJ7rZLV3FQBUi0RJNj3OReCXtKf1NIJzjNihJhwWakr5p+HdF9v2OOGXYCbC1VJiuE4LPG+4nwNoO+/tpHP6me/16Bf/eV0JqQ1aDWBhqp3W0ZsonseegkCVjc32NdUdn7r3zlkZiuVDdiEtCVxx8s2TwF7QYs/aWJiNmLwF46eOG3wf2GeAhsG6Evq7zc9z6aFWdsSTMR2wAtAWfEO77DRsMKEsj8t733X5O0+96bWKZCYITFZD+BbDS4X48ELAEBp3Hv154u0To9Ku1n9i3D3Pkfy8Sf8mhtvCHLTHhtIHCYZfBNcG+PNUsTze7m7h8p6jF5dDP8IslRXuTYXYLUBu+mjyw9lzAPg+2ALasVBz9usFBh/4LwwYBfgpQ6ny4M4ixaQ5jpeMuJ72rWIHXhwRThv94qG55tz7Pt/cZwnwCmToLXBN+NlFBukOGfhIUPHaC1PVxAKzB1ApMdzeiLbENtujRZ1MBotqG/Vy6E722ngPu+EzsqFzfDMvSeVWRCq5pg/5K6Eqw4v99O2+Sk3vDNYCew64ILd5TAJ0PmDDPMWBcGwn9AxNdBS5bduNqTRkX5VgxmDfbOKGWTmEBeIzDur8VnzvZER8IcbASYcHERJV7tnkaTKlvT4lRHwQ+IVH/rRldMbHENa688ODTKz1w0qPXzcjOZWRWEL6WlKDeDYlWfTwSBj4VwC2mgg/s9jam3ehVSxcBpVBZeSEKiF0jvpOR3TDHuk17Nm60VO5r2DxrQyMOBN+NKT8aYYHUwvgm47WbuIviNo7dm8M6JZQ7MFha1zrpp0cMyx3qgQXDzgj1DbfPYRMxgcd66nRmZw3VLXnm8kgcc8hSz9LtxrHxDA4pYtGl1tbLwi2AThrtAM3twHEXWCqIC8DigMFtAGibIrV372nj8r0VeB5r0cq69Kv11TBPuQBzQpeAQcQixHh9Fpu2rMIQQifQVLEvOeEuQSwqz/Mad8ZesABhINxLqc0674bkFWsC0aHJqvV6LxJjRd6/5Szc/rVeRRnMkpnWF3ZVCclMOVwGsRGJLnHiRtv+ve0W+9Pec/bS/mBQsYOuCi4LnQaMzntB3zCnNeKk1BHvPKlGoZ/W0HTjs/UeE08x8fx2YgK2IRLXHEyAzQuVEKOtr/FtGeRpeXA9S3zGZnDKpRbVi4mfeZ3IqQSyiF0i2MVNjszy8mXrZtIl8K9ErGvYYhUhGoD1hTsdsJrHLdaz0D+zcddElomgpZBSDa5Vhsdt5K+7BShy8G8k3eUupS6HrhEIAWwV9LfJm0lMADJG3faab8x/anW/rrt7lqKPlxyujFBCLA13EGy6MmQz1lswbKQV3mhvVb9VbWHzlthEFpLPk8ywliWKvFgVdpZKhettIys3pyoJnQEaMXngL1ZRvGIjU+JWuvh2QdSd6ffk/JE5rBuxtqAweN3he1L9yQRhBhc3Nc3a5kRoEIgrKepDWUUz7h2ALj3HnOPvmXFUkGMExJqLLETHS/lNLD95vukhlIHDcnzSbL0gyhTo4RiL8H2qds2XpMmft3tQTBhvrHoeGAB9im1bee9mhq6JM8BqNCadI8M2bqjK7JQZzsQhwf9Klqiq5LjsW/wBw26g718D4t7bZ2aXK08E3KAbWa58ySgPinwarFkBJrslRLjxlZoZrAqtecIVRzg/SK1dT9zcY1MeMWxa+Ai2BqnIZXhZmdmipC+Rik9Om8O7yGTlG7GbjdO2WQe78am8gZK2YOnPr1kt+zsGm49H+SMOJgPhck5e1prlH3dbLOcL+ROidsDoTYPbF4kXrRm/SpdWnlISZoWetfUo7MY4tFm1A8IpEJ3D9wOhDbo4ydg3ayyXl9/b/nz4XteM+C7wppmdvL19Gh9Pl2x+Kr3SsFuA5+YYjJWE5rrzOHUSrJySlkd4xbDLOPouMrDrjsN2l7cNkdsgojOB6CG8NjXF6tJSuLaDc/Dd6n+/tt3P63WdCgP/VtJFOlhBvLg9gL715S5KB66I0A7Ehf3j/O3yWisbMDgKRS3inhNqGBY28PZWD/SdAWilMLQMnQ3YKrlbnS+m36xTD5sb+2wXqaq0f9+jU4kKzUJEnarNtG4XQKc0iPiGJ1wTrh8I7zry44Hw8eRPji2HM3tP7ypte2kmSKUacA6ytwGCDb4FUNPY8yKOR8rPk0JQq5GowOBbZhsUbcMUHwdnDfsbQQ9cMxkcuBTJ0d8K8wXF2+dWNrz0M8yELl3r0Ttl8D+RvN+3uecG37npHjk2NWtn26tA7ggHqxSraDsA0Om8OKv0xJlA6Bn2nSrlJJhZNzV24aDDDjiYixBidQ7t1sYZwZknspy+zb4erf9WVTAKcBjsc+YoY9RTgMU8/nHdsdbrXb2uQVeYDV8l8HWWed4lUO9z3HRIRba2PaC/hdvm9gIkN4FowTnccvR+OYTBBeC0gTeLFzWvCRb4QoV7B5L8kHN9qwwYrIG/BFoL+MtQ9O8pgPZVG24qkGubMgpk+HizuKvho1JsGtviNUmvp6JCrefZfBAbZzzYIkwpJhvsBju/qnTqmJHJEx1YiOQvSuMv3BAojOSOl6LqkGdYbrj8jhDCbby9pXBfzXBNKMJtarhhXsuNtGIzeXLJkvPJ6Z7u3vTlGVhji30pwBzOBYIrujTpUhjWUOK99ut/26VZodIGqdhZtznncul5Vb1fPmDQCoxXodIbI3/AbeUAvomEDVvDboveUMnjFZNHj0FK3Ri6lBTXk8LidfN4u3OeV8/bGAwIbFMHc7cyGFBzyesed+ccrK9TBuTX1hizlDPZMHytanYjdreefNNnWo2CeodOa8CguJHzQdo/bnZ5bdP+vNHXnSCUHLKGJb/IeJUXWxXW7fS8mt/UeXJ8iqnciI2qAUrYojOyW8yPNp1dAb6ilfNs35THNq3lrmAGff7zTRbLeporyzbpsbveD4GQeXwtEFoMG5dIOeRDfeN3sLbDs+srWNaowPOQS7RByo5zwzxuK8istg0hQEFOSfXsaU7D7t07O3RuuaRTQ8iqZxmrdOZ4deesz9c447ca59AvmHOD6N2uA+gXD2kfGWvB86g3PpcOHiI1TFkG3vkv1+zlXz2osRtunDrfLdqs1RyfslRwKINJiSBRRqhF46jBY7++X1+oz9IE/uieuB5ty9TyYDFxnNp0U209M7ZLWiOv8ZfKGBQDajHwvDPKGJmQNhWMKfWcjjAnoTLwiwLU4IuxzuqvTuqPQqTjS07+Qs/eeT8B1lidJbdp5e8nt9iw8ri08k+P63jjNEFbumvf5dvfXuHZmMYOReq5oZ8yeEzoT1MOsa5s86bnqkv0VJrTYcQz3sE63PlP3juM0NtijLwZN4H/Tc9+qfp5I3nzHratzAuS/uz2xhHveH7Niq9L+vbtFwGqkZrvkLmUx1iDmN9iMroVQLsq6V/C+Jjo/eMKPH0KbMzQH8D4t2ElxPdEEeOu7KO73KzfOq7jr5+yU73E6hHvZn9sBW2xu/EMJys6w69eD5jiXe3cbdbjdta65ch/xqvmQY+B21d6+3eE8A0mabByK5qzuC1w2Ga93pX0zTt/3ls+09eq5/jals/fdtwDs29LejP9XtSmUdxwjy3a4nKFP94FvrVr++1rXxuemd+qnqF552set/3+Juv/reEZj1vgR7wD3Zc+Y13/DSP4FyW9Xr2Xr8axbd8NW1n33p4fcmZv6PG7Omt3e36u2wfVmjwCHBDufydcPRJ/vUvxrjT1ktny4jZvcJbbuER3HUCXBXkYkCtSB5oYvlriAuhEpS5pv3DRbtgMJSvpq0bfAn0ifRM1aVjPsc4el5G4Rcct0HhRao5ya++R+65ONxunV1yhLVitKtVuZEe4ysgYA5wZc040BLOZp+kzFn/1oMa4BL9gNmqQc7cG1F7Qad3u2cdPGoNa5c1oRmI/XS4a3ETT9R6k+bsVaLnZePe6dfIO5spVXw2welUAeLuf1ZnX0/4aJ4uKz7uXdK7a2104D+IZ2M31kDR+gAPa9H2lz2z1fj7rnOYqPmqbJhWkZmAFUreKUuyYo1rHjzfoTXnyxWhnznT3+szeSdvtB7VN+b0c1x6uQ+9BGcturYmkzREL5/C70vhm1wG0h6clYoAnovGQwaoiweCEFy/ZbYTt/tnVlPf0a+M6ieNbiKcMDlrVXEXgYioR3hf6/BDguxN8hb3Orb1ZDvQDIsdJdBfb1ULvVg70C2cqtpRJ/XFW551Y8vcQP159xAQimFFWqTbD0EdILj2esBRcfRpwQVzwfZZslu/+ypTecI7+uPEdZQx++urOW5Tupbgq+qX1nNZhYdiHQyYmtG9trVmD4ihY06Fn0/ra50D7HVw07FKGvl5QnOE2itdGshf7VEsOTRrxxwzGHUW7akV9EVjiwIFgFy+2dfhwiwsXBONNWJsg8eg+bdi4Eb8f6BvhTxyubpTnP0xzqKmpWbrd48L/0mWurnj5KySWhWNATWr8DqgLvZNmdmZPz50m5tfoHwOiJx4lpUB9v8e3jHgE/KTH/r1hf1orazvmyJf0aeCgI/uYOH8UWJH8tXS9+ykp+7pZ+dvD1LHRSRvJgy5m9oo0e9bT+7+WFA6Kd2DfWpX29OAA6AgRrXuKh7lGO8aZAh+3+XsJJ4cjpnyWzH0Q2zc/2FITIRoDEivKhETfIKuwZbFdBYGMfN0STJzeLUusDE6ikCh8k7Wsf2t6oZHcL2WENuV+uuoiLysv2FysuqVtyqXVaNbuy0plDp+XKXVjmGPaJbWnWy+6tvPnO0mnHouwVrXlVZHYM2ysYjVzVXjWPlRTGKPDLCexbhApe2x0X6slz76PUPf3YDTaZKf7RNflpoAxw2ar81djI2Nvp5IDjYrlZDJlUFpZ7YvJYQ7zSEby/pIspFb0ckDBw1fuulPyrgNoC3yMyBhwyKA0UcjoSZwx+Ga8g6SYzHEmwlfMmEA8URUhqsrl7RNpAM8aWD9w6Fck989vUFW5Ox6d6zXTdbfJhxAiTGRcXnOshQI5cRLxHPAxjGCOg2wqQJcwM8xSbrRIrdkLYNJEy0q+H+PjMdJfWeMHEO0vTemEHKsyXq1HfJzi7AtnHtQ0nfih2QTtNoJejq8dIZR1h8ZTdZleBd4G+wZoZcDg0oMc2vuAe1x6mbI3AsWMYZ+vTuEPC/95w971ylcisQBfJioxvMNa4KYcDiPOGjEYfDPRdPFXtRpuZmZI+/chkbV6H/prYBcMW1LqNucilgnqEK/BoAu1/p4PhbXMU58SIURsP1APhPMuddX7agWe/zIQ3unSXbmrj8IvCl2NWEuwkBpPUHNYO6LhHrDRSRvJ+0cnXl6Tpt6FFcxsV9LQdh1AyzgYjTnEpCVvNEquqOVQcqZWo3677xWMJQ/vINqbLO9ho4Wy8mYeAkoLtKzJ/bOMP3y+GX5ywVaAld/eJ4XI+bJkwuAjQMAYNwgoeZIr1hQbUt65Ie2OMU5qAX4wGrmDXoSnnHHNiVkZF/MG7/hI/j8/M8pxf1BMeaCOxSNAzbD9ySjSWaAA/+2KZ3PUKfQ+isNdjUQJTVfg6pOkSvS3KzBYgBWCWsQysAmH9ifuV9cidT77de/jYlnaWx/OWawFUExGhUWSB9+lco5oQJk65eleREBzj81UzX8OV4wTwbCB0HegpMH4W6u2evWuvQGNZqDXG7LEWPXcuNQAZSckvyMZyQMAone3fmPXAPTvSHNlizzkPCQ4YMaURKbIZeBEFjmXtVmldvuk+TkseGOxMM5JnDeHV/JGRyBUhIljQGjWeZbI3C8f18Ivntobr9fQ+zwyu7cYOmK1WzCoe35fjpcIjEt8IcK4rPJIi1lST/ohz69Z6sxQpkuIftXWLLoEqKdj5JMY3djlqQG4L83oW4i2Mv42wtovXLa37zdE2eBhcR+mnbEArJD736PvnSO2itRZepBw2uAyt9FqeiR7KwWtd2H5qsP9RjpzesyhuYq7V6mHo9WqtVoDXQrEb1fh+jdSbm/4bggf3nQqs/MdSWcD+f9QwxWOrNOjB+R/B8GRcsKD2WDpHgznSkb21YzMOnReB1yNmhswMKqGQBNMdHbhc87QW7uUUTtvWEuoP6DsQN07rDYgPeso/3kkI0/SbikaqOWBej9jVo4Dlno5OomeHAsEll/YoEm6LTm6dnTt83am+2tNrcrTN6NuDqfUkdAAb5GmIJgxB5RzgxEn9L2WFy7bWrqAU0ve3z2gA73A/mjsC4HngUjKda7L6KW7nIINMB2HLQgEzsRE1Z/5kKW8zactdRaoG6x6x9vko8K0+wcqrEdiZVgdzcaDvE5L14Brkl4hI7gymwQ1wSreV8ss5a+vgZaN2AEtgg0g/g3Q3dzI4kO831eBlx+AcWy+Py/u4ecMI0dXR6doJCO5BwC6PcZHXGAamDRoCgqMwuAsgb8z445d558fdl3KeMfEnwk+I6tAlVUtTz0lqZ/xx4Glaxf4Q+6Cuudm4hyqWi/J7EOZtXFb0jfapefLsUPDZXwLR1DgEyYmIjwrGAfmHWQkCryaVQ1ZDHApNxqJPum1UFlpj2KE0OeX6NP7zSn9YRQlgVd+btVeH838SEayrbxOiUXcIrnVie5RF2wGfCc1MQNhmWGXIT9T0TtfZcSeMpKRjGQkew+gnWcWmBc0o1F3LvWbECyVJadq+V0Vn1xyjpPReG6bMQ97Gh6IRjO7dXeZkeyxbPJI8+vTuhAdwYmaYMaJRzHGbNjBLRkiXjCoaAo3td4l3e0JaGPGIcBh7Ev96XnTImXNc2o06yMZyfZStYEHuAKgRmMlKs7VSrcs8tISeG5G4mWz/oXRjI1kJCMZyT0E0AZzgv2J4opoRhQUJlqZZz6Kh3+1IcU6LtftOW6D4RAhcxyJpBxaoBBE0zoNr1lie6hLtBhfm//1CfFzq3Zvw08jV/T20sLXPSqWuRQdq0S+ijGG43ESqJ4WTBvUMZpKbSezbadW9GVI0DejRBzHoIhc/o0pKcu48MKCnRtN+khG8l6R9o9zwBll+RzBjpfESxnZoMSaEOaAE5Ic4M3s3dGMjWQkIxnJHgLo3zus1j88bx0HT+F42KAmAwKlRCdGcolxSp7yGUe949Z8mVXgMPMoiiKWHMIlb6WJLlDacOypr7IZ7HfQl+M4OePsQf5WjBVY3w4zjwD0tvJz59cNmWGb1j8G+NVJfRbDy/NpAs8ZPIrYB5SClolApGfCBGVVq1eZZzSSlcY/kNE0OOwdp2PkReCeA+hhcemIiHwkD7ZcaXGJCPpxoR8w7LWCYgW0X+gjwv+ZS6wLntTyeCQjGclIRrJXAHpxiZkX92vSYBoxLUOWGqn4iiXjcDSCRGmOnm6nYVuVhGERzBElps2ok7yVMjZA+BDQCnzVxOOAwu7T841k9+SXpYabZSU3XBl4M4NlxLsy3gBqBo+akUvMCzCRb8aollhYUMp1L4CmiSMhcPxX9+t83sf+6bKdGM30SEZynfTSGbJXDHyGTkZYBTdn2KJh3w7Es4AfTdVIRjKSkewhgH5RGvcTHCv7lAaPSjxiqTJ/ICOPwmF8HPiUJSLNxKRp2wPmbV+vALklQtPCIqVSTuzWLjJNRM0cH5Vj8fekP/mHZrtbTLiZqWzkcd6x/GJicXit+vYVgP8wrwk6TASxr1fjp4EZi3wR4YBxE+aMnl0PpIXoCx7BmAWuqEstwCKw5wDatmzVEf3LSB5kGbIrSPqG93a2FrKzLbS2RJwu8a9BfJfZeJIwAtAjGclIRrKnALoGGmR4CxUv85A9AYQIjqrVs9Zf215u8boZVvEHy25cIhiJid7OwHojPPO+kiDGlTFeQDNGgnOUiDUzPNCUrk+f2bxLLPFI94x09VsYmTcjGclNxIeQWkH3UJ7uAUupG6H6GslIRrJxyUiNoxzVWc7Kdtsxd5fjGnV73dm8AaqoIe8PgF5tMiX48Qq8TMlwSuF1j7goxxUnCkW60d4LaFVBalUNn7fmkFZMcSg13AjAlKVODWNmPFJ5oYd/VpiwYHyPK1mlwa/9eylbepjebjVWcfH6ZirbYvkSXDbq0HSn8rNX7AIwZAD461+Z1FwWOI7jYRw/J+gH+ISMFqI33BfVRnHRGJj4iOBRwStfPqgvh0v4nxx1wxvJrZVpa5zxMcB2oYvbAy9m9o0PybpOsmF0hwcJ+Dxg8zSdtoUtj2ZjQ2qqPZdhY33i9ws/dY4LLief8fJ/HfHfhfyiWfvCPVynh6v9/DTwkCN3jmw8U/3d0vq/9X4G0xWgnQHae9HBdkpTswMGYz2KzyTM6I4BM1Ltd6G4YGaX7jmAtkjujHFENiSTs1QEBo41gytSKibUbQDo96DOTT+XI2KUZtRgvXDwPQ7pqtnGgDGa0VH43j3uiObx2xkLI7kziau03SRLITCJuIrRl+haxKuKaGzxSEcgl9HC0yx61AYTH651kNTadKYFDO7Wwv6QgId8wGCmupxGzSO2v9wcHBBcWj9zBzigi3axfcO/O3asCcDZojqHl6zy+rTv0dCnNjlYBuxRf4APgM6Yrvb+CEBvxjfYRMQmSOxfDmLN0BjQAMurqM1O53280tWJpnV8vHIFucjKSq8ydLfu17zazy2Hm0rkYzYJNvYBmO4WMFfNx64D6EDIDMuquYpJN9gMWA2aO17HHQPolw6r1WhxcBB4XqJromkgGRdNNBG/M13nN0KH2j9asqXdmIQvzelovY7rdfik4P8uR0FgomJqCAKimHMwNujxCZ9TNJb5W2BXFPbm9O1t0rYjQjnMPoj5A8Oxv18QZZUnfQI48XsTernniIXxf4riMPBxM1qQ2sJLGJEBYgxRkzi45njKOdpU3RH3blYfHPH47zPccTAHcULoO8CXR1fhjS6x8f3gfhiYH1D+IKiUav+y8khcGc2PJh3uJx2uAe4ALAhqlSqJ/ipL41L92zD4EyCabeh5STOO/KfTpW9z6axkHvBS9jegJSi/W3X524uxHxH+/wgMHM6EvQP8q9Gu3zxH+RfATwj9AtCX6v8NKED/0oe5TbekZ4GWJ/+ZEg573B8XFJcd7rmAHROumcBXvGNju676swPCI+AeEXqkSj9ssNaNFazoQHYenFO9/odk2Yq1173ch4DocM8aPA/WE5pMjMHA+zBttabaR41izOGeM/ivQH9UU+1Fh1vrWe/Ubn1Om2IO4gzoE8iZM3sS7KBwXw7YJelwy+z8HRvYOwbQV9s0Yk6DQJ3UWlsVouwJjJLOP1ywzm5a/b2SjpvHqU9HBV2MuLUhYJVr7RHjRILVqN3Tw2d4u49V7PWAHChCRan8/pf6GN1eTtQaywSaGOW20QdwFRNLZpG8tA8dG8sY2BTgDJtS8paM5GanNSG7kIBDimwxKhFed8IJBcOiYePpiIUITsJ1hIpNZeH2Hgdems/csLGqfCUkL9D6z/Z6njev6air4vYegOrrunX8sO//lsdPRaIcskBokxqDLSeHjFaBXqUzbkumNT29zHKRkU2BzcJ6JD1A7KYzRQ54w82kE2QNYtyckjGo1qtMV3zlvX5/13vZpj1YCheFonYfupQkxq5qDiWSLrqrdNsdAYwXj2k2eD5bBh7HOGjQk+EEpRcvIwoXd59H9H+5bIsAvzmnM+b4usFshCMYAzliBaocIjfHF0qjkYlTwNv3aisoZ0IhddS7H7J4loZmaFpJzURezYmtGxd3Ib8+ofnYIPeRhzJHowgECjxwaQKuXlij80t7kGf4YxdTyPffjuvfU2csFDyplGeflIdh5oiIusG4GROC/bHcK0MmVIBdQ+B+X33RUusI1NqC7xF8KgEfNw9OTTX/tkevNLNRh7n3yFo7J/9uCtXGNSDG5H0epXEAZrYqNb8BYR7KHyNl3dUgjEX030fsJLg1M7u2nb8jo3gpwlzAfyEBjvi6oJaTnR5j7PyiLe6ll3PFwX+uAEoEXRut6HswxUmgIdyfAKUxWCTlirffq2M0Drgxxhpt2u17mIZzz8XhPh+Jjwu9a+hCJP5ZFZH6C0lj0co7fvYOnZ/NyMYMe1TwEeH+s7A/DgSjzpvEMO0K/7BhD0H5T4C+FXqZwi5JumRmPTP7OkCmbE64ViTOGnEa7H1rHBYUFwGf48tA+HeR8pXBDOe4trtXqln/LUktT30uGH0jHAYdiYRAwxm9C7azvbKTh3aYpQK+UOEHrdsS4M3IAntcSJe4gf2NgKEq4FgVNd47MAPxXn/mZhlLiVlmW1grKm/03a2JJwwyymh0lNEuI2052s7Ta+YUtXuHI3Ury1F8mAo5FZjLwiaPxLAZBg5XMurxcrN95Kq5yquvUQHwe68fV+2rzV+OW7A3WvqZ2zS3GcQM0Awz92JtN493xCxy4/2/ee/rBsbUGkcpMrIBHwJvvqu2dUyqM26ahx0aDiGQvKCelO+br+9NrXMSZNXr9erL3WA9TMkD/UHZg7KUT14DMuKt7/edKjIgZrs4dzvyQMc1xnzkezH2WfKFZ3IprO4c3/ZiUYHze6bOxbIif2qOp5z4vEE/GkJIWi8wPC7HRBl4+DfmdTgYaz+/sLPqzu6liiVERBmRlCoAkfVyQRvS7EWOWqRxv3bjxUnmQsEsjmkZedXUxuFYVWSx+n6HOoDn6j2mzfgn/S4HvdENRss5vnIl8I3aBCeAt/ZMqdU406qTr5QsG0xgTGG4YWMVIsilwxdTy+89AUNxi/V5v+OdnvCMFtqDkNLBrxoaB3qRONWn/F7gNHDpnmrFu6wIHxau7RZzwnbjMbO2pNOVHny3QYOudW8793lYJHf07FnO7LBYU1LrwWaHmL8CZ4PQlcourQN9CKcgnIR9dgPA1ZN0qgHLBqeEOoZ/NUA2YHD1hJ3Y04I1M1uR9NfV8bQppop7PXOSmmko95YZ4Q721DVgJRL/UzXOqzd4vwMe/zz4Yo21cchPAi8/8MhMau6kiDpiBxw8DJwkpW7YXYxhEsg8+WeMcET40xD/XNg3AuHvANFjFVgKhPPABeE/BrEH6m732ck5GYbOw82OMtuiP7lLHdwkFf129vCcXpHUKCl7pHqlVbuDmrnhGt/mfaOA5QnKoSr3N9JTgEPayb7ZEYBWxAsOOpiMQqb1FiOGuOpyLvYz9izEY30Gecb5AvbbxibSertnMDmmMCYlxmueRuxx10pMtm6xb28VCpnRkmjdL6UxyKjlJfVg1JTW1wRmkUJiEHQXysCzD7HPjM9a5DipSG/CjEXEmSgu7+WzvbCYaJa+NK0+ts6uouvsy2G2o8f57IPPwiGpWaM2BVYGoo8QhR96/hpG3JeR3fOUhLsFDbsNOm70fpsokxbv+D3PnOnuwrgeaGYIszNdSWukWpZhtlINWL5VAaCZrUkiQ8tAO+CvVHmHnXu0By/e37m7Pww4t7unNp2JW9zVzdwoDzoYBBemiHaZ94Hcxfy3DCYNV4A67It3k5JZI9UBHAT3KMmYfNeh86WVm431LrAsaQxCG9Tj5hGeIcUvVnlUNz/vbujPe7V/q7H2gKWdjvEOnre6G60qlstCwBWbCwjv5LnvGED/4ZRmNeBwqPE04LEKzRvv4Oj14dx4nYtXi8SQsBeSr9H2h3l1sMoEiRtpTXAQkcmqAEAk0c1EHu33+HwBf72TSxJgmNfrPNeicY6UY5tVaSyb+r0gizxiMP6i1HzhHivQ3zuslkoeNnHIYJyUDx6qZiTLilwpsvd0cLz9zRrpu0jXxKI5xoGOQVcwkGc8L+9RmDRWFIabjAGlUvtokYEcAzPWCmOP5t+zwQS++d97LzMz1JavxY8Ylhs6CXwb7NkMNx2hjMTPR24ddpT0TEY2WVIedriJSFz0+OFe6VUXwFFSEYaB2hF9LT38IEtmi38mJ5sMhKlIrHv0Bqlq/MTABt+9mceMxG0awD3jYDymEGbuoO3xwbA3Ssq3gO4QuFUekvGM7FnSsx4DGpH4CuS9VClPgPiw0NNG+EqT5quRWOvT7wNTDvcRoRjWKani72/HQCBpfAqyNjzpqB0B3IByX6WRG8CayC6FVBf0VaAzVMQVVV6A7CmwAyRqrJZL+ne6ApSdSDwHvARkW8GfGo1HiX6aojzssFmhtfSeoQzky564zyiPO1yIaYMWjvxvRNkZ2OBuvYXO4bLkO4m+SgXLb/+OcTWgILMGZtmwUYuk2UqjH/bE4+BrgXIGdBl0xWNNw+1LIMSOpOLoeBF8ESn+Cri2lbtY0rGM7GBJ6cE9mYBJPA+smtl3qt/5DDAJPASu6fCFw3xEC5GiA7xqZu9U+/IYMJmTPw/EKtRMSfkNqLXN+m+m95yehuUGZE849BBQj4RWRm4Q8pK4CPG71Z37nc0XvqQnKyVyFNwhj64oC72yZIFmc5GiOOZK/h7EqyI7FwiYlb9f/e0h0v77rCPPwVqks2NAFokLEE/WqC32rf9qAmjMNWiooHg2gTs3LtQPDP6UTWwq1bgmHO5RQ18EFhXVF5FceZbmmMpLmjmgdOgxsJlIDA7nI3bFgznc6YENXprV7FSP3ngk1gqKH6j2Rx3Uj9gr6fux75ot3RGYknS4Rm28xD5Z9dKajsTc4cpI9MBlT341YGfN+m9t8/cTGY3nQQPhpoU5sONg+92V2mqmrB0IQ0Py8u2z9DRrEOsQDGwA1hIcMpi4wR9c9WS/AoSS/CK4wqzobfVBC2E4l2qcbErSJ4B5R/4QWC0S5ypX0onkyQ5/CfS3gsOkQw84WJkB9wz06hAOOlwEN5X2pdYg9HPyv2rQiDVqly/b5bVN73EcGIds0qFHhToQOoFgpOhnBvxIuqL1MgSX03ira93Tkj7l8dPg64YdjcSTEL5DomBd2jLWx4BQo/aMUc4WUHOQO/I6hFokLkS0COG0mX37Rjf38N0MixCPZYRBTbUfTLrbT4MdgrgYU1ft7hjNP2/TLsxs8a4BdIx48zQM5rAqHSBhiA7Q7jdZ/QenbU8LNipg2v23TS0XGQVKRXtKbb8NS3zQEXIvJmXsk+0CG0dkgKOH0bBUQ7bZn1txnDIhR2/ffUBUSxHFSBNHo3peVc1mDFE4GPjuruXDDpuYmAmHqN0r/msTkUDcCtctEWNGS9ovxg9BNXmMyLD56hJ9G3RWSQFE0sV4iMSgsG0awzBclZHNGDbncI8YNuNwFwzrp8CD7wXsMcOeScrYBmDXwH27yo9tAQVOT8YY9xk2K2gZ1gMK43aK8vw0qBD2tMEcxCa4hhEXgYHDrqXnu26PeaAZiYcSIwSPGjbm8RcCtorTQWIsgCfAvsfhTmWE0z2sQY2MAdPAI4aFCiASiflNzKbo8PPAI5GYefxjkRgtjXURlDmkuDWXehLHCmUC9Drq0EHDZpQ8UweEloBFh1MkfqvyWm1ZaD+JYx9OD1lMCp5UjV9AaBn2sNDzhg1s3eiJb4O/z7m/UxXG2lbq1cmdMfQwxLrQAaGGcDJsAuxRw5pCT0TkDL0hrFuj9ncDBtuBrHHD9nt8FuFxodVIDNffdf4Q2D6wp8DGjNgznAddcrhOg8b5TffjLDAXic9WgKSe9oI/HfBLG0tsrqDpuvQPGv4ZiC2haUu5r3WhcwZntl3bZEQJ3BHhHzdC7sQaGSUxruHcvFF+CnQWondIm9I0qpxZ95QRa9V7jVVjzT3+HGitmgOq358IBBl21EFDaApct3q2sElPzHj8nGEHhT0kVI/JS9iLxCMOl1XFt1ZxIhfAk+n31U/tGzRlRIvELsCAQT0QxjOy5oDBU0DNobFI7IBfgjInGcp3bOQZ1szwT0VisKQTmob1hWpCJxzyAX8jbJJHwgGhgYOGgXMwEdMZPeyxXkgOuNXq6zalnkOnVs17rdJZrmR7R5aZrcxq9nUhW6R107QjbXhuco+fNeywET+a9huHk+4lgK1Un6sbPjqxXhn3k0LPCIWY7hWBXQF1IvGbgVBWhtNmmYBsFmzWsMdBy+CWHEZMeqom9AnDoodFcL5H74IOH24B+wzbD7Fp2OMO16uRv+Xx2421Ud0nRx16KN0xNIzQAJqG3gU7ze3zmRtY07Bxhz3qcHkg7hN63NBZwRWh1Tr1r97IQ3ZHAPrXpzUT4PvkeFhG09KBiQJF8TLGZa3eO7L6kLHgxFcM+gZHDJpUG9NSA5eewfFg7DPHt4HXfvm4GjvtTBgTEeq7lmBz5ioeLKWiveCSO+qQQf38JB/7rXnFtQXe/kXbHR7sW8oaYz7ji4IpMwIpHzga4MX5WPJGLd+1yIDWyWCMpgX2RUdzLx/vS3OajA1yD80o6lWryuT5N5wiq3L0zbiqGu9k5d6wobjNMTTuHwuHpGPAdJWq0wCdh/BqhJbwNWFPR+wLhh2U9DESQf2p7R7HsEnDZgz/JISDhh1IdwjnAuFN8KeFTgBNwQ9WwPWXgK5wb0aiXIxnDP+2sMcMNQ19BuL+EhqSloAlMzu3Mf7943DtE1CbE/bjEE24v47El8CWIawJ92wJzwn/MRG/13B/APyxpBnW0wncrKGBET8q3GzExiD0XNQi0E/p8JwG6/UhKyCrDWp5IIwnLyQWsXGHGGOstmWOp4Gep/aj1wifE7ZmhLqwKx7/3wHzho6BDhvFC0DX408GwtXKm4xbcT8bIRMcd3Dc0B9axn+mtEbEdSA+5uB/JnyWOJeJkv6HKo845eMVnQb4lsc9ErEnDFus1u6iQ0sQLxr+P6aLOn4qeX3DPzW0LI2f4AYelJ0dfKd8+wtuWymTCjLKaOm4Xn//1HBTgXAQmDPsacGkEceS6vKvJ3p9uwhWgj5jMF8SrzjcojT9R2ZLm0FR3ZFPBAZN4NNCiy5R7m0ab/ad1EChPCTUAM0ZNhMJb+Z5/Gqn6FweghlJb0Hej6n4cU3obQfe03o7EJckHQG6jvxHBD/ocO+AOx+J74I7D3E6YEccbsaR/QugDNCRtGBmrw5TBqoL+jDExwy/rygkh96ljFcdNm7oTaFOmbyptnF3Z/9c6edXhMsF3wjYaUf4KLh9lryV3yf0TeBrFZCqJcCpRwK0HPEACQg3gIIDB4YAqR9QG6yb4fvJILZuhFWPFsDnEPqgEvw5GurTG0x6XM+w55JRpH8T0Vlwl1KuSHtljrlul+6YUNuwQST2hZaNwTfTnm6v3IEOPAjMe/wvxcQkciXdzfo9UVsoGcxBKEX2ZEnx4w47LvnnwX/bbPDNDTNvKq6x1gEGEZVVRLk/TC2IqJORrZaU7cpQuF231kKKBPi3gCWPxgSfF4ZX7RkRO4HwElCY2VmARVtcvlUE1BLzRr0yfmaM+BhgDv+Xhk0bXK18SJ8Vzhk6maGBpDe3MDI977h0PBmx/JDDvwnxd4GaEa5Blgn7WQczBfazBd0WrP0G8K2NQ5w1DGsYbt6wZwzrVPmUZWXQRXDngBBw3icdlXHhggc3EWECwn6hzxmxE9HXN1+pkuaBGeH/1w5Xi8Qrhi8d/HHAzjv8E4HgBY+AXhDuj2rSNU9juWvd09f77qsU3/VCe3sIQqskXoxebYJd8PgThj1s8GkjXl1i6SeFFoDfvisAXUacxHQ0xn1Kl8CEqyyhNWcsN/KdpwjcMYD29H1gSWJQURBsaPWUJR4tpXKMeZ9CjnfT1ttEkDEAghMeu86is+pzmxgtF6mbw8Ym710e7rgjdGDOYHzTpzrAy+i7QMfXdpkeJnm3vUFu946PUnLXef8xkBvme4tQz+n6+geefSJLl6HqYA1Q18wuS1qpwrcDEhd0s/rq3sgeSN4+ZsHmQfvTe1sOGjjchQiDdMmZs6QUXfpMOoZ1hDzwqog926jmPwR6CGxfk+Z4l+4W4zo4vE0QbC55AwXw1crDcwG4GtFxJa/iRHov/jr97SFfdX6vVePug+0H5sC6Dl8Yoe5wA0vAoBmhOcDqYI1q64wJ7TcsCI0ZWIOG38Yr1POqzYM9bfgLED24Tp36mT59C4RZw2qGPiq0ZsSD/jpV5B8Xse5xRw17FMIf4OLlAC1a85fpr+wnxH1gPcO6lRPAbV4fjx8z3DTYvLADhuppHAokQyAILVaemFblWTkGLEE71UI8eK1+a3XqROJ4MkRsXnDAsGWDQdp7OlmBhT5okDh07QhoHzi/Xky1XviTNQ2bBtcSdkgoM9y4kW2qS8nXUuSkqJMKbsctpXRE71koig3D28yuSvX9DtVi8rIaeHNkPci7sNao7uV9hn1UuBXDCtAKFKdCziEKP5n2qJ4wrO+xSZFtPovj6XqxWWBftS8zS2kEM5VejUrpGUPeXKVCsewR0IQjWwAUKBehfEf4x4xYAi2hRw17d5POaBYUEn4fMGZoPhkUqWaGWDXmyLIM8zlhnXXFVek8Hrz3uCyghFvxazTrXXqDCPjUIY/9SQf5a5WHez3fVZKvQvpmyfOdkQr2tIPc27qhZ0l6qB+JNYdbrOPeLVOQfADxOeApwzoOnznsxNY7JQE7LG74RhzgPT6PKDfCkM3ltu+5qg6gWa1ZGdG8Sx7UI4Z1DFumQaR3h7jJOcPIMdWrtJ1D4NrAuSoCATg5OGrEzKV91K/Xh1GfIRT3+xO1nqbBnhVaEm4hcbdzpl4v89D3Y5YIvrKqz8AYwHEdb5yyUz0Sb/ZESZw2tF8p2uBBQckAKat9W4BNBlwtI2tUnuwJYCadax0Cpg2rugZu5MEAU4KPJweO/5ZhywFbhvJMxO1LRkJ4DOwxw33Hk01EYu8WfjBVRnvdUmQlJliZdUqKJuiocDmEQ/bethN3DqBdTpOSYzLmUWrvhLEawTlxAcdZy+8dxY0KemScSTcxbYlGqiZEZhiJNaNm4BU58JuzOlYK+/mFZOnd8eeVLFiNmkrGzdGvQiSuiqOkGTZkRi1mfJwCH3OussPc69uODExovoR9Wck0dearDTd0jK4AgwDXyFkoru2ugePSh+RmjJvddl7kzmTA0XrJWCHGseTtrhg4hOFNrCE6GFedYy1vf9ABdHYMygmwVRI/2NAzsuZwlnL2bE24mhEe3c5RPswndrhTJeWC8M8IZgzOJnJ/ewP4tsMooZ3hrxnhzXRp8ZhDyyF5DLxH50vKtscH4WtV2HseUNUqe4tnZXGc4J5zqGbE11LY1J+H4lK69BBwzbDXhI6Bazg0IbUOQ2xUIPtahns5EPoG35dyBnTRsK7Q19Ic+LrDtQx7G7LL0M2LNFde+LddusAfBeICC9fNUU7+qKTCkc0mj4+9G7EzDlY8vnS41Ui8BK4h7M8NOg53oqRc3PB6hBMOV4/YotBlobN4kier0ys9YTVdfK5dXVDDAqJ12qxAOJtRWzHKJ4EjEC4ktat3IqHKcbZ2Tl43wnciYUzocDWEMagH6D9o3L3LNWrWpXvOsFcMPSnsGaGzYN9IgNDezsEbtMCHQPEuyYirK7Xi9dU8VaCrvJCYsGxW2GpIUYyQVOA63upDdNA9YdiS0GeTsUje69Go9t7Q+zULeR1wQl0HrxplnlN2ukwE4JHk+XPjkbgmdBH0auq0iCjogS6AWpbOac9wB0A1Sa9WaRjvJICsxwwdhliAJoVeUwJ6OVDElLJT1SCgBCbMpThgOdTrBYmv+1wFSJspUOhOVj/vVCArE3qnSpOZUvIWpoYWV65UhLTlAn23kvakBlUu7BLokqdxekDfV97nAJ0utYkyEt8VWhF6wtI+bkGcZ1PKQgL+47nRblQG5uvVPXVH0dEKmD7ncHNA3yXGl28Iy0vKhZJyQGJ2KEU8aegrlWf5yYjemtLUbCDka7Z2qUFj0Gb5XI18UBB7VWRzWWitoHwHtFrD9wOhX83r7TuZzLqS/ybON4k8KRgYBENHQTOu534c6OTK3wW6JfW0x619Y+7+GBy4vlDXsCuR+FWPzGEXjexayWDJgyL6ZALYvm6Q9fvBXx9N0mVD7xiMGUxH4ndz/LXkRWbQ7xNFPO9wE5Uub6bIA1TgmZLybE5+LTWecYvC9VNqhfUFX4vEnq/AqciWSkoXKS9URvFJ4Aq4p0GlwxUFitDfrId7wIpwfxehLuJrqZmNltK5CddKFF0CwUsQywKmHTdlXQsJPugN0HmjOIPL1whFUzifGkfZccMWwBopUnWXALrpaPbFc+ZomciU2ie3o+F94M2yxTu/cPHeEaz3O6w1pnilKCCr0cGYSKGplFlApESMA+OKHCPnSW+sATsC0FFccpEVGTMyYkztw2ux6pQd0+msyzGpyBejGMtdCuPupbiCqazOJ8loEnm86sgXJaJBWw5iycU4x+lfXLkLD9Swh1j6MlyKi8qomzEr9rbrY55zXMYskWlggmTEBEFNRt2gjeOyjCs/c84W+ABLujzcE+Dqwi5HYnOCxpCq7u2BDdYyZYcNWyPlOX7M4ZZvHGYvXzGzTqbsh4SORXQSfIiULwUrvnad21Djx41yUoSngA5HD32Zs31fbBSWvJz8H9lPgY8iDL2hV6+/RJkW7keMeEm4PxHUA9PfMLvY3vi98VegOC/iP6re4xAUx0kNH04C3WM69pU+/cFVFn8heQrsapX7+vs3a0ksqWvYy4abBx7fzsAIhI+mXE87LtwxiKcg/l4Yo7m0trQkqdegMQiEFcO3IrHXoP7G2tG1TZ8bz0RiHfxph1qR8G3rbBQhSXo7w71lyfP4rGAlbPFymdkbAF759wDPJBAUYoRXhg0WNt6v1odyGvxPJQ9rNps6CO5OW3sj2iAVCO1QgUyue3eHz5+TdwqskTyhdrJJ848Cobk1BOvlP73JM1uvvOub5+kUcEoaP2B0O2DdFIiMtvE7V6si1NrLqT5A35tAossgLyDb9GxjGfSzmPKwO4UVf6HDai2fX+5U4/kouKmqDiHU4M229f5o05AWgBNSracEjHspkkEX+JNqzK9U8/CI0FGHawjNGu7bpfX+5LAOt85vaTMsaS5572xf5YFcTv6MeKYqvvrrYzrWvMa1iXYWFinjxU0G8ypApuzV9Nz2kS09AgzAevZO0ruajqW6wq4JXYrEk31bfe0GZ+qVQCiF/2GlmoAGaDKyUReVUpMmxypPZt+T/60oO327Y5rZmsN9wbBWBi3Bxf2fC3/QvUZ29fV1hphrAA3J4a07CPp+sC8Cb/XofduS5/3SRbvYnpbeWrLBUqasbSgKLiWQNv0d21Q0tzOZ+DLHPtF1p//yJ1LKnXsK4jMJHKoGLAj3ciCehcHvVJG1CzfGfnKCnoN2ROei2X/e+lvHj6vx7mn9NGge3HTEHOSNLXr/apbhy9L7FAFzb/Ws986WNX0t1bW4p4EDyZi97sydqH4veOwq5MGweYNOIHz5Zo2ppMmXoTbAd7xC4bbTwbPM9rt017qUL1fRw78DLZj13xjuOTPrZsoOCWsHogx3tKBY3DYDLfFOByXM9hI0vms2uE435sqdYU8lXez23yht57YA9K8/rJlc1IvAPGIeS2wXJvqCCxIZgbXGYO+YN7aTyaOUg5JrDVCMXE2hI/YnaJfKXhny/UXmYskjJnZMbeQiSzGnrcBFidMYDuOIRDHkYpQoZYQIM2bUywGf/s19mnCe15Vz8YUzu8fM8StHNJetMms5HzXxPUo9MEul7nyZGX3neDVGGt5Y/uendj98Wz23l1EXe+OBfnFC+zIRo+MZM/Yb5DKCgSScQYExcI7TGC9b5AoffGkA+8Hqwk14fG2ZwWdTXrSfzNQYJAXggmFjBnXDzVYKZ2IbCrK6pLwqvqpYFkrnU5rGZmU6kVPPwXIb0keeXRpr0RyGYIdta014J2Li2oQiJ7dh6I+UBjJe3QY1Iz6R9NHVH0350j6HUDry+Qhjhs1VxSwDtrQbXmCh1cVlHlwKR2g5eSJuadANmxbc7PfGHa5ZpXlcVfp8NyT+qvKU2w0aDnilxIqcfIC/rujkXcBnaMyILcgPS/XZHMsLitzjHzY4UAV0+mxTYLQp/SJP2UpkIHOJl/k9IW3wdVIScdxyedy17Xan7zO0BG4SDqpVIKgWU7+nWkk53k/gZqv4KuhXtZ4ONxhL2Uwf7dyNa4mLpQRgfBtYTUVj5bNgbwGXEzNDdjzlR3MJYjJAr4c1LaU0kBbge8TnMmVldbcO0r8ZDo5ZxWAjtDzsfLkNIKxH6ENcNKwY8qFvM/gqSqHTwKTgo1XqQkfSuzVqix6/EokZZf9i5eHdAsOsnqIq2y/o/v0av3zZ1sqSPAVz5W2j2cfNPHsIXYV4EtxclXYzZKSZgfp0lf5lQOEIS55sB9hhPDfaLVL64OWIFvt/jY/bzFcfQhZYFuqlmqlQi5QHNhtLy1CTNOnJh3umetYru+AYcpHTr2aBcAp8mSIL7u9SFMyORCzGVEi3H+IPO5yX6m0YLJvZpfceQrcZDGbV3I4NI1bHjqnZ7+MdjohFl+ijLXvvYVgqS0LSF8GT6i8er967BVktI3s8EKrCVOtzw0YkeT0S80goHGpXPNa6Oa/yah3ICa4GblsdscjiAGhD9lqVQlOAjdVU+1hBEcHP58qjoSfA5PG53TZ/gDWgGJPU3UL/6EjFsgPhgm7Q7fG2AHS+ykTpmbPIITkexVEQMSU/+2lF8kxcHvL03iupwOhpgN+c0oWQGCH2KwHpksQHXSOS4XgoRmpo517Sn2+n5PvfmNZcNE6QWok/6hJ1XqjAeiDdXI8CeRQ/6iKfK4z/T3vAIuwetVq2ymzMeJ7A5zB+OjraWNXkBXIPRQZ/E1O4/e65O8vrrtAqxEwU5CbGvXYfQL94TM2eccAPKGnxvTFyVKqKFSOOZDQMqvznN2rGH1C7N3R6Vh33+0T10QB7TLi6UO7xvs/gx5AGCbGWpcNNp45VmgswA3pV8/MT0BpnSyX5ZNq7Wnkv0rL32kyx3Nw+dpxxxU2ZW8ssB/ZhXMHAzG15k9OcdqTCnzmDlhEd8FQVej7i8DFWJQ2J6ibGSnFWw7N6Yp9I0k3ZU9o07kuReOXWIeExEgvjzdbYDiZWElzELsfEf1zxta6D6EVSmtbpG4RwXwWY1/xEn4VGl+zjRjwcoJ6RHQhoCsIBl8Lo4Y634fYgJmxqsODJMk9Z7gKAdhJyxu291xQpLFTdSLKUtH0jYL4BeCYnHb33rk2EUgmIDnN2tx9HHd1q9c3sRAKosQNaM5jJ8J8qiQvrwRb0VEzMqBeqHHPMrKNjx5p0u5nQfof2BUKrqhn4jKUIQT4ssXYElMB8qPZxj5QnatdbBl4On6U8ZguQLd2Ev7wtKaR20zZr8EPCTVhizrgaCH84YPAqiQ7s1K2Moe020ZUr16+NVanXt5jT1cozf1ZoEuxwxfYx9EJOQPlwNQ9eKPasd2pnezHUwR1Ke13nhS5dvnHEaa2Ed1wy8j24mUh4tFqHbYxDwYZeuWsVbxuFgd8CviVpogkTJWPzgf4PAXMR+3vCRQifMSIeOxnggqTl6/eBr86Tqxhd36sLzlSOukzZQMl7am779bpMhQ2k+TPUVg+6gXteKBh6nIQdnnT4vIrilDeej8JSi5BYQLZMShdavUXdhUgeAQ3ftEaNwSYbaBNP9FcrQ+HhPGcmFO4jNdx8AXNVg5T5CpbU2GA82WJ9h3VjPpFsZ+Q06dHb+ky9lA+unqp+IzsG0L2I9zkNZ2TRKNfp65JZOsBhZbi/TSsMBjL6bG0UYphBrPpYO9ullq4y1szRlFFUfNC63mNEQYonl2YMTEzkJft/dVz1QYNuLSPeabrLi8fUbAR0qU3j/9/euf1Ydlzn/beqau9zTp9z+t49F86QQ4qURFOyLMmOQSu6OLZsS7BgywoD23CAwAiQIE95yT8QBHDy4ofkJZADR4AdG4gS24oNxzfFsg0ZupiyZFAWJYgUySE5w5np+7nuvatWHqp29+me7p7umR6Sss4CGiCG3efUrl21atW3vvWtOSBUzKuhbaLec1+VEZBJLOwbKAxDoAwmQjb3b+pjcUkQZn5zSWbbJdnHt++dQvH7F2VmtE1HhAUMFYEgQhFqvrkhaDzRhwIFShmU7B+6eJ2IdBIKVCUEYivq0+pNxIxRFcFUAS1ljw8/CwijUYsod/VGW9hDEalANpLDu5GQOxvlr4xNZ1gzxl6yE51pdVwlvDs2uDrlKZ3Sd3Whkz0tmpveF7PMro7J2ulzEv1IbggaJDZOCHCflGyq6qx2hUm84xM9/xZbOPLTt+Ydj/UOh+5Z7KOZ5LuKBGz4QJCJd5wq9W2IahMHMgNra5qanob0GWPgliCvxaJSP1FjTyZxD2qkVZkBE7SSvU2hGi8o6rhzsZoAA0EyJVwTzDboVoBh0iZfzsiGIrJB1Hd+PQtIfSCUBlOxP/1dS7pJmvN7GVMd0IW9d3XsXE3KS4Y0rjeqLfmMJ2+XFJmJwVpf4UYqVuumZ6sVU+5lvd9x70UwoNOCYtkVtqv4NKeyFilVcjGCFsyk7NcdL9mADREYObPQY07mFrfZVmBBS9cVtKjQLdllkmqtfx7O4NIjkSp2/PhPhkDDQ9WI94nQ0UCDgKTrz1q7ye+XnlarfRptxLM3V/E5LIsB3onsHkISFC+x4ccVER4zgvncFZm/uYF5auvuZJ1a8J1C+M8ePhAMj6P4oEThctktQPEIPsDbNeDE86AzjKzw+XbJLR1z/bcuyTOmorSvsVHOYdqpycmtidBzBLrYpu36CPO8bSC0W8r7i8ACjvOiPA54VZzEYr6mGAbA11Bers7xmU6J+dkXzlBKT/YgWIkObDYWDfDBvKQ7NvR//YL8n+4Afzdz/EmRmZkWi7bJu5zlsoefDw0K4DKBzJjYRkgU1UBDhC+I8EVxfOWptcgVvc9nw1me43dh2aOx8Me3IfQ8+utJtL4khEBsOOHBLRjsrOJ/KPIc/WXb58ldIHjC9pDnUCcXjnxGn7rDS9JJ7NE7KE8mkySaMOHVJr2sx4tgXET//B+nw+LLPg7HxSVW0qLFkGHUWccfcuiODrgzFYs1/sRn43G1piYLUbDfRBaRnNoxW+xPAPTp/6BgHlf808GwRghbGdmfhVgYOJsuCVeOX1gh8VdMjQ8c5q8lpDyrAI00L6N7qB+eaF/fFXRZyE6abbIe3xCkDFFW647zZ4DO+PC3UqPY1NJ4xwTgcof4s07ZWrFfA/OdpKP7PgjPpolcrUqeFPSFEKW99tbdyy9nQOYwHU9YALkKck3hs/pg+0u8tDUTg2XPxDrU3aRJbJ3dP+hVYtlKHfSUdxr/EPgvItKx2J8E1VhIq9+nmCcMdq4iPGOx/8vj15iQHmNfdK5HpjL21rARRZPsvz3BerHPQrge4J8BFxW9JCKPAO8UwrsF6QnmS5yyIO/ASSxQWkADYZguoUfYbIzpGRK1D9SQJCPvp6eel/kFj3clZUfRvEXrxqZubiRaRk3NeFpElrCNp1H/qAT5V2mtfcBitz3+GQ7NXNeeVe+wm3TizDIHg+f3AOdgcN5gPqLo9dSQyxj0LwWpfKTbdMAsR7GSIMfdaADxcVpPcEDW+E45MbKCiTreGoCYF+y/FKxRmPXorGD+KhCuO3i+gawPkR9R/A9qbIZj0sX9wNlV3/2rNIMVvjm862vcoQH0p65Is+2R7WH8/21hTpQ5oJU6wKGgxiA+4ILicksTeEPa0n76srSCxWCjNvFRPkCj9F5zbZ0VFfQ3zst43qAfe/V07XTF4Z0yqjxbwCsKOUK3RgRvv+AhqdBOFBZDiOs4jNgOnsJndINgitSeutHZdxiq93RoYWzgosY24QtqmBOYUcXWqLvGld0DeijXBG7OzlF1h/c9OyBJFKbtYVmVGTvkwVBR/c6SzJgBohmDoSEUoIVBSSUl+Vycr7ZihoqEJtlMzhyOBQ1c0MCyGhooxghGze7qV4RbAg1Vboljw3jeTBJd9zPf0rWYTsAP0p4bHEBjJHpMaQgeT+hLRMeMRpWH6k3wEOEAUiATnq2Y/H9uz00JUL3OLZLLNJ6ZGj1LvNQTgQ/LstzV2BHRxYuJ9AJ+m8AGSM9gionnfTOrxtTvo0ZoI+/yijT1+NoKM4E6hqP5k2+oDdK2WU3jnZGurKBR2i5FH6N9p3p6X5FSImUqwouZnWFeTrzTQ/MBnBHzK6Locw56W0Qlj5uxGJUFRdopWbdwj0jvBLLoT5pNGEXVDi3T8zpwy1B1wGQpi9GPXevuASTc83k5x9YyBENskmRSRqvOGpT313mUzcgLDouKtgqKHrBx6JoQv4PKID6P1rHE/T67uwazGjCddGMbpWygqWJXzmBw/g1E6mnRmhsynCVy7lySxisE2Y5rjJHFjCJ15HUGbvcFoqvSGXvMvPIQDjsbOF8JHa98IChPAqURSgRPoFBByjHLCM3t13jgd+dkYeTpLXVQ/xqj+UuUT149+8PuU1ekuVTQKUuyYocZ00CkQasI6Xl0QoRb0/VLaKvS8PDYSPjXItxojPjyKDD8vUV5uRwiTw13tTKPtZ+5FSuZP92VcRF4zjV40nv+uRhGGngUwWhIDisWMxaxuxqo8jGNrCoNBYgyoEVPApQaS5OM2XNQRlBvWApKMwSsglHByl4TFyEWUTgxDAT+FrhelvwnYyk/9jd6ZpcasbjS41BygQbKOESmoTFQqvIub3iPQmGFT5SOfhjzTTKsCi8qjJ2nZz2VdBJnVXAyJowbLFjPjC1p0+KJAM0QeABBJbYiJ9QpOqEnMBb4dTGMvPKVX1x/PZDnN95EpOlw74OQCfIMsBU0IWa324vxb1yXKIfllPB+YF1EfudASjdBGbtZKyVK4R2SZkYhqNn17b2DMIiygpqbNb/HoHi1e78TmjR7FdUwpMahYNpAzlzY0s3TZktaGtlZo3oYd4JlIHnjPlZD4mkfhkZLPExGAX0b8CDoYqdDt+fJiIWKR1pTmo8EwizwMxZ7XtHPKP4zEL6sqi9OvNOWww1j+raWM78NbRztwutp/qM7ORTRrZsFQDyJA4jOJvWLuwyeBxYbPJWL992yM39F5tMMjI45/RoM9WGNUlXjyO3d2HcYN2lSUWndOTSAjhmH8X4pq921J2ltxuc8Ug1k33o0x8QhFvv3gpQVYUnRGcG+x/Zkmaj9t0PkcT534H30on92m8n/5qAXIVi9caN3N8iqndA4Chg9rrFraiRkIV+FIZVWf5b+/QuqOrCS/7JFfqjCDwN8AsxfA58/oAWevm83pXjovnG4OpshBpPp4XTag1fH76i+OhAxHxVkQzCroL8E1sT5EpvkF+8hsF8bK3ab2DjlSp2NmejSOGG9HLIlYkGwATMQ/Mv7WR+x1jqwk/AZo9xFxmnSCoq3KjobosTmxYrit4kyggf39xbwRZG8TAFsP+mONw+7sGi8ASQfcGdfV//ubhMwmV1icad0uA8F9KcsfEvha4J8y+v49/avNftewJskR37My097c+97/KmcTMxwTJ45IjKT0fiII5/zhO8DnTXwKx7/RY8fRIlA6Wxp2RNxb0v9CDSVwente8yld+qTkJjDj26fv4pKYzvzCd2xOwXQY8+88eRlxoOhIMOwHAIzxFoQh97WOiTHcCEouW/ykPcMJWe4USCmy60wZutzq2I/dEN7ZxVA/KpI68Iqszslj5gKwdFSkFBxzgjtO7STVhEylHmU4A2XEYaALVvwaZH1p/TkYy0tlS0YqGNNlO+glBjmCFiEPElUmN1g95CxicFKrZ8sUeQ87C6eSFMQcKldthHF7FZlRSWKSqAQoVBliPKSsdwylnLkzhZpDPHyVIgwFmUYZO/zk3RgHdRHlQAhxzCborJlUYogdCY546pYY1CgK4ZWgKYoTRHy9HmKRJRAYqQWgJdUGUrGBiUjsd8ryDMADUWbIa6rAScrSi3TTT3EVBxDoL0sy9mtJOk1gQAf9nN7xuH430uZoJSrOvA7SbmicLjxBEq1CGRsMXtepLh+IL2dNF/zPcTpIdWkQ1oX+wQmK4CsOaH7vsPzSi9WnlOrf3R6Pc7HmIlXDxmj1h0EG1HgYPc7Quwi5w5Br5sebZj96gZy8OKUAp+D4zzu/ez+d0XJPYjkqCC9QFXF+3tsprN1jXNIY3zYRSKh9HPpvdbB2jjVEOptYCXutjGfYu0d8V6NTBSCydELQEYFRWFwdTYgT1kDBNOzx+yx2DjHO2A+yZF1E1cz6IEOtIlzXaPyHCKxeNJnI73MzGGWjkgo+RD3ledoGFNO852BYC3SSgovd7Br6RiTQWztHKl+yfcM2FObuRdkM0SZOa0zQrmIrMCM4/ZseAvCCkjGbvMnegc4vRJ1B3bTJKfn7h8PVmY2oeQHlSnSfrHgZlKhpiF2vuwfEiBLTDabE/iCfetfiuP94G08chFpG7KZgG/dweecej2dBjdKz1x/XK0EkwHDNu32oiza+I7rhj8qJ5iP496xKCo1v/qo59jnyK3nJ0Q5X5T8rMIiCupxJr6tgEmkrtgJLihc9Mq/SdITY7WoeBRoq/BH1ZgvbAS+Bvz9WazA/96Sywtdmn7Eu0X4917oq02HcqBh4sFtiWXPdt+r1kQqCywi/LiC956PIwy8Zx2hGD3Av/vNS7L2Sy+frNHKL27qBrDx6ctytVHwF6Ek7ysfxzArng8oiAmshtRpKgWZ9TyqCShCnjoxUaPUNbExUT6iKF38d6OCGCgSrHdTlDXgm6Hib4zF59v8wVP3KcUtlhtWGajyPDA0QgthKaTmMRqVSGLxg6eLYdYLF9LYrSTZOTlw7dTksRRUYoTsias3BX/cSEH50yL0TMn/loyNn791ZHX5fQeCY3RoLKjVvS5d940ULTK/AMNVsqwZSn0IpAiUfwScoBDV3xLclwR5VNEnibSjH1hjbRv48n5fEByIU6QhVB7E3X7noxmDDKyilhZNhvscb87absbAKMEJtCa7S6nqdRFRg/sC0BXk44BxZDc3Ca80pfmcw/USf9Y73CMBeUwwr3r8Nrw6AL4qcqWZmqqk4jaxIC1FW3dKf/bp1zzIXDF1i+TswAn9BbAjgz8HWirmhwV5p6CvNKRRApJTrPXiHj8PeJEotTdmPMjIQnStHkW7gqwAiyJyA1jMMjpg3wq8JdIBtC4eyg7z1QaXB0IeJYdRg3G3o1O2CdJKslS2omwCbLN9twXUhaB/I5iRYt6thIZgf5KCDynl16Ulf8oI04GdClqjRsMBbYP5KNCIygI68pQvAvYg91fBWbQFkiUJMjeOBUG3RfwGckWaiUqQH/wduXy5pVevDiGvOzW6OBdHF86Ok56sE3c1oC/FbojyJMi3M+STBrt1dARXfZFYDPrTwAMgP9Kjd9Fivyoi3wAaK6yMt9mu28b7nHwOkIty8U9f1VcHl+Vy66peHSomj4VQmgMNF5UFjrLzDtdWyk8AMiMzzztcrVaAINtKWIud/rRKwSoHsk4Ng2mmi50lnkO3ddqrUlMuga7CihLWUnvlGdqMEbzu7Nf6rb/HIt9QdF2RxwzycwH9a8F8BbwPx+gDn8QucWl0net/orF75fsFqZT8H0PZEOn+merOreg354eW/O0B/3OxHbl8A/TZUvVLItLdy4T0G5a+jrA23cAbQDPcG42iRmTnk1rK+YY03krMbAzl4sUZrl0DWMLy/fjwoCA5iAr2S55wHS4d0JPxLjb2CBmxODVLPOGDwW9LcEnthHTJiD64g4pdnzM9BjXI4WL3waorInMzzMwMqLoZM62K8dsF6dYCDCHtuUM6m2bsV8CoTndrrwVPcibZUp5QX4RNChEWMnjA0NicldlsRPWuEWXDIG9Pfr8dqBrhwNm1wopZY7MpiATUClhPlYM97Kxw8WwQDbGQ8lD/YQ6mBXSv3iekIrEjbxeyBzFp2mBBovCrT1Ue90UPIbBLywj1z8Q4RHR3bHs/Gn/2BTmSLgY1n628u/HOLWLUY02O08h1biC0FFpEfeRGvdATkm9RrEREeW8+949xd+xECoMTyBDy+jtEaKnSQmiKoSFHSLec4cRboziUpkJLhJZAMz1fLlEBw6E4Yqtzc9JbaMqrGAQrkm6XQgOloRK/C6WpQtMrrtTTNQG6n4H0GSMVRyV4PQ0pECknUkon5aZN8o1lN7u4n/9XV8vr3isxh/Fya05omPAi5RGfNekVK0EOQmVG9wKlGnUpBRkbzNjhxpbRKAUGBXvc0T2eib4wipJ2Mvl9/sAYjrJqD9GeROtvy6xbjcFMI02PByqDGQkyyiOaVs9neWCuZQIx0RB5ekWS+ypEdlG4gxew8pCxTiaoUhb3MJ6tVPFnF5Cv5+eu0T4HzuHcxCGpu3McM0CjBowdjLB2NIEwhkhvMPkeOnQAfm/sKp2EvfUiJYdDqyElunRiDHt+5OrV4d4z7/7JifaJiSnzSfULk9oK2zshiwfmpZSo2jECRgXFSJB6jRQHEfirGscsUWVm99lk3zMcv7cttthhZzRxOZlE+nMO5eyHgwjw5Po9ALSLS6BBSGsrPo+lJDt2n9WXQbu3d9XBmfnvrEaf03cU8d3nKQJrFslHTPqOyRqG3T3XmaF0u1rd8dJgo/RgdQZnxO4+Nph6LaCvvjpIdJN6bfj4LJonwOGwANSzv35EUzajOnCJmZRKTHsg+mDZTRbvvh9T+zVV3VqM2cFywo9MIraHXcaY8M+TP2fAS9ZJVaX6+8eCFHl8z5PzUWtm+oOKmTe56dMZVO1/FikP7knndj/z2EpNd0QwMxZhHJRxCox3Ex26SzSKofnEMqnJh05SSZkcX9R3+hCihVBFxWW1sc/wrgMQ+prEbHTymDG3wWeSkGAkCg6ME5ruKcC50wdCP/E17ddI4G8vy/8oAy4PfBZDELgiMEvgssZCwyWgmQLDeYm0kgM3x92gY4QgJrBOoFC4bgIjcbykwlgCN4PhRQ30C2W9qehpKCin9lSWv0exIfArYshVWcKzLLBgDUshMCfCvCqCYUECTg3zSUrQ7K2S/TkzNYgEtjEMFSqr3FRlqMLLYunbkm9hscBzQJF3WOvPvHGFcCEGeKMAm3Hz6RZgwskOvFMiz9KEFefYfoKx+TCEUqEd0NzgPmRgc0mWXlpnPRxMCYvILDTnwT4S0LcLdAS5SWz28dMevyl5HpCygvzxWOAj8yBj0IsBdQZZb4p8J5A1SswIsnklvCMiiwwUHH3zkwabN6X5uTHja2DfDzoP3gj2pqBzYN8DhFzysqQMqvoMsKnY34BwTmKAWgXC+yuwMHq1pCwgt56BxAYmmhE7Xb0AwzzxQFcN7qNQFimleUORx9MBPxJxFfhnVXW3u1ZTmg97/CqwJMgPKMFCKMCowXzUidv0+D+P+s7l80CluD+S2GDjbcBbFG2W+H8bCKXHbRuChog0hYD5c6h6wGslpTOYzydkZM5ifzQQLluxHzaYUBRsGGRW0WeBOYPMB9SB+RkR2QK+sLLCwOHem0vrnKIPAN5gV0CdIlu5yDvKeCi8BrQM7v2KzoJsCqhFfzzEjAEiM8/BcPN2jugxx5fqSLrdr5L3CrOefcZgnlb8o4pesZgF35d3GEy1gfYEadpBmQWsKrQMpgfhvwrVTuJ5TqzP1kMxVrHvEsz7QOcFXlb0ApQfTU1BXgZajuZjFVUhyCWJXdGqQHAG80EnbluQVyqqZ8C92yBvJaac+4mG8ShoN5PsScBVVF85iILH6NG8BOHzIA+BOEGed7in5fjCx7+NlwTNMHpNgj0nyPs88ojADgTZoZ/8ghET06NfFKR/LdEcnDQ/HM/O8LjAgkSaQebxPyZivx/kumr1J+xL8eRDRY1HZyC0Box+2eDUih2AHSnVJdBVwV012E9J1EVHRJYd7pF4zGTvSi2cCzDBwE8FgsvIPntezj9XBw0Zsu7Vf0WRWU/1TpAfNrjzgUC2bV8p8Tsi8odcuhT2LjB11Ga/Cfq8gVLRHwOeC1T/LwWx92RX9epwSZa+OmQ4O2b832LLZf1wfLbN81akZzCLVjIjSNcgqvB3AX4LwitpbW+neXnAYD5BrFfqgGwr/uEKX1nyDzppDjx8R3X03GnGWEU+cwFeDVIo8t4x5SMGt2Ml2w7gYrcf11DvH4hS/ObXwJtA+dfAtqYLVibZj1QxC/VEiH7AxBIHXRKxv0CsbflL4JIhe0+8kGkTNCjyNpAGVDcyyToV1XVVfcmK/TtFfES9wzsUOSeSXYjZGzZKSjVwM2Y0WAHZtpj3ithlCF8Fvu1w7zHkswbzoCItkgpQzHBk/9RJY9tTfBYobw+6h7uBWqpTkNgpqVHT/QYi8ldEffPHgY1AeF9A/pGnuF5QDMAUgTAwGGOQbwBIsN8fqEaSyxolDaDncPMe/yQQDJIp3DDwXvBvCfCHwHMi8hi4VXDvFMyDUfVJOwa76sR9TJDtUsu/ODSAloRyiiQYXqk0dhy8TddKw4Hb1R6/N1elhaUhisuys6sitVpLGOFUaRE70B2CzBxzGIRJRgeWiGQ2REAs1g7vDUn8hVv6KsD/vSBD4/Br24yMY56oArIUInociLm1OLMhfedeyy4RAyL4pBU2BEYSqQw9Eb7tLIPS8Nov3dJnX6/A8anEZf/kRfnGhYuw+W3OAauZch7oi3AuseSNKi2tm9Ycg8+mubBAEaAvUCKsGdipLM8D2w3lGUrszw30Zd4UZiUgIlHncgJld/cDhbZQOEUXhPCYogNFZiQiug+ANkvKbI65cDg6EzqxXa8spRSexmyIXBFkgxCWovRiuAhmwUAndhvTuYi4ykKAOUWbZM0hZW8OWN5DlbRpMJeVkCeqkgO9AKzEvw+q0CZ2Q1xWdMnhagRjKHLlRbjuoerHNaCPArMSg8pSYrMFq+hNYBzwDopBmveGc8xqpQ+DFLqLAMa2ymAeSDv+lf0XoNBV9JzBLIKcS5THLI5VL8d/j6L99aVERF4LUeXgEZDZSPvQBwUpFN1WpBQYJo5+jaiPEwKzFbmMekHRSxarGjuzDQzySswuyTAGvdQd2h4iyvl9rSgoBFm1mEcC1RyRgN0FaSg6r1FloSBykVuKXiRqyZoEyVyOtBu76PHXuYsCN93ZSW23s2vxYOYJi10COha5nNDWnkAzoLnFVIpuA5XFP28ObWrjO3F4ZjnOJTWZa9YiD2ls/5zFZwrnLFkRKOYM0g0RabTABUUX0/db0GVFH41MN7WJarQoUCl6LmUSjkA/ZQRsgDlXqzT0tX/9olycOeZysZnWxw3reDEUXIyXHG3V7AdNShSxC54i8CUmsjFKOJ/WwLKiHUFsQI0ilwQWawR8kjfbpKlJ2rEF0lX0rXHNySA1B2kDsxBMC/NiiR3tns/oSrpYrMY24CYjcj4vC9JUdLagcDVSJ0hpoOcJXZA5UK/QiWg0mcFthoW2Yzw+BOW32/FsrnaiSpT0FW7SpHMWznFN17Yvy+XyGtdejO3U9YNxTjUAfRMpU7lBipSK79HOv0m/KiapDnGNySOkLnex0FAW0/u5YLFjT7gLyolUqcYjj35VzkFY1bi3e4JxkRohDsIq8IIQXqjbe0/ypBVzzoIEdBnCfAIPMzBd0CsxyxMcMAfyiEbRq7p2ZClerllJ+2otvdseyE1FlwVZjftDGolt+nJaw4OkNONSVmZVkNziXqionGLOCboS903syMmuKo0+rBFgyrhblaEWawx3mRGVIBcFZgLSVcIwXYaMonmSMszTGbCEshAv4M4lP3Ehhh20Eh68ajBzkLXTOpgFPR/bn+s8SFOQFmglyEOxw+bE29WJIu7f6Mhqu0HeHzNvHK6qonDnJPnjKBK6yUi9LRAtMJKxaT07WY/+WXJyf/WytNqbtFuWy1rhwz3QRExctWpyghd0bp0XPqZ6plJ8v7kks8Zjs5wGHjvy5ChWFCsuBpjFIZOaA9rA2wyphoytELIi8s3KjHFmCKOc6rTNWM7Sfv+izGyNcY0KN/I4FyK1woLYDo2gGA0xBVUcsXDyfDfhWnpDFUBtydjOEMqCsVsgFC8xbF9Cnrr6usqXHYMKzy7BjoV8OYKOZQG5QPHqIS2yzwqJXsjJV5o0wzYjF5eHeKA6rpOXyPk29NrQXwA0J3dFJIQGQfyY5noM2Io2DC3QjL9T+Ch/XPQWYWs9pTSjZNbWck5uCgoDeQAzjPc71lS1JyIXgCwnbwE2Jw+A9OjtJFQwTKKR0XG1llqgFXJeKSbT/aMKKaDsJ7iid+Bvu9BYbURnmBcUicKRk1o0A8OtSXQ+8QWbM8y4imq+Tv0VFJq+I6jq1QPz3wKyJs35EaOZmOVrLkDlKzIP1QjK9XRwrKXPiKn5tlxggGZk5yx2fsSon5FpSTkidmgzgDaZb4woOzkSCnqDdECuqeqwK92Viqo1YpTncdcEQAqKYQqcg6pup3GeZ0JqrqaIdOis9egN9B58XMxqdLOc8ZKiDUUbFVUXbK0YMHBIP9EKbo0Zl8Qujbc18ogNHJYMrLWJrd1TvJ9XUPgmzWqow5fiM3U6HdAe5TyMs5xci3ga1e91oKrrIrIULw8NYNyqAZUGjWrMeDOdeTePeLbUUKLXTIHA8OA6OGZe2nRpstOYg9AFbbg4H76KQci4id0YMQIWNmGjqlHwtqyeh754fGvMuAGEnFyiyBUKdqjav3Z7ZgoL2RUoM4ebqeJ55iPyWW2TU1IwmliPoxqF7tChoFiI6z6uv0ZqUz/DzM31vc557AUWtNPaGpPFdH2zbG4KUg108OoR8/I40LTYRwJ8RNA/8er/p4h09AyzpSIyn4K0lfTOOw6XVTFkETIZUJo+ZH3VnZuH/P1MHVxBXlMaUsBndyK1ZrBz2jGnuTOQPwiFTdmUVkXZsNiWxxepOVQJZjudlOtzzMmmbm4c+KxlQBo02mPGzYn94qEYAWNVfU1Euk2aiyNGAfIZKCTtFyFyr8dAPylYzLVpNyuqlsc/UFFV0IqaYLjXYFQBYYYZU1HNp8+omz5tquqmSHelhc+HDG1OpwNFKHZxymKUaCGvHDE/F2EmGEYfUOQ/gPldxfwajEeqe4BZ3Jv5pcjnCAsV2sow6yVSxkvacJzCpiYgOXmjoNhJz2vYlVJkOfY6xKRnGad5vJG6e3Zpt1t432QU2vkeFc9bbN9gyp72bhwaQE9talOb2htp8zK/UFHlFdXMGM1araI3HDI4qGhwssPrShO81CnQs6bWNGmeA8Ko2RJGVV91+9jum4uyODdi1B0yrJJTH6rqxnHf8Tp3j7ubeVgkz1dQzSl1LkpwlXXA/NrrNIZ98/RmmDeR9vku1WyBlGOkAjdU3bl1+s+5OKP66uCYZ58BXIPG6jjPTaMogqK2oLhW0xPO9Lm6soLBMwsYVF88ev2m8T2aQTNgHw7wEQN/XGn1mddhTTwMWRvsFk2EVmtL19e3TruWJn3JnurPPY3rHDS64OcTwjkEswZmoDp86Sz3BA/BHTTaDxkbEmv0RkF18Mr93nPxOzveMP5RJfxHML+jyCehGB11eRVpn4/Zq/F6Cs7PdJ3Lv/hQUz/1uRM9y5uhEGtqU5vaXdgVudJ84YRO/Y0OKk46Vov1QNGnHwAzHO4W1pzazuLAO25KHS42sBlVCtkd+e8bbPgOndHE81THj//s3tf9eP8JBa1wbpvBwAB9aI2IyLq+XuN7s10yIuo4N95hsAUE6AYSben0Zk8yj2HMeJvCicMpMTPh78s66aUiw200aUYd/PtlYno8Ff7axzzmHPhK4euCWbv/c48CO3EdNgtGO9Dt+hOu5/viSyY+e5zq4QoYbUGjAjuEwZnXz5wmeE6WgOOqTDKdZ74Ho8xgbEEf0fx8PqewVSzQXld0i3a+heTHfH82jhmB8WEFr/c+bycMnqcB9NSm9l1sL5zCqb/RQcZJx7qma9vfDXOf6BnDU/7NXTXYOKPxju7TZ47Y6wT/phjfG73W72ZtHP1Zx2dPJug4vddj7o7KBNUX5Jx8IVAsVHAjBmT6hKI/oPA0hC9WtG+9DnMPd9Gg5X6um4nPHr1Z9/tx2bAznKtuijvTe9JmEQthcwOFmjDUXu+GPPFE5+jv3tzgTWLTAHpqU5va1KY2tandtb3Ii20RySz5uzzmLSYG9B6MUeQF4DpwDXb609n63rNENWobzD+JxY6yJiJ9YsF2ljpc/imBbwHo17/e+254rmkAPbWpTW1qU5va1O7FFoB+wP+oYD4QlUe0DfoHgllXZGtSSnJq33PWBVbA/kJsqsUayEiQvkGsYJ6tCH8MZv276aGmAfTUpja1qU1talO7F9uAlbGw9lcBvW6ibGBDkS8rYQvszekUfU9bHxCD/h/ARblPMYJ5TfFj0DVw12Hc+256qKkKx9SmNrWpTW1qU7v3gELk+5xjuarwFpv7Of+3unl6BZ2p/YNcGzMO9w6i5OgC0LXYZwqKDaIE39Z32zNNEeipTW1qU5va1KZ2FlY3vAiCeLYObUU9te9dCwCCjGOzGiDqd/vvxoeZItBTm9rUpja1qU1talOb2inMTKdgalOb2tSmNrWpTW1qU5sG0FOb2tSmNrWpTW1qU5vafbH/D1lOqauK+i1+AAAAAElFTkSuQmCC" alt="American University of Sharjah" width="260" height="31"></a></div>
+    <div>
+      <div class="eyebrow">Experiential Major Map</div>
+      <h1>Management</h1>
+      <div class="sub">Bachelor of Science in Business Administration (BSBA)</div>
+    </div>
+    <div class="inst">
+      <b><a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship" target="_blank" rel="noopener">Department of Management, Strategy<br>and Entrepreneurship</a></b>
+      <a class="ext" href="https://www.aus.edu/sba" target="_blank" rel="noopener">School of Business Administration</a>
+      <div><span class="edition">2026-2027</span></div>
+    </div>
+  </header>
+
+  <div class="about">Our department prepares <b>the next generation of leaders</b> who will assume positions of responsibility and make viable decisions, with a strong focus on ethical decision-making and stakeholder management. The department serves 295 Management majors and students from 40 nationalities, taught by 18 full-time faculty (SBA Fast Facts, Fall 2026).</div>
+
+  <div class="glance">
+    <div class="ring"><b>120</b><span>total credit hours</span></div>
+    <div class="ring"><b>15</b><span>credits of major requirements</span></div>
+    <div class="ring"><b>12</b><span>credits of major electives</span></div>
+    <div class="ring"><b>200</b><span>internship hours (min.)</span></div>
+    <div class="ring"><b>2.00</b><span>major CGPA (min.)</span></div>
+  </div>
+
+  <div class="band journey"><h2>Your Proposed Four-Year Journey</h2><div class="legend" id="legend"></div></div>
+  <div class="hint">Scroll the table sideways to see all four years.</div>
+
+  <div class="tscroll">
+    <table class="map" id="map">
+      <colgroup><col class="c-row"><col><col><col><col></colgroup>
+      <thead id="thead"></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <section class="leads">
+    <div class="band"><h2>Where It Leads</h2><p>The skills you graduate with, the careers and employers they open, and where you can go next.</p></div>
+    <div class="lgrid" id="leads"></div>
+  </section>
+
+  <div class="cpop" id="cpop" hidden>
+    <div class="pc-panel" role="dialog" aria-modal="true" aria-labelledby="pc-title">
+      <button type="button" class="pc-close" aria-label="Close">&times;</button>
+      <div class="pc-code"></div>
+      <h3 class="pc-title" id="pc-title"></h3>
+      <p class="pc-desc"></p>
+      <p class="pc-pre"></p>
+      <div class="pc-cx" hidden><div class="pc-cx-h">Related Coursera courses</div><div class="pc-cx-list"></div></div>
+      <p class="pc-src">Source: <a class="ext" href="https://www.aus.edu/resources/undergraduate-catalog-2026-2027" target="_blank" rel="noopener">AUS Undergraduate Catalog 2026-2027</a></p>
+    </div>
+  </div>
+
+  <footer>
+    <div><b><a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship" target="_blank" rel="noopener">Department of Management, Strategy and Entrepreneurship</a></b> &nbsp;|&nbsp; School of Business Administration, American University of Sharjah</div>
+    <div>Head of Department: Dr. Virginia Bodolica &nbsp;|&nbsp; Department office: abegail@aus.edu &nbsp;|&nbsp; +971 6 515 2302</div>
+    <div>Always confirm requirements in the current <a class="ext" href="https://www.aus.edu/resources/undergraduate-catalog-2026-2027" target="_blank" rel="noopener">AUS Undergraduate Catalog</a>.</div>
+  </footer>
+</div>
+
+<script>
+/* ---------- Categories ---------- */
+const CATS = {
+  major:{label:"Major Requirement", color:"var(--c-major)"},
+  mje:{label:"Major Elective", color:"var(--c-mje)"},
+  core:{label:"Business Core", color:"var(--c-core)"},
+  gen:{label:"General Education", color:"var(--c-gen)"},
+  fre:{label:"Free Elective", color:"var(--c-fre)"},
+  intern:{label:"Internship", color:"var(--c-intern)"}
+};
+
+/* ---------- Years and courses (AUS catalog sequence) ---------- */
+const YEARS = [
+  {n:1, name:"First Year", theme:"Foundation Courses", cr:30, cum:30,
+   fall:[["ACC 201","Financial Accounting","core"],["BUS 100","Introduction to Business","core"],["WRI 101","Academic Writing I","gen"],["GER","History & Culture of the Arab World","gen"],["GER","General Education Core","gen"]],
+   spring:[["ISA 201","Info Systems & Business Analytics","core"],["MGT 201","Fundamentals of Management","core"],["MTH 102","Calculus for Business","gen"],["WRI 102","Academic Writing II","gen"],["GER-SCI","Natural Sciences","gen"]],
+   miles:[["First step into the field","MGT 201 in Spring is your first Management course."]]},
+  {n:2, name:"Second Year", theme:"Business core", cr:30, cum:60,
+   fall:[["ECO 201","Principles of Microeconomics","core"],["ENG 204","Advanced Academic Writing","gen"],["MKT 201","Fundamentals of Marketing","core"],["QBA 201","Quantitative Business Analysis","core"],["GER-SCI","Natural Sciences","gen"]],
+   spring:[["ACC 202","Managerial Accounting","core"],["ECO 202","Principles of Macroeconomics","core"],["FIN 201","Financial Management","core"],["IEN 301","Innovation & Entrepreneurship Mindset","gen"],["SCM 202","Operations Management","core"]],
+   miles:[["Checkpoint before the major","Meet your advisor to confirm Management and plan Year 3, the heaviest load of the degree (18 cr in Fall)."]]},
+  {n:3, name:"Third Year", theme:"Management core", cr:33, cum:93, major:true, badge:"Major starts",
+   fall:[["ENG 208","Public Speaking","gen"],["MGT 301","Organizational Behavior","major"],["MGT 302","Managing Human Resources","major"],["MGT 360","Business Ethics & Social Responsibility","core"],["GER","Arts and Literature","gen"],["FRE","Free Elective","fre"]],
+   spring:[["BLW 301","Business Law","core"],["MGT 305","International Business","major"],["MGT 380","Project Management","major"],["ENG 225","Writing for Business","core"],["GER","Human Interaction and Behavior","gen"]],
+   miles:[["Internship eligible","<a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement/internships' target='_blank' rel='noopener'>BUS 397</a> needs junior II standing and the internship manager's permission. Apply one semester ahead."],
+          ["Summer: BUS 397 Business Internship","At least 5 weeks / 200 hours with an approved organization, plus a formal report. Pass/Fail, 0 cr. <a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement/internships' target='_blank' rel='noopener'>Internship rules</a>","intern"]]},
+  {n:4, name:"Fourth Year", theme:"Specialization & Integration", cr:27, cum:120, major:true, badge:"Capstone",
+   fall:[["MGT 403","Entrepreneurship","major"],["MJE","Major Elective","mje"],["MJE","Major Elective","mje"],["GER","Culture in a Critical Perspective","gen"],["FRE","Free Elective","fre"]],
+   spring:[["MGT 406","Business Policy & Strategy (capstone)","core"],["MJE","Major Elective","mje"],["MJE","Major Elective","mje"],["FRE","Free Elective","fre"]],
+   miles:[["Shape your focus","Choose 4 major electives: any 300+ level MGT course not already required, or an approved special topic (<a class='ext' href='https://www.aus.edu/resources/undergraduate-catalog-2026-2027' target='_blank' rel='noopener'>catalog</a>). See the full list at the bottom of the table."],
+          ["Graduate","Complete MGT 406 and reach 120 credit hours."]]}
+];
+
+/* ---------- Experience rows ---------- */
+const C = t => ` <span class="tag ${t==="ELECTIVE"?"el":""}">${t}</span>`;
+const R = t => ` <span class="tag rec">${t}</span>`;
+const PILLARS = [
+  {k:"learn", name:"Learn", sub:"Academic success", years:[
+    ["Meet your <strong>SBA academic advisor</strong> to map your four-year plan",
+     "Attend the <a class='ext' href='https://www.aus.edu/academics/asc' target='_blank' rel='noopener'><strong>ASC workshop series</strong></a> on time management, note-taking, test-taking and using GenAI well"+R("WEEKLY"),
+     "Book tutoring or drop-in reviews at the SBA <strong><a class='ext' href='https://www.aus.edu/sites/default/files/aus_resources_spring_2026_0.pdf' target='_blank' rel='noopener'>Business Learning Center (BLC)</a></strong> (SBA 1164) for ACC 201"+R("WEEKLY"),
+     "Take the <a class='ext' href='https://www.aus.edu/academics/asc' target='_blank' rel='noopener'><strong>Strong Interest Inventory</strong></a> at ASC to test your fit with Management"],
+    ["Use <strong><a class='ext' href='https://www.aus.edu/sites/default/files/aus_resources_spring_2026_0.pdf' target='_blank' rel='noopener'>BLC</a></strong> tutoring for your business core: ECO, QBA 201, FIN 201, ACC 202 and SCM 202"+R("WEEKLY"),
+     "Use <a class='ext' href='https://www.aus.edu/academics/asc' target='_blank' rel='noopener'><strong>ASC academic coaching</strong></a> to lift your GPA before the major",
+     "Review your degree audit with your advisor each semester"],
+    ["Protect your major CGPA; the minimum is 2.00",
+     "Talk to faculty about the elective focus that fits your goals",
+     "Consider a <a class='ext' href='https://www.aus.edu/programs/majors-minors' target='_blank' rel='noopener'><strong>minor</strong></a> from another SBA department or another college to broaden your profile"],
+    ["Solve strategic-level business cases in the <strong>MGT 406</strong> capstone, drawing on all your core courses"+C("COURSE"),
+     "Do a final degree audit and apply to graduate"]]},
+  {k:"lead", name:"Lead & Connect", sub:"Community and leadership", years:[
+    ["Start at <strong><a class='ext' href='https://www.aus.edu/sba' target='_blank' rel='noopener'>Meet SBA</a></strong>, the welcome fair for SBA majors and clubs, co-hosted by AIMS"+R("EVERY FALL"),
+     "Join <a class='ext' href='https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship' target='_blank' rel='noopener'><strong>AIMS</strong></a>, the Association for Innovation, Management and Strategy and the student organization for Management majors"],
+    ["Compete in <a class='ext' href='https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship' target='_blank' rel='noopener'>AIMS</a> events such as <strong>Battle of the Brains</strong>"+R("EVERY SEMESTER"),
+     "Take an active role on an AIMS committee or event team",
+     "Attend events by the <a class='ext' href='https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship' target='_blank' rel='noopener'><strong>Said T. Khoury Chair of Leadership Studies</strong></a>",
+     "Connect with an <a class='ext' href='https://www.aus.edu/academics/asc' target='_blank' rel='noopener'><strong>ASC peer mentor</strong></a>"],
+    ["Run for a <strong>leadership position</strong> in AIMS or another SBA club",
+     "Join the AIMS <strong>Future Leaders Bootcamp</strong>",
+     "Use what <strong>MGT 301</strong> teaches on motivation, power, conflict and negotiation in the teams you lead"+C("COURSE"),
+     "Build your presence in <strong>ENG 208</strong> and present at events"+C("COURSE")],
+    ["Become a <strong>peer mentor</strong> for first-year students",
+     "Lead your <strong>MGT 403</strong> venture team"+C("COURSE"),
+     "Grow as a leader in <strong>MGT 303</strong> Management and Leadership Development"+C("ELECTIVE"),
+     "Hand over your club role and document what you learned"]]},
+  {k:"explore", name:"Explore", sub:"Global and entrepreneurial", years:[
+    ["Attend the <a class='ext' href='https://www.aus.edu/sba/research/ceisd' target='_blank' rel='noopener'><strong>CEI Founder Talk</strong></a> series with UAE startup founders"+R("EVERY SEMESTER"),
+     "Watch the <strong><a class='ext' href='https://www.aus.edu/sba/research/ceisd' target='_blank' rel='noopener'>Dragon's Den</a></strong> final pitches to see what IEN 301 teams build"+R("EVERY SEMESTER"),
+     "Visit <a class='ext' href='https://www.aus.edu/academics/international-study-and-exchange' target='_blank' rel='noopener'><strong>International Study and Exchange</strong></a> to learn about exchange options"],
+    ["Take an idea from design thinking to prototype in <strong>IEN 301</strong>, then pitch at <strong><a class='ext' href='https://www.aus.edu/sba/research/ceisd' target='_blank' rel='noopener'>Dragon's Den</a></strong>. Winners receive AED 2,500 in seed funding and fast-track entry to <a class='ext' href='https://sheraa.ae' target='_blank' rel='noopener'>Sheraa's DOJO program</a>"+C("COURSE"),
+     "Join <a class='ext' href='https://www.instagram.com/aus.launchpad' target='_blank' rel='noopener'><strong>Launchpad</strong></a> (formerly Startup SBA), SBA's student entrepreneurship club",
+     "Plan an exchange semester so credits transfer smoothly"],
+    ["Study abroad or join an exchange program",
+     "Link <strong>MGT 305</strong> to a real cross-border company or case"+C("COURSE"),
+     "Join CEI's <a class='ext' href='https://www.aus.edu/sba/research/ceisd' target='_blank' rel='noopener'><strong>Spark, Shape, Scale</strong></a> pathway if you have a venture idea",
+     "From a family business? Connect with the <a class='ext' href='https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship' target='_blank' rel='noopener'><strong>Chair in Family Business</strong></a> and consider <strong>MGT 310</strong>"+C("ELECTIVE")],
+    ["Write a viable business plan in <strong>MGT 403</strong>"+C("COURSE"),
+     "Take your venture further in <strong>MGT 450</strong> Business Venture with <a class='ext' href='https://sheraa.ae' target='_blank' rel='noopener'>Sheraa</a>"+C("ELECTIVE"),
+     "Seek pre-incubation through <a class='ext' href='https://www.aus.edu/sba/research/ceisd' target='_blank' rel='noopener'>CEI</a> partners such as <a class='ext' href='https://sheraa.ae' target='_blank' rel='noopener'>Sheraa</a>"]]},
+  {k:"launch", name:"Launch", sub:"Career readiness", years:[
+    ["Join the Office of Student Experience <strong>Skills Development Workshops</strong>: CV writing, interview skills and personal branding"+R("EVERY FALL"),
+     "Visit the <a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement' target='_blank' rel='noopener'><strong>SBA Career Design Lab (CDL)</strong></a> to start exploring careers",
+     "Create your LinkedIn profile"],
+    ["Attend <strong><a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement' target='_blank' rel='noopener'>CDL employer sessions</a></strong>: guest lectures, campus visits and info sessions with firms such as L'Oréal, PwC and Mashreq"+R("EVERY SEMESTER"),
+     "Go to CDL's <strong><a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement' target='_blank' rel='noopener'>Prepare for the Career Fair</a></strong> session, then the <a class='ext' href='https://www.aus.edu/media/news/aus-career-fair-2025-connects-students-and-alumni-to-over-914-internship-and-employment-opportunities' target='_blank' rel='noopener'><strong>AUS Career Fair</strong></a> to meet employers early"+R("ANNUAL, FEB"),
+     "Build your first resume with the CDL"],
+    ["Attend a CDL <a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement/internships' target='_blank' rel='noopener'><strong>Internship Info Session</strong></a> and apply for <strong>BUS 397</strong> one semester ahead"+C("COURSE"),
+     "Use <a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement' target='_blank' rel='noopener'><strong>CDL Office Hours</strong></a> (SBA 1109 or online) for internship questions and letters"+R("MON TO THU"),
+     "Bring your <strong>MGT 380</strong> scheduling and budgeting skills to internship projects"+C("COURSE"),
+     "Map your strengths, interests and values in <strong>MGT 316</strong> Career Management"+C("ELECTIVE")],
+    ["Return to the <a class='ext' href='https://www.aus.edu/media/news/aus-career-fair-2025-connects-students-and-alumni-to-over-914-internship-and-employment-opportunities' target='_blank' rel='noopener'><strong>AUS Career Fair</strong></a> and use the CDL's <a class='ext' href='https://www.aus.edu/sba/partnerships/internships-and-placement' target='_blank' rel='noopener'><strong>placement support</strong></a> for full-time roles"+R("ANNUAL, FEB"),
+     "Attend the <strong><a class='ext' href='https://www.aus.edu/sba/programs/graduate-programs' target='_blank' rel='noopener'>SBA Graduate Open Day</a></strong> if you are considering graduate study"+R("EVERY SPRING"),
+     "Aiming for consulting? <strong>MGT 345</strong> offers real client assignments and industry networking"+C("ELECTIVE"),
+     "Secure faculty and employer references"]]}
+];
+
+const ICONS = {
+  study:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9L12 4 2 9l10 5 10-5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/></svg>',
+  check:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l3 3 5-6"/></svg>',
+  miles:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4"/><path d="M4 4h12l-2 4 2 4H4"/></svg>',
+  learn:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg>',
+  lead:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.5"/><path d="M2 21v-1.5A5.5 5.5 0 0 1 7.5 14h3a5.5 5.5 0 0 1 5.5 5.5V21"/><circle cx="17.5" cy="8.5" r="2.5"/><path d="M18 14.2a4.5 4.5 0 0 1 4 4.4V21"/></svg>',
+  explore:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20a15 15 0 0 1 0-20"/></svg>',
+  launch:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg>'
+};
+
+/* ---------- Outcomes column ---------- */
+/* Skills mapped to industry frameworks:
+   WEF = World Economic Forum Future of Jobs Report 2025 (top core skills and fastest-growing skills to 2030)
+   NACE = National Association of Colleges and Employers career readiness competencies */
+const REQ = new Set(["MGT 201","MGT 301","MGT 302","MGT 305","MGT 360","MGT 380","MGT 403","MGT 406","IEN 301","ISA 201","QBA 201","MKT 201","ENG 208","ENG 225","BLW 301","BUS 397"]);
+const SKILLS = [
+  ["Analytical and strategic thinking","Statistics, business data, and strategy formulation and implementation",["QBA 201","ISA 201","MGT 406"],["WEF #1 core skill","NACE"]],
+  ["Leadership and social influence","Motivation, power and politics, conflict and negotiation",["MGT 301","ENG 208","MGT 303"],["WEF core","NACE"]],
+  ["Creative thinking","Design thinking, ideation, prototyping and experimentation",["IEN 301","MGT 403"],["WEF core","WEF rising"]],
+  ["Resilience, flexibility and agility","Leading innovation and change, and learning on the job",["MGT 313","BUS 397"],["WEF core","WEF rising"]],
+  ["Motivation and self-awareness","Your strengths, interests, values and leadership potential",["MGT 316","MGT 303"],["WEF core","NACE"]],
+  ["Talent management","Recruitment, appraisal, compensation, training and performance",["MGT 302","MGT 304"],["WEF core","WEF rising"]],
+  ["Empathy and active listening","Understanding users and stakeholders before solving",["IEN 301","MGT 360"],["WEF core"]],
+  ["Technological literacy","Information systems, databases and AI-enabled organizations",["ISA 201","BUS 294"],["WEF rising","NACE"]],
+  ["AI and data analytics","Business analytics, AI in organizations and people analytics",["ISA 201","BUS 294","MGT 330"],["WEF #1 rising"]],
+  ["Environmental stewardship","CSR, sustainability risks and opportunities",["MGT 360","MGT 317"],["WEF rising"]],
+  ["Customer and service orientation","Consumer needs, segmentation and integrated communication",["MKT 201"],["WEF core"]],
+  ["Global and cross-cultural competence","International business and working across cultures",["MGT 305","MGT 306"],["NACE"]],
+  ["Teamwork and project delivery","Team dynamics, scheduling, budgeting and closure",["MGT 380","MGT 301"],["NACE"]],
+  ["Communication","CVs, reports, proposals and public speaking",["ENG 225","ENG 208"],["NACE"]],
+  ["Ethics, law and professionalism","Ethical decisions, business law and real workplace conduct",["MGT 360","BLW 301","BUS 397"],["NACE"]]
+];
+/* Approved Coursera courses by skill (v1.11). Source: Approved_Coursera_Course_Matrix.xlsx; assigned to skills by relevance. Provider, rating and length looked up on Coursera where found. */
+const CX_ICON = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M10 8l5 2.5-5 2.5z" fill="currentColor"/><path d="M8 21h8"/></svg>';
+const CX_INFO = {
+ "leadership-adapt-your-style": {
+  "t": "Adapt your leadership style",
+  "u": "https://www.coursera.org/learn/leadership-adapt-your-style",
+  "p": "Macquarie University",
+  "r": "4.83",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "agile-project-management": {
+  "t": "Agile Project Management",
+  "u": "https://www.coursera.org/learn/agile-project-management",
+  "p": null,
+  "r": null,
+  "d": null,
+  "spec": false
+ },
+ "descriptive-statistics-statistical-distributions-business-application": {
+  "t": "Basic Data Descriptors, Statistical Distributions, and Application to Business Decisions",
+  "u": "https://www.coursera.org/learn/descriptive-statistics-statistical-distributions-business-application",
+  "p": "Rice University",
+  "r": "4.74",
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "high-performing-teams": {
+  "t": "Building High-Performing Teams",
+  "u": "https://www.coursera.org/learn/high-performing-teams",
+  "p": null,
+  "r": null,
+  "d": null,
+  "spec": false
+ },
+ "business-model-canvas": {
+  "t": "Business Model Canvas: A Tool for Entrepreneurs and Innovators (Project-Centered Course)",
+  "u": "https://www.coursera.org/learn/business-model-canvas",
+  "p": "Kennesaw State University",
+  "r": "4.65",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "social-business": {
+  "t": "Creating a Social Business",
+  "u": "https://www.coursera.org/learn/social-business",
+  "p": "Yunus Social Business Fund Bengaluru",
+  "r": "4.00",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "creative-innovation-strategies": {
+  "t": "Creative Innovation Strategies Specialization",
+  "u": "https://www.coursera.org/specializations/creative-innovation-strategies",
+  "p": null,
+  "r": null,
+  "d": null,
+  "spec": true
+ },
+ "developing-and-managing-sustainable-supply-chains": {
+  "t": "Developing and Managing Sustainable Supply Chains",
+  "u": "https://www.coursera.org/learn/developing-and-managing-sustainable-supply-chains",
+  "p": "University of Colorado Boulder",
+  "r": "4.82",
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "uva-darden-design-thinking": {
+  "t": "Design Thinking Specialization",
+  "u": "https://www.coursera.org/specializations/uva-darden-design-thinking",
+  "p": null,
+  "r": null,
+  "d": null,
+  "spec": true
+ },
+ "entrepreneurialmindset": {
+  "t": "Entrepreneurial Mindset",
+  "u": "https://www.coursera.org/learn/entrepreneurialmindset",
+  "p": "Tecnológico de Monterrey",
+  "r": "4.41",
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "financial-analysis-and-modeling": {
+  "t": "Financial Analysis and Modeling",
+  "u": "https://www.coursera.org/learn/financial-analysis-and-modeling",
+  "p": "IBM",
+  "r": "2.33",
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "global-impact-cross-cultural-management": {
+  "t": "Global Impact: Cross-Cultural Management",
+  "u": "https://www.coursera.org/learn/global-impact-cross-cultural-management",
+  "p": "University of Illinois Urbana-Champaign",
+  "r": "4.75",
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "global-marketing-international-business-strategy": {
+  "t": "Global Marketing and International Business Strategy",
+  "u": "https://www.coursera.org/learn/global-marketing-international-business-strategy",
+  "p": "EDUCBA",
+  "r": "5.00",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "global-sustainability-be-sustainable": {
+  "t": "Global sustainability and corporate social responsibility: Be sustainable",
+  "u": "https://www.coursera.org/learn/global-sustainability-be-sustainable",
+  "p": "Macquarie University",
+  "r": "4.75",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "hire-faster-hire-smarter": {
+  "t": "Hire faster, hire smarter",
+  "u": "https://www.coursera.org/learn/hire-faster-hire-smarter",
+  "p": "PracticalGrowth",
+  "r": null,
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "social-entrepreneurship-opportunities": {
+  "t": "Identifying Social Entrepreneurship Opportunities",
+  "u": "https://www.coursera.org/learn/social-entrepreneurship-opportunities",
+  "p": "Copenhagen Business School",
+  "r": "4.62",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "innovation-management": {
+  "t": "Innovation Management",
+  "u": "https://www.coursera.org/learn/innovation-management",
+  "p": "Erasmus University Rotterdam",
+  "r": "4.69",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "organizational-behavior": {
+  "t": "International Leadership and Organizational Behavior",
+  "u": "https://www.coursera.org/learn/organizational-behavior",
+  "p": "Università Bocconi",
+  "r": "4.79",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "excel-data-analysis": {
+  "t": "Introduction to Data Analysis Using Excel",
+  "u": "https://www.coursera.org/learn/excel-data-analysis",
+  "p": "Rice University",
+  "r": "4.70",
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "negotiation": {
+  "t": "Introduction to Negotiation: A Strategic Playbook for Becoming a Principled and Persuasive Negotiator",
+  "u": "https://www.coursera.org/learn/negotiation",
+  "p": null,
+  "r": null,
+  "d": null,
+  "spec": false
+ },
+ "sage-knowledge-management": {
+  "t": "Knowledge Management",
+  "u": "https://www.coursera.org/learn/sage-knowledge-management",
+  "p": null,
+  "r": null,
+  "d": null,
+  "spec": false
+ },
+ "lead-teams-through-change-conflict-and-uncertainty": {
+  "t": "Lead Teams Through Change, Conflict, and Uncertainty",
+  "u": "https://www.coursera.org/learn/lead-teams-through-change-conflict-and-uncertainty",
+  "p": "Board Infinity",
+  "r": null,
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "change-management": {
+  "t": "Leading transformations: Manage change",
+  "u": "https://www.coursera.org/learn/change-management",
+  "p": "Macquarie University",
+  "r": "4.71",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "linear-regression-business-statistics": {
+  "t": "Linear Regression for Business Statistics",
+  "u": "https://www.coursera.org/learn/linear-regression-business-statistics",
+  "p": "Rice University",
+  "r": "4.81",
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "responsible-management": {
+  "t": "Managing Responsibly: Practicing Sustainability, Responsibility and Ethics",
+  "u": "https://www.coursera.org/learn/responsible-management",
+  "p": "University of Manchester",
+  "r": "4.76",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "modern-recruiting-channels-outreach-nurture": {
+  "t": "Modern Recruiting: Channels, Outreach, Nurture",
+  "u": "https://www.coursera.org/learn/modern-recruiting-channels-outreach-nurture",
+  "p": "PracticalGrowth",
+  "r": null,
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "organisational-behaviour-know-your-people": {
+  "t": "Organisational behaviour: Know your people",
+  "u": "https://www.coursera.org/learn/organisational-behaviour-know-your-people",
+  "p": "Macquarie University",
+  "r": "4.84",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "picking-the-right-candidate-evidence-based-selection": {
+  "t": "Picking the Right Candidate: Evidence-Based Selection",
+  "u": "https://www.coursera.org/learn/picking-the-right-candidate-evidence-based-selection",
+  "p": "PracticalGrowth",
+  "r": null,
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "program-design-and-evaluation-1": {
+  "t": "Program Design and Evaluation",
+  "u": "https://www.coursera.org/learn/program-design-and-evaluation-1",
+  "p": "O.P. Jindal Global University",
+  "r": "3.75",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "project-initiation-google": {
+  "t": "Project Initiation: Starting a Successful Project",
+  "u": "https://www.coursera.org/learn/project-initiation-google",
+  "p": null,
+  "r": null,
+  "d": null,
+  "spec": false
+ },
+ "promote-ethical-data-driven-technologies": {
+  "t": "Promote the Ethical Use of Data-Driven Technologies",
+  "u": "https://www.coursera.org/learn/promote-ethical-data-driven-technologies",
+  "p": "CertNexus",
+  "r": "4.72",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "communicate-with-impact": {
+  "t": "Storytelling and influencing: Communicate with impact",
+  "u": "https://www.coursera.org/learn/communicate-with-impact",
+  "p": "Macquarie University",
+  "r": "4.81",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "strategic-management-be-competitive": {
+  "t": "Strategic management: Be competitive",
+  "u": "https://www.coursera.org/learn/strategic-management-be-competitive",
+  "p": "Macquarie University",
+  "r": "4.83",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "sustainable-business-enterprises": {
+  "t": "Sustainable Business Enterprises",
+  "u": "https://www.coursera.org/learn/sustainable-business-enterprises",
+  "p": "University of Illinois Urbana-Champaign",
+  "r": "4.31",
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "teamwork-and-creativity": {
+  "t": "Teamwork and Creativity",
+  "u": "https://www.coursera.org/learn/teamwork-and-creativity",
+  "p": "University of Illinois Urbana-Champaign",
+  "r": "4.68",
+  "d": "1 to 3 months",
+  "spec": false
+ },
+ "the-circular-economy": {
+  "t": "The Circular Economy",
+  "u": "https://www.coursera.org/learn/the-circular-economy",
+  "p": "University of Colorado Boulder",
+  "r": "4.87",
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "aphri-total-rewards-and-employee-development": {
+  "t": "Total Rewards and Employee Development",
+  "u": "https://www.coursera.org/learn/aphri-total-rewards-and-employee-development",
+  "p": "HRCI",
+  "r": "5.00",
+  "d": "1 to 4 weeks",
+  "spec": false
+ },
+ "unethical-decision-making": {
+  "t": "Unethical Decision Making in Organizations",
+  "u": "https://www.coursera.org/learn/unethical-decision-making",
+  "p": null,
+  "r": null,
+  "d": null,
+  "spec": false
+ }
+};
+const COURSERA = {
+ "Analytical and strategic thinking": [
+  "strategic-management-be-competitive",
+  "financial-analysis-and-modeling",
+  "descriptive-statistics-statistical-distributions-business-application",
+  "linear-regression-business-statistics"
+ ],
+ "Leadership and social influence": [
+  "leadership-adapt-your-style",
+  "communicate-with-impact",
+  "negotiation",
+  "lead-teams-through-change-conflict-and-uncertainty"
+ ],
+ "Creative thinking": [
+  "uva-darden-design-thinking",
+  "creative-innovation-strategies",
+  "innovation-management",
+  "teamwork-and-creativity",
+  "business-model-canvas"
+ ],
+ "Resilience, flexibility and agility": [
+  "change-management",
+  "lead-teams-through-change-conflict-and-uncertainty",
+  "agile-project-management",
+  "entrepreneurialmindset"
+ ],
+ "Motivation and self-awareness": [
+  "leadership-adapt-your-style",
+  "entrepreneurialmindset",
+  "aphri-total-rewards-and-employee-development"
+ ],
+ "Talent management": [
+  "hire-faster-hire-smarter",
+  "modern-recruiting-channels-outreach-nurture",
+  "picking-the-right-candidate-evidence-based-selection",
+  "aphri-total-rewards-and-employee-development",
+  "high-performing-teams"
+ ],
+ "Empathy and active listening": [
+  "organisational-behaviour-know-your-people",
+  "uva-darden-design-thinking",
+  "negotiation",
+  "social-entrepreneurship-opportunities"
+ ],
+ "Technological literacy": [
+  "excel-data-analysis",
+  "sage-knowledge-management",
+  "promote-ethical-data-driven-technologies"
+ ],
+ "AI and data analytics": [
+  "excel-data-analysis",
+  "descriptive-statistics-statistical-distributions-business-application",
+  "linear-regression-business-statistics",
+  "promote-ethical-data-driven-technologies"
+ ],
+ "Environmental stewardship": [
+  "the-circular-economy",
+  "developing-and-managing-sustainable-supply-chains",
+  "global-sustainability-be-sustainable",
+  "sustainable-business-enterprises",
+  "social-business"
+ ],
+ "Customer and service orientation": [
+  "global-marketing-international-business-strategy",
+  "business-model-canvas",
+  "social-business"
+ ],
+ "Global and cross-cultural competence": [
+  "global-impact-cross-cultural-management",
+  "organizational-behavior",
+  "global-marketing-international-business-strategy"
+ ],
+ "Teamwork and project delivery": [
+  "high-performing-teams",
+  "teamwork-and-creativity",
+  "agile-project-management",
+  "project-initiation-google",
+  "program-design-and-evaluation-1"
+ ],
+ "Communication": [
+  "communicate-with-impact",
+  "negotiation",
+  "organisational-behaviour-know-your-people"
+ ],
+ "Ethics, law and professionalism": [
+  "unethical-decision-making",
+  "responsible-management",
+  "promote-ethical-data-driven-technologies"
+ ]
+};
+const CAREERS = ["General management","Management trainee programs","Business consulting","Human resource management","Recruitment","Project management","Technology management","Government administration","Entrepreneurship","Family business","Event management"];
+const GRAD_EMP = ["Dell","BCG","ENOC","Emaar","KPMG","Mastercard","Etihad","Deloitte","Dubai Police"];
+const FAIR_EMP = ["Emirates NBD","Samsung","HSBC","Dubai Airports","Procter & Gamble","Arada","L'Or\u00e9al","Nestl\u00e9","Henkel","TotalEnergies","Gulftainer","BEEAH Group","Crescent Enterprises","Veolia"];
+document.getElementById("leads").innerHTML = `
+ <div class="lcard skills-card">
+  <div class="oh">Skills you will build</div>
+  <p class="note">Mapped to what employers ask for: the World Economic Forum <a class="ext" href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/in-full/3-skills-outlook/" target="_blank" rel="noopener"><i>Future of Jobs Report 2025</i></a> (WEF core skills today and fastest-rising skills to 2030) and the <a class="ext" href="https://www.naceweb.org/career-readiness/competencies/career-readiness-defined" target="_blank" rel="noopener">NACE career readiness competencies</a>. Solid course codes are required courses; <span class="ekey">lighter red</span> codes are MGT major electives you can choose to go further. <span class="cxkey">Blue icons</span> are approved Coursera courses related to each skill: hover for details, click to open.</p>
+  <div class="sgrid">${SKILLS.map(([s,d,cs,src])=>`<div class="sk">
+    <div class="sk-top"><b>${s}</b><span class="srcs">${src.map(x=>`<a class="src" href="${x.startsWith("NACE")?"https://www.naceweb.org/career-readiness/competencies/career-readiness-defined":"https://www.weforum.org/publications/the-future-of-jobs-report-2025/in-full/3-skills-outlook/"}" target="_blank" rel="noopener">${x}</a>`).join("")}</span></div>
+    <small>${d}</small>
+    <div class="skrow">
+      <div class="cs">${cs.map(c=>`<button type="button" class="cbtn ${REQ.has(c)?"":"opt"}" data-code="${c}">${c}</button>`).join("")}</div>
+      <div class="cx" aria-label="Coursera courses">${(COURSERA[s]||[]).map(k=>{const c=CX_INFO[k];return `<a class="cx-i" href="${c.u}" target="_blank" rel="noopener" aria-label="Coursera: ${c.t}${c.p?", "+c.p:""}${c.r?", rated "+c.r:""}">${CX_ICON}<span class="tip"><b>${c.t}</b>${c.p?`<span class="tp">${c.p}</span>`:""}${(c.r||c.d||c.spec)?`<span class="tr">${c.r?`<i>&#9733;</i> ${c.r}`:""}${c.r&&(c.d||c.spec)?" &middot; ":""}${c.spec?"Specialization (multi-course)":(c.d||"")}</span>`:""}<span class="tc">Approved Coursera course &middot; click to open</span></span></a>`}).join("")}</div>
+    </div>
+  </div>`).join("")}</div>
+ </div>
+ <div class="lcard">
+  <div class="oh">Careers you can pursue</div>
+  <p class="note">Career fields where Management graduates work, as listed on the <a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-and-entrepreneurship/bachelor-of-science-in-business-administration-major-in-management" target="_blank" rel="noopener">Management major page</a>. The four career paths in the major electives row show which courses lead to each.</p>
+  <div class="careers">${CAREERS.map(c=>`<span>${c}</span>`).join("")}</div>
+ </div>
+ <div class="lcard">
+  <div class="oh">Where our graduates work</div>
+  <p class="note"><span class="keyr"></span>Top employers of our graduates (department Fast Facts, Fall 2026, and the <a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-entrepreneurship" target="_blank" rel="noopener">department website</a>). <span class="keyg"></span>A selection of the 79 employers recruiting at the <a class="ext" href="https://www.aus.edu/media/news/aus-career-fair-2025-connects-students-and-alumni-to-over-914-internship-and-employment-opportunities" target="_blank" rel="noopener">AUS Career Fair 2025</a>, which offered 914+ internship and job opportunities.</p>
+  <div class="careers">${GRAD_EMP.map(c=>`<span class="top">${c}</span>`).join("")}${FAIR_EMP.filter(c=>!GRAD_EMP.includes(c)).map(c=>`<span>${c}</span>`).join("")}</div>
+ </div>
+ <div class="lcard full">
+  <div class="oh">Keep growing</div>
+  <div class="grow">
+    <div><b><a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-and-entrepreneurship/master-of-business-administration" target="_blank" rel="noopener">Master of Business Administration (MBA)</a></b><span>A blended program of eight core courses and three electives that prepares you for management and leadership roles in the private and public sectors.</span></div>
+    <div><b><a class="ext" href="https://www.aus.edu/sba/department-of-management-strategy-and-entrepreneurship/phd-in-management" target="_blank" rel="noopener">PhD in Management</a></b><span>Targets careers in academia or research, with focus areas in strategic management and corporate leadership, entrepreneurship and family business, and organizational behavior and human resources.</span></div>
+  </div>
+ </div>`;
+
+/* ---------- Year-end checklist (inside the table) ---------- */
+const CHECKS = [
+  {a:["Built my four-year plan with my advisor","Attended ASC workshops or BLC tutoring"],
+   c:["Attended Meet SBA and joined AIMS or another club","Joined an OSE Skills Development Workshop","Visited the SBA Career Design Lab"]},
+  {a:["Reviewed my degree audit each semester","Confirmed Management as my major"],
+   c:["Built my first resume","Attended a CDL employer session","Attended the AUS Career Fair"]},
+  {a:["Kept my major CGPA at 2.00 or higher","Chose my elective focus"],
+   c:["Held a student leadership role","Applied for BUS 397 a semester ahead","Completed my BUS 397 internship"]},
+  {a:["Completed my 4 major electives","Did my final degree audit and applied to graduate"],
+   c:["Secured faculty and employer references","Set my job or graduate study plan"]}
+];
+
+
+/* ---------- Course descriptions (AUS Undergraduate Catalog 2026-2027) ---------- */
+const INFO = {
+ "MGT 201":["Fundamentals of Management","Surveys the basic concepts of organizational behavior and the functions and activities of the manager from a global perspective: plans, goals, decision making, change, motivation, human resources, ethics and social responsibility, groups and teams, organization design, leadership and control.","Prerequisite/concurrent: WRI 102"],
+ "IEN 301":["Innovation and Entrepreneurship Mindset","Covers the design thinking process and entrepreneurship practices: empathetic understanding of users, problem reframing, idea generation, prototyping, experimentation, lean-startup methods, go-to-market strategies, and pitching. Builds an innovation mindset grounded in sustainability and leadership.","Prerequisite: sophomore II standing"],
+ "MGT 301":["Organizational Behavior","Examines the factors that influence individual and group performance using current management theory and research: perception, personality, attitudes, values, motivation, decision making, leadership, power and politics, conflict and negotiation, groups and culture.","Prerequisite: MGT 201; prerequisite/concurrent: ENG 203 or ENG 204"],
+ "MGT 302":["Managing Human Resources","Examines the foundations, functions and activities of managing human resources, balancing theory and practice: personnel planning, recruitment and selection, policy and procedures, performance appraisal, compensation and benefits, training, safety and industrial relations.","Prerequisites: MGT 201 and ENG 204"],
+ "MGT 305":["International Business","Examines international trade and investment, international institutions, the international monetary system and exchange markets, and the major issues in the functional areas of international business and management.","Prerequisites: MGT 201, and ENG 203 or ENG 204"],
+ "MGT 360":["Business Ethics and Social Responsibility","Introduces the ethical dimensions of business as they relate to stakeholders inside and outside the organization: business ethical theory, ethical decision making, typical dilemmas and corporate social responsibility.","Prerequisite: MGT 201; prerequisite/concurrent: ENG 203 or ENG 204"],
+ "MGT 380":["Project Management","Examines the concepts and techniques of managing projects in service and manufacturing settings: project selection and evaluation, team dynamics, motivation and evaluation, scheduling, budgeting and closure.","Prerequisites: ACC 202, ENG 204, FIN 201, ISA 201 and MGT 201"],
+ "MGT 403":["Entrepreneurship","Focuses on creating new ventures: the people, the process and the dynamics. Covers identifying and evaluating opportunities, success and failure factors, entrepreneurial characteristics, stand-alone and corporate ventures, and local and global issues. Requires a viable business plan.","Prerequisites: ENG 204, and IEN 301 or all of FIN 201, MGT 201 and MKT 201"],
+ "MGT 406":["Business Policy and Strategy","The capstone. Applies knowledge from previous coursework to strategic-level business problems, using business cases extensively: missions and objectives, environmental analysis, formulating, implementing and assessing strategies and policies, and international, social and ethical issues.","Prerequisites: business senior standing; FIN 201, ISA 201, MGT 201, MKT 201 and ENG 204"],
+ "BLW 301":["Business Law","Examines business legal issues including legal concepts and court systems. Surveys contracts, sales, agents, legal forms of business and the regulation of businesses, with international and global perspectives.","Prerequisites: ACC 201 and ECO 202; prerequisite/concurrent: ENG 204 or ENG 208"],
+ "ENG 208":["Public Speaking","Introduces the art of public speaking, debate and argument.",""],
+ "ENG 225":["Writing for Business","Develops skills in writing business documents such as CVs, correspondence, memoranda, short and long reports, and proposals.","Prerequisites: ENG 203 or ENG 204, and sophomore standing"],
+ "BUS 397":["Business Internship","At least five weeks (200 hours) of on-the-job experience with an approved organization, documented in a formal report. 0 credits, graded Pass/Fail. Registration fee applies.","Prerequisites: junior II standing and permission of the internship manager"],
+ "ACC 201":["Fundamentals of Financial Accounting","Introduces the principles and concepts underlying financial statements, including the accounting profession, control, concepts, business entities and all elements of basic financial statements.","Prerequisite: any AUS math placement test or exemption, or any preparatory math course"],
+ "ACC 202":["Fundamentals of Managerial Accounting","Introduces the principles and concepts underlying managerial accounting, including management accounting information and cost accounting.","Prerequisite: ACC 201"],
+ "BUS 100":["Introduction to Business","Introduces the basic principles of business: the economic setting, types of business ownership and business structure, the roles of management, marketing, finance and accounting, the distribution of goods and services, and the evolution of business enterprise.",""],
+ "WRI 101":["Academic Writing I","Focuses on invention, analysis, critical thinking and the rhetorical situation. Introduces analytic and argument essays, quotation, paraphrase and summary, and a clear, effective academic style. Must be completed by the end of junior I standing.","Prerequisite: EPT score of 4 or ELPT score of 1 or WRI 001, or placement into WRI 101"],
+ "WRI 102":["Academic Writing II","Introduces critical writing and information literacy: analyzing and evaluating texts, constructing arguments and using sources effectively. Covers the argument/persuasion essay, evaluation essay and short research essay. Must be completed by the end of junior I standing.","Prerequisite: WRI 101"],
+ "MTH 102":["Calculus for Business","Covers derivatives and their applications, definite and indefinite integrals, methods of integration, functions of more than one variable, partial differentiation and applications to optimization.","Prerequisite: MTH 002 or any AUS math placement test"],
+ "ECO 201":["Principles of Microeconomics","Introduces the basic principles of microeconomics and their applications: supply and demand, operation of markets, consumer and enterprise behavior, competition and monopoly, income distribution and international trade.","Prerequisite: ELPT score of 1 or EPT score of 4 or WRI 001, or placement into WRI 101"],
+ "ECO 202":["Principles of Macroeconomics","Introduces the basic principles of macroeconomics: national income, unemployment, inflation, economic growth, business cycles and open economies.","Prerequisite: ELPT score of 1 or EPT score of 4 or WRI 001, or placement into WRI 101"],
+ "ENG 204":["Advanced Academic Writing","Builds on WRI 102 to develop critical thinking and academic writing: reading and responding to non-literary texts and producing a research paper with analytical and critical arguments.","Prerequisite: WRI 102"],
+ "FIN 201":["Fundamentals of Financial Management","Introduces business finance, including global aspects: short-term funds and long-term capital, money and capital markets, financial analysis and time value of money, valuation of securities, capital budgeting, leasing and cost of capital.","Prerequisites: ACC 201; MTH 102 or MTH 103 or MTH 111; and one of QBA 201, NGN 211, STA 201 or STA 202"],
+ "SCM 202":["Operations Management","Introduces the design, management and control of operations: production planning, quality control and materials management, with tools to improve efficiency, effectiveness and competitiveness in service and manufacturing organizations.","Prerequisite: QBA 201 or NGN 211 or STA 201 or STA 202"],
+ "QBA 201":["Quantitative Business Analysis","Covers descriptive and inferential statistics with an emphasis on business applications and software: probability, sampling distributions, measures and tests of association, estimation, hypothesis testing and linear models.",""],
+ "ISA 201":["Fundamentals of Information Systems and Business Analytics","Data and information as key organizational resources: database, transaction, decision support and enterprise systems, system design, data-driven decision making with business analytics and visualization, and emerging technologies such as virtual reality and artificial intelligence.","Prerequisite/concurrent: WRI 102"],
+ "MKT 201":["Fundamentals of Marketing","Uses the societal marketing concept to develop marketing strategies in a global context: consumer needs, market segmentation, new product development, pricing, distribution and integrated communication.","Prerequisite: WRI 102"],
+ "BUS 294":["AI-Enabled Business Organization","Special topics course (Project Management career path). Catalog description to be added.",""],
+ "MGT 321":["Women in Leadership","Skills and development for women leaders in a multicultural, global environment, with assessment of your own leadership potential.","Prerequisites: MGT 201, and ENG 203 or ENG 204"],
+ "MGT 303":["Management and Leadership Development","Focuses on the skills of successful leaders and managers, with assessment and development of your own managerial and leadership skills throughout the course.","Prerequisites: MGT 201 and ENG 204"],
+ "MGT 304":["Performance Management","Treats performance management as an ongoing process that matches employee contributions with organizational goals, at the organizational, group and individual level, in private and public organizations.","Prerequisite: MGT 201"],
+ "MGT 306":["Cross-Cultural Management","Examines culture as a variable in international management and its impact on strategy, negotiations, human capital, leadership, team building and ethics.","Prerequisite: MGT 301"],
+ "MGT 310":["Fundamentals of Family Business","The unique challenges of family businesses in the UAE: family dynamics, generational gaps, leadership, non-family members, governance and succession planning.","Prerequisite: MGT 201; prerequisite/concurrent: ENG 204"],
+ "MGT 313":["Managing Innovation and Change","The importance of innovation to business success, strategies for enabling innovation and overcoming obstacles to change, and the learning organization in the context of transformational leadership.","Prerequisite: MGT 201"],
+ "MGT 316":["Career Management","A structured approach to career choices and personal development, identifying your strengths, professional interests and values as a basis for career planning.","Prerequisites: MGT 201, and ENG 203 or ENG 204"],
+ "MGT 317":["Management for Sustainability","Managing a company's financial, social and environmental risks, obligations and opportunities.","Prerequisites: MGT 201, and ENG 203 or ENG 204"],
+ "MGT 320":["Knowledge Dynamics in Organizations","Managing learning, unlearning and knowledge loss, and the socio-cultural side of knowledge in organizations.","Prerequisites: MGT 201 and WRI 102"],
+ "MGT 330":["People Analytics","Uses data and analytical tools to inform decisions about managing employees and to address strategic HR challenges.","Prerequisites: MGT 201; and QBA 201 or STA 201 or STA 202 or NGN 211"],
+ "MGT 345":["Management Consulting","Consulting tools and techniques, collecting and analyzing data to make client recommendations, real consulting assignments and networking with industry professionals.","Prerequisites: MGT 201 and junior standing"],
+ "MGT 404":["Social Entrepreneurship","Building a social venture's business plan, co-creating solutions with communities, analyzing social impact and choosing a business model.","Prerequisite: MGT 360"],
+ "MGT 450":["Business Venture with Sheraa","Hands-on activities, design sprints and mentorship that take you from idea generation to a viable venture or a launched business.","Prerequisite/concurrent: MGT 403"]
+};
+/* Major electives by career path (MS&E "Management Major: Career Paths" sheet) */
+const TRACKS = [
+  {t:"Entrepreneurship & Family Business", core:"MGT 403", ce:["MGT 310","MGT 321","MGT 404","MGT 450"], alt:["MGT 316","MGT 303","MGT 317"]},
+  {t:"Consulting & Business Development", core:"MGT 406", ce:["MGT 303","MGT 305","MGT 306","MGT 345"], alt:["MGT 330","MGT 304","MGT 313"]},
+  {t:"Human Resource Management", core:"MGT 302", ce:["MGT 301","MGT 304","MGT 316","MGT 330"], alt:["MGT 321","MGT 320","MGT 306"]},
+  {t:"Project Management", core:"MGT 380", ce:["BUS 294","MGT 313","MGT 317","MGT 320"], alt:["MGT 305","MGT 345","MGT 450"]}
+];
+const REQSET = new Set(["MGT 301","MGT 302","MGT 305","MGT 380","MGT 403","MGT 406","BLW 301","MGT 360"]);
+const trk = c => `<button type="button" class="trk ${REQSET.has(c)?"req":""}" data-code="${c}"><code>${c}</code><span><b>${INFO[c][0]}</b></span></button>`;
+const TRACKS_HTML = TRACKS.map(tr=>`
+  <div class="tcard"><div class="oh">${tr.t}</div>
+  <div class="tl">Core</div>${trk(tr.core)}
+  <div class="tl">Core / Electives</div>${tr.ce.map(trk).join("")}
+  <div class="tl">Alternatives</div><div class="alts">${tr.alt.map(c=>`<button type="button" class="alt" data-code="${c}">${c}</button>`).join("")}</div>
+  </div>`).join("");
+
+/* ---------- Build the table ---------- */
+const yc = y => y.major ? `y${y.n}` : "";
+const chip = ([code,title,k]) => INFO[code]
+  ? `<button type="button" class="chip info ${k==='major'?'major':''}" data-k="${k}" data-code="${code}" style="--k:${CATS[k].color}"><code>${code}</code><span>${title}</span></button>`
+  : `<div class="chip ${k==='major'?'major':''}" data-k="${k}" style="--k:${CATS[k].color}"><code>${code}</code><span>${title}</span></div>`;
+const rowHead = (k,name,sub,color,term) =>
+  `<th class="rh" style="--pc:${color}"><div class="ic">${ICONS[k]}</div><b>${name}</b><span>${sub}</span>${term?`<div class="term">${term}</div>`:""}</th>`;
+
+document.getElementById("thead").innerHTML = `<tr><th></th>${
+  YEARS.map(y=>`<th class="${yc(y)}"><div class="yh"><div class="n">${y.n}</div><div>${y.name}<small>${y.theme} &middot; ${y.cr} cr</small></div>${y.badge?`<em>${y.badge}</em>`:""}</div></th>`).join("")
+}</tr>`;
+
+const rows = [];
+const totalRows = 3 + PILLARS.length;
+// Fall courses
+rows.push(`<tr class="course first">${rowHead("study","Courses","What you study","var(--p-study)","Fall")}${
+  YEARS.map(y=>`<td class="${yc(y)}"><div class="tcr"><span>Fall</span><span>${y.fall.length*3} cr</span></div><div class="chips">${y.fall.map(chip).join("")}</div></td>`).join("")
+}</tr>`);
+// Spring courses
+rows.push(`<tr class="course second"><th class="rh" style="--pc:var(--p-study)"><div class="term">Spring</div></th>${
+  YEARS.map(y=>`<td class="${yc(y)}"><div class="tcr"><span>Spring</span><span>${y.spring.length*3} cr</span></div><div class="chips">${y.spring.map(chip).join("")}</div></td>`).join("")
+}</tr>`);
+// Milestones
+rows.push(`<tr class="miles">${rowHead("miles","Milestones","Checkpoints and credits","#3d3d3d")}${
+  YEARS.map(y=>`<td>${y.miles.map(([t,d,cls])=>`<div class="ms ${cls||""}"><b>${t}</b>${d}</div>`).join("")}
+    <div class="cum">Cumulative: <b>${y.cum}</b> of 120 cr<div class="bar"><i style="width:${y.cum/120*100}%"></i></div></div></td>`).join("")
+}</tr>`);
+// Pillars
+const PC = {learn:"var(--p-learn)",lead:"var(--p-lead)",explore:"var(--p-explore)",launch:"var(--p-launch)"};
+PILLARS.forEach(p=>{
+  rows.push(`<tr>${rowHead(p.k,p.name,p.sub,PC[p.k])}${
+    p.years.map(items=>`<td style="--pc:${PC[p.k]}"><ul class="ex">${items.map(t=>`<li>${t}</li>`).join("")}</ul></td>`).join("")
+  }</tr>`);
+});
+// Checklist
+rows.push(`<tr class="checks">${rowHead("check","Checklist","Tick off before year end","#3d3d3d")}${
+  CHECKS.map((c,i)=>`<td><div class="check">
+    <div class="ck-h">Academic</div>${c.a.map(t=>`<label><input type="checkbox"><span>${t}</span></label>`).join("")}
+    <div class="ck-h">Career</div>${c.c.map(t=>`<label><input type="checkbox"><span>${t}</span></label>`).join("")}
+  </div><div class="prog" data-col="${i}"></div></td>`).join("")
+}</tr>`);
+// Major electives
+rows.push(`<tr class="mje-row">${rowHead("study","Career Paths","Core and elective courses","var(--c-mje)")}<td colspan="4">
+  <div class="tgrid">${TRACKS_HTML}</div></td></tr>`);
+document.getElementById("tbody").innerHTML = rows.join("");
+
+/* ---------- Approved Coursera courses by MGT course (v1.10, from "Approved_Coursera_Course_Matrix.xlsx"; MGT 300 omitted) ---------- */
+const CX_BY_COURSE = {
+ "MGT 301": [
+  [
+   "Adapt your leadership style",
+   "https://www.coursera.org/learn/leadership-adapt-your-style"
+  ],
+  [
+   "Building High-Performing Teams",
+   "https://www.coursera.org/learn/high-performing-teams"
+  ],
+  [
+   "Global Impact: Cross-Cultural Management",
+   "https://www.coursera.org/learn/global-impact-cross-cultural-management"
+  ],
+  [
+   "International Leadership and Organizational Behavior",
+   "https://www.coursera.org/learn/organizational-behavior"
+  ],
+  [
+   "Introduction to Negotiation: A Strategic Playbook for Becoming a Principled and Persuasive Negotiator",
+   "https://www.coursera.org/learn/negotiation"
+  ],
+  [
+   "Organisational behaviour: Know your people",
+   "https://www.coursera.org/learn/organisational-behaviour-know-your-people"
+  ],
+  [
+   "Storytelling and influencing: Communicate with impact",
+   "https://www.coursera.org/learn/communicate-with-impact"
+  ],
+  [
+   "Teamwork and Creativity",
+   "https://www.coursera.org/learn/teamwork-and-creativity"
+  ]
+ ],
+ "MGT 303": [
+  [
+   "Adapt your leadership style",
+   "https://www.coursera.org/learn/leadership-adapt-your-style"
+  ],
+  [
+   "Lead Teams Through Change, Conflict, and Uncertainty",
+   "https://www.coursera.org/learn/lead-teams-through-change-conflict-and-uncertainty"
+  ],
+  [
+   "Leading transformations: Manage change",
+   "https://www.coursera.org/learn/change-management"
+  ]
+ ],
+ "MGT 306": [
+  [
+   "Adapt your leadership style",
+   "https://www.coursera.org/learn/leadership-adapt-your-style"
+  ],
+  [
+   "Building High-Performing Teams",
+   "https://www.coursera.org/learn/high-performing-teams"
+  ],
+  [
+   "Global Impact: Cross-Cultural Management",
+   "https://www.coursera.org/learn/global-impact-cross-cultural-management"
+  ],
+  [
+   "Introduction to Negotiation: A Strategic Playbook for Becoming a Principled and Persuasive Negotiator",
+   "https://www.coursera.org/learn/negotiation"
+  ]
+ ],
+ "MGT 380": [
+  [
+   "Agile Project Management",
+   "https://www.coursera.org/learn/agile-project-management"
+  ],
+  [
+   "Project Initiation: Starting a Successful Project",
+   "https://www.coursera.org/learn/project-initiation-google"
+  ]
+ ],
+ "MGT 330": [
+  [
+   "Basic Data Descriptors, Statistical Distributions, and Application to Business Decisions",
+   "https://www.coursera.org/learn/descriptive-statistics-statistical-distributions-business-application"
+  ],
+  [
+   "Introduction to Data Analysis Using Excel",
+   "https://www.coursera.org/learn/excel-data-analysis"
+  ],
+  [
+   "Promote the Ethical Use of Data-Driven Technologies",
+   "https://www.coursera.org/learn/promote-ethical-data-driven-technologies"
+  ]
+ ],
+ "MGT 304": [
+  [
+   "Building High-Performing Teams",
+   "https://www.coursera.org/learn/high-performing-teams"
+  ],
+  [
+   "Leading transformations: Manage change",
+   "https://www.coursera.org/learn/change-management"
+  ],
+  [
+   "Organisational behaviour: Know your people",
+   "https://www.coursera.org/learn/organisational-behaviour-know-your-people"
+  ],
+  [
+   "Total Rewards and Employee Development",
+   "https://www.coursera.org/learn/aphri-total-rewards-and-employee-development"
+  ]
+ ],
+ "MGT 403": [
+  [
+   "Building High-Performing Teams",
+   "https://www.coursera.org/learn/high-performing-teams"
+  ],
+  [
+   "Business Model Canvas: A Tool for Entrepreneurs and Innovators (Project-Centered Course)",
+   "https://www.coursera.org/learn/business-model-canvas"
+  ],
+  [
+   "Entrepreneurial Mindset",
+   "https://www.coursera.org/learn/entrepreneurialmindset"
+  ],
+  [
+   "Financial Analysis and Modeling",
+   "https://www.coursera.org/learn/financial-analysis-and-modeling"
+  ],
+  [
+   "Storytelling and influencing: Communicate with impact",
+   "https://www.coursera.org/learn/communicate-with-impact"
+  ]
+ ],
+ "MGT 450": [
+  [
+   "Building High-Performing Teams",
+   "https://www.coursera.org/learn/high-performing-teams"
+  ],
+  [
+   "Business Model Canvas: A Tool for Entrepreneurs and Innovators (Project-Centered Course)",
+   "https://www.coursera.org/learn/business-model-canvas"
+  ],
+  [
+   "Entrepreneurial Mindset",
+   "https://www.coursera.org/learn/entrepreneurialmindset"
+  ],
+  [
+   "Financial Analysis and Modeling",
+   "https://www.coursera.org/learn/financial-analysis-and-modeling"
+  ],
+  [
+   "Storytelling and influencing: Communicate with impact",
+   "https://www.coursera.org/learn/communicate-with-impact"
+  ]
+ ],
+ "MGT 310": [
+  [
+   "Business Model Canvas: A Tool for Entrepreneurs and Innovators (Project-Centered Course)",
+   "https://www.coursera.org/learn/business-model-canvas"
+  ]
+ ],
+ "MGT 404": [
+  [
+   "Business Model Canvas: A Tool for Entrepreneurs and Innovators (Project-Centered Course)",
+   "https://www.coursera.org/learn/business-model-canvas"
+  ],
+  [
+   "Creating a Social Business",
+   "https://www.coursera.org/learn/social-business"
+  ],
+  [
+   "Identifying Social Entrepreneurship Opportunities",
+   "https://www.coursera.org/learn/social-entrepreneurship-opportunities"
+  ],
+  [
+   "Storytelling and influencing: Communicate with impact",
+   "https://www.coursera.org/learn/communicate-with-impact"
+  ],
+  [
+   "Sustainable Business Enterprises",
+   "https://www.coursera.org/learn/sustainable-business-enterprises"
+  ]
+ ],
+ "MGT 313": [
+  [
+   "Creative Innovation Strategies Specialization",
+   "https://www.coursera.org/specializations/creative-innovation-strategies"
+  ],
+  [
+   "Design Thinking Specialization",
+   "https://www.coursera.org/specializations/uva-darden-design-thinking"
+  ],
+  [
+   "Innovation Management",
+   "https://www.coursera.org/learn/innovation-management"
+  ],
+  [
+   "Teamwork and Creativity",
+   "https://www.coursera.org/learn/teamwork-and-creativity"
+  ]
+ ],
+ "MGT 317": [
+  [
+   "Developing and Managing Sustainable Supply Chains",
+   "https://www.coursera.org/learn/developing-and-managing-sustainable-supply-chains"
+  ],
+  [
+   "Global sustainability and corporate social responsibility: Be sustainable",
+   "https://www.coursera.org/learn/global-sustainability-be-sustainable"
+  ],
+  [
+   "Sustainable Business Enterprises",
+   "https://www.coursera.org/learn/sustainable-business-enterprises"
+  ],
+  [
+   "The Circular Economy",
+   "https://www.coursera.org/learn/the-circular-economy"
+  ]
+ ],
+ "MGT 406": [
+  [
+   "Financial Analysis and Modeling",
+   "https://www.coursera.org/learn/financial-analysis-and-modeling"
+  ],
+  [
+   "Global sustainability and corporate social responsibility: Be sustainable",
+   "https://www.coursera.org/learn/global-sustainability-be-sustainable"
+  ],
+  [
+   "Introduction to Data Analysis Using Excel",
+   "https://www.coursera.org/learn/excel-data-analysis"
+  ],
+  [
+   "Leading transformations: Manage change",
+   "https://www.coursera.org/learn/change-management"
+  ],
+  [
+   "Storytelling and influencing: Communicate with impact",
+   "https://www.coursera.org/learn/communicate-with-impact"
+  ],
+  [
+   "Teamwork and Creativity",
+   "https://www.coursera.org/learn/teamwork-and-creativity"
+  ]
+ ],
+ "MGT 321": [
+  [
+   "Global Impact: Cross-Cultural Management",
+   "https://www.coursera.org/learn/global-impact-cross-cultural-management"
+  ],
+  [
+   "Introduction to Negotiation: A Strategic Playbook for Becoming a Principled and Persuasive Negotiator",
+   "https://www.coursera.org/learn/negotiation"
+  ],
+  [
+   "Storytelling and influencing: Communicate with impact",
+   "https://www.coursera.org/learn/communicate-with-impact"
+  ]
+ ],
+ "MGT 305": [
+  [
+   "Global Marketing and International Business Strategy",
+   "https://www.coursera.org/learn/global-marketing-international-business-strategy"
+  ],
+  [
+   "Strategic management: Be competitive",
+   "https://www.coursera.org/learn/strategic-management-be-competitive"
+  ]
+ ],
+ "MGT 302": [
+  [
+   "Hire faster, hire smarter",
+   "https://www.coursera.org/learn/hire-faster-hire-smarter"
+  ],
+  [
+   "Modern Recruiting: Channels, Outreach, Nurture",
+   "https://www.coursera.org/learn/modern-recruiting-channels-outreach-nurture"
+  ],
+  [
+   "Picking the Right Candidate: Evidence-Based Selection",
+   "https://www.coursera.org/learn/picking-the-right-candidate-evidence-based-selection"
+  ],
+  [
+   "Total Rewards and Employee Development",
+   "https://www.coursera.org/learn/aphri-total-rewards-and-employee-development"
+  ]
+ ],
+ "MGT 320": [
+  [
+   "Knowledge Management",
+   "https://www.coursera.org/learn/sage-knowledge-management"
+  ]
+ ],
+ "MGT 345": [
+  [
+   "Linear Regression for Business Statistics",
+   "https://www.coursera.org/learn/linear-regression-business-statistics"
+  ],
+  [
+   "Strategic management: Be competitive",
+   "https://www.coursera.org/learn/strategic-management-be-competitive"
+  ]
+ ],
+ "MGT 360": [
+  [
+   "Managing Responsibly: Practicing Sustainability, Responsibility and Ethics",
+   "https://www.coursera.org/learn/responsible-management"
+  ],
+  [
+   "Promote the Ethical Use of Data-Driven Technologies",
+   "https://www.coursera.org/learn/promote-ethical-data-driven-technologies"
+  ],
+  [
+   "Unethical Decision Making in Organizations",
+   "https://www.coursera.org/learn/unethical-decision-making"
+  ]
+ ]
+};
+
+/* ---------- Course detail panel ---------- */
+const pop = document.getElementById("cpop");
+let lastBtn = null;
+function openCourse(code, btn){
+  const [t,d,pr] = INFO[code];
+  pop.querySelector(".pc-code").textContent = code;
+  pop.querySelector(".pc-title").textContent = t;
+  pop.querySelector(".pc-desc").textContent = d;
+  const pe = pop.querySelector(".pc-pre"); pe.textContent = pr; pe.hidden = !pr;
+  const cxw = pop.querySelector(".pc-cx"), cxl = pop.querySelector(".pc-cx-list"), cxs = CX_BY_COURSE[code] || [];
+  cxl.innerHTML = cxs.map(([ct,cu])=>`<a class="pc-cx-a" href="${cu}" target="_blank" rel="noopener"><span class="pc-cx-i">${CX_ICON}</span><span>${ct}</span></a>`).join("");
+  cxw.hidden = !cxs.length;
+  pop.hidden = false; lastBtn = btn; pop.querySelector(".pc-close").focus();
+}
+function closeCourse(){ pop.hidden = true; if(lastBtn) lastBtn.focus(); }
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-code]");
+  if(b && INFO[b.dataset.code]){ openCourse(b.dataset.code, b); return; }
+  if(!pop.hidden && (e.target===pop || e.target.closest(".pc-close"))) closeCourse();
+});
+document.addEventListener("keydown", e=>{ if(e.key==="Escape" && !pop.hidden) closeCourse(); });
+
+/* ---------- Legend filter ---------- */
+const legend = document.getElementById("legend");
+let active = null;
+Object.entries(CATS).forEach(([k,v])=>{
+  const b = document.createElement("div");
+  b.className="lg"; b.innerHTML=`<i style="background:${v.color}"></i>${v.label}`;
+  b.onclick=()=>{
+    active = active===k?null:k;
+    document.querySelectorAll(".lg").forEach(x=>x.classList.remove("on"));
+    if(active) b.classList.add("on");
+    document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("dim", !!active && c.dataset.k!==active));
+    document.querySelectorAll(".ms").forEach(m=>m.style.opacity = (!active || (active==="intern" && m.classList.contains("intern"))) ? 1 : .25);
+  };
+  legend.appendChild(b);
+});
+
+/* ---------- Checklist progress ---------- */
+const upd = ()=>document.querySelectorAll("tr.checks td").forEach(td=>{
+  const bx=[...td.querySelectorAll("input")];
+  td.querySelector(".prog").textContent = `${bx.filter(b=>b.checked).length} of ${bx.length} done`;
+});
+document.querySelectorAll("tr.checks input").forEach((b,i)=>{ b.id="chk"+i; b.addEventListener("change",upd); });
+upd();
+</script>
+</body>
+</html>
