@@ -1,8 +1,8 @@
 # Experiential Major Map: BSBA Management
 
-**American University of Sharjah, School of Business Administration**
-**Department of Management, Strategy and Entrepreneurship**
-**Catalog year:** 2026-2027 | **Current version:** 1.12
+American University of Sharjah, School of Business Administration<br>
+Department of Management, Strategy and Entrepreneurship<br>
+Catalog year 2026-2027 | Current version 1.12
 
 **View the map:** https://sba-aus.github.io/mgt-major-map/
 
