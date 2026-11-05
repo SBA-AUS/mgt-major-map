@@ -2,7 +2,7 @@
 
 American University of Sharjah, School of Business Administration<br>
 Department of Management, Strategy and Entrepreneurship<br>
-Catalog year 2026-2027 | Current version 1.14
+Catalog year 2026-2027 | Current version 1.15
 
 **View the map:** https://sba-aus.github.io/mgt-major-map/
 
@@ -22,8 +22,8 @@ Always confirm requirements in the current [AUS Undergraduate Catalog](https://w
 
 | Path | Contents |
 |---|---|
-| `index.html` | The live map (current version, 1.14). This is the page published at the URL above. |
-| `versions/` | Every version of the map (1.0 to 1.14), kept for reference. |
+| `index.html` | The live map (current version, 1.15). This is the page published at the URL above. |
+| `versions/` | Every version of the map (1.0 to 1.15), kept for reference. |
 
 The page is a single self-contained HTML file. Fonts load from Google Fonts; everything else is inside the file.
 
@@ -31,6 +31,7 @@ The page is a single self-contained HTML file. Fonts load from Google Fonts; eve
 
 | Version | Date | Summary |
 |---|---|---|
+| 1.15 | 05-Nov-2026 | Capitalisation: seasons without a year and standalone "management" in lowercase. |
 | 1.14 | 02-Nov-2026 | "Last updated" date added next to the version number. |
 | 1.13 | 02-Nov-2026 | Links to Coursera and other sources always open in a new tab or window. |
 | 1.12 | 02-Nov-2026 | Hover details (title, provider, rating, length) for the Coursera courses inside the course pop-ups. |
@@ -50,7 +51,7 @@ The page is a single self-contained HTML file. Fonts load from Google Fonts; eve
 ## Updating the map
 
 1. Replace `index.html` with the new version of the map.
-2. Add a copy of the new version to `versions/` (for example `AUS_Management_Major_Map_v1.15.html`).
+2. Add a copy of the new version to `versions/` (for example `AUS_Management_Major_Map_v1.16.html`).
 3. Add a row to the version history above.
 
 GitHub Pages republishes the site automatically within a minute or two of each change.
